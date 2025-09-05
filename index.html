@@ -1,0 +1,1709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARKITEXX - My Web Creations Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --background: #0d1117;
+            --card-bg: rgba(255, 255, 255, 0.08);
+            --accent-blue: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --accent-purple: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
+            --accent-pink: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            --text-primary: #ffffff;
+            --text-secondary: #a0aec0;
+            --success: #10b981;
+            --error: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Lexend', sans-serif;
+            font-weight: 700;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            backdrop-filter: blur(10px);
+            background: rgba(13, 17, 23, 0.8);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            animation: slideDown 0.8s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            background: var(--accent-blue);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px rgba(79, 172, 254, 0.5);
+            }
+            to {
+                text-shadow: 0 0 20px rgba(79, 172, 254, 0.8), 0 0 30px rgba(79, 172, 254, 0.6);
+            }
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        nav a:hover {
+            color: var(--text-primary);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-blue);
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 100px 0;
+            background: radial-gradient(circle at top right, rgba(79, 172, 254, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at bottom left, rgba(161, 140, 209, 0.1) 0%, transparent 50%);
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            background: var(--accent-blue);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: textPop 0.8s ease-out;
+        }
+
+        @keyframes textPop {
+            0% {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            70% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 40px;
+            animation: fadeIn 1.2s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: slideUp 1.4s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: var(--accent-blue);
+            color: white;
+            box-shadow: 0 10px 25px rgba(79, 172, 254, 0.3);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .btn-secondary {
+            background: var(--card-bg);
+            color: var(--text-primary);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(79, 172, 254, 0.4);
+        }
+
+        /* Featured Slider */
+        .featured {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            position: relative;
+            animation: titleAppear 0.8s ease-out;
+        }
+
+        @keyframes titleAppear {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: var(--accent-purple);
+            margin: 15px auto;
+            border-radius: 2px;
+            animation: lineGrow 1s ease-out;
+        }
+
+        @keyframes lineGrow {
+            from {
+                width: 0;
+            }
+            to {
+                width: 100px;
+            }
+        }
+
+        .slider-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .slider {
+            display: flex;
+            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .slide {
+            min-width: 100%;
+            padding: 40px;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: slideIn 0.8s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .slide h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: #4facfe;
+        }
+
+        .slide p {
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 25px;
+        }
+
+        .slider-nav {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .slider-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .slider-dot.active {
+            background: var(--accent-blue);
+            transform: scale(1.2);
+        }
+
+        /* Projects Grid */
+        .projects {
+            padding: 80px 0;
+        }
+
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-secondary);
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .filter-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: 0.5s;
+        }
+
+        .filter-btn:hover::before {
+            left: 100%;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--accent-purple);
+            color: white;
+            border-color: transparent;
+            transform: translateY(-2px);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .project-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            opacity: 0;
+            transform: translateY(30px);
+            animation: cardAppear 0.6s ease-out forwards;
+        }
+
+        .project-card:nth-child(1) { animation-delay: 0.1s; }
+        .project-card:nth-child(2) { animation-delay: 0.2s; }
+        .project-card:nth-child(3) { animation-delay: 0.3s; }
+        .project-card:nth-child(4) { animation-delay: 0.4s; }
+        .project-card:nth-child(5) { animation-delay: 0.5s; }
+        .project-card:nth-child(6) { animation-delay: 0.6s; }
+
+        @keyframes cardAppear {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .project-thumbnail {
+            height: 200px;
+            background: linear-gradient(45deg, #1e3c72, #2a5298);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            transition: transform 0.3s ease;
+            overflow: hidden;
+        }
+
+        .project-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .project-card:hover .project-thumbnail img {
+            transform: scale(1.1);
+        }
+
+        .project-info {
+            padding: 20px;
+        }
+
+        .project-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+
+        .project-info p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+
+        .project-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .project-btn {
+            flex: 1;
+            padding: 10px;
+            border-radius: 8px;
+            text-decoration: none;
+            text-align: center;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .project-btn:hover::before {
+            left: 100%;
+        }
+
+        .demo-btn {
+            background: rgba(79, 172, 254, 0.2);
+            color: #4facfe;
+            border: 1px solid rgba(79, 172, 254, 0.3);
+        }
+
+        .download-btn {
+            background: rgba(161, 140, 209, 0.2);
+            color: #a18cd1;
+            border: 1px solid rgba(161, 140, 209, 0.3);
+        }
+
+        .project-btn:hover {
+            background: var(--accent-blue) !important;
+            color: white !important;
+            border-color: transparent !important;
+            transform: translateY(-2px);
+        }
+
+        /* About Section */
+        .about {
+            padding: 80px 0;
+            background: radial-gradient(circle at center, rgba(161, 140, 209, 0.1) 0%, transparent 70%);
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .about-text {
+            animation: slideInLeft 1s ease-out;
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .about-image {
+            animation: slideInRight 1s ease-out;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .about-text h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            background: var(--accent-purple);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .about-text p {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 30px 0;
+        }
+
+        .skill-tag {
+            background: var(--card-bg);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .mission {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mission::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--accent-blue);
+        }
+
+        .mission h3 {
+            color: #4facfe;
+            margin-bottom: 15px;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 80px 0;
+            background: radial-gradient(circle at bottom left, rgba(79, 172, 254, 0.1) 0%, transparent 70%);
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: formAppear 1s ease-out;
+        }
+
+        @keyframes formAppear {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #4facfe;
+            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.2);
+        }
+
+        .form-group textarea {
+            height: 150px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: var(--accent-blue);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(79, 172, 254, 0.4);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            margin: 15% auto;
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            animation: modalAppear 0.4s ease-out;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        @keyframes modalAppear {
+            from {
+                opacity: 0;
+                transform: translateY(-50px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .modal-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        .modal.success .modal-icon {
+            color: var(--success);
+        }
+
+        .modal.error .modal-icon {
+            color: var(--error);
+        }
+
+        .modal h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        .modal p {
+            color: var(--text-secondary);
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .modal-btn {
+            padding: 12px 30px;
+            background: var(--accent-blue);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(79, 172, 254, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(13, 17, 23, 0.9);
+            padding: 60px 0 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            background: var(--accent-purple);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-links a:hover {
+            color: var(--text-primary);
+            transform: translateX(5px);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: var(--text-secondary);
+        }
+
+        .social-icon:hover {
+            background: var(--accent-blue);
+            color: white;
+            transform: translateY(-3px) rotate(5deg);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            nav ul {
+                gap: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Scroll animations */
+        .scroll-animate {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .scroll-animate.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">ARKITEXX</div>
+                <nav>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#projects">Projects</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <h1>My Web Creations Hub</h1>
+            <p>Explore my projects. Preview live demos or download full source codes.</p>
+            <div class="hero-buttons">
+                <a href="#projects" class="btn btn-primary">Browse Projects</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Slider -->
+    <section class="featured">
+        <div class="container">
+            <h2 class="section-title">Featured Projects</h2>
+            <div class="slider-container">
+                <div class="slider">
+                    <div class="slide">
+                        <div class="project-thumbnail">
+                            <img src="IMAGE/WHAT'S%20OPEN.jpg" alt="What's Open Now">
+                        </div>
+                        <h3>What's Open Now</h3>
+                        <p>Real-time business hours tracker for Dumaguete city. Never miss an open store again!</p>
+                        <a href="#projects" class="btn btn-primary">View Project</a>
+                    </div>
+                    <div class="slide">
+                        <div class="project-thumbnail">
+                            <img src="IMAGE/HEALTHCARE.jpg" alt="Healthcare Booking">
+                        </div>
+                        <h3>Healthcare Booking</h3>
+                        <p>Easy doctor appointment scheduling system with calendar integration.</p>
+                        <a href="#projects" class="btn btn-primary">View Project</a>
+                    </div>
+                    <div class="slide">
+                        <div class="project-thumbnail">
+                            <img src="IMAGE/MOTOR.jpg" alt="Folklore Archive">
+                        </div>
+                        <h3>Motor Dealership</h3>
+                        <p>Explore over 50 new and used motorcycles, schedule a test ride, and apply for financing all in one place.</p>
+                        <a href="#projects" class="btn btn-primary">View Project</a>
+                    </div>
+                    <div class="slide">
+                        <div class="project-thumbnail">
+                            <img src="IMAGE/SKILL2.jpg">
+                        </div>
+                        <h3>Skill Swap</h3>
+                        <p>Platform for exchanging skills and knowledge with community members.</p>
+                        <a href="#projects" class="btn btn-primary">View Project</a>
+                    </div>
+                    <div class="slide">
+                        <div class="project-thumbnail">
+                            <img src="IMAGE/FURNITURE.jpg" alt="Study Companion">
+                        </div>
+                        <h3>Furniture</h3>
+                        <p>Catalog of local handicrafts & furniture with preview.</p>
+                        <a href="#projects" class="btn btn-primary">View Project</a>
+                    </div>
+                </div>
+            </div>
+            <div class="slider-nav">
+                <div class="slider-dot active"></div>
+                <div class="slider-dot"></div>
+                <div class="slider-dot"></div>
+                <div class="slider-dot"></div>
+                <div class="slider-dot"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Grid -->
+    <section class="projects" id="projects">
+        <div class="container">
+            <h2 class="section-title">All Projects</h2>
+            
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">All Projects</button>
+                <button class="filter-btn" data-filter="business">Business & Services</button>
+                <button class="filter-btn" data-filter="community">Community & Local</button>
+                <button class="filter-btn" data-filter="creative">Creative & Fun</button>
+                <button class="filter-btn" data-filter="social">Social & People</button>
+            </div>
+
+            <div class="projects-grid">
+                
+                
+                <!-- Project 1 -->
+                <div class="project-card" data-category="business">
+                    <div class="project-thumbnail">
+                        <img src="IMAGE/PHARMACY.jpg" alt="Pharmacy Ordering Website">
+                    </div>
+                    
+                    <div class="project-info">
+                        <h3>Pharmacy Ordering Website</h3>
+                        <p>Browse 500 medicines and order online with prescription upload.</p>
+                        <div class="project-buttons">
+                            <a href="PROJECT/PHARMACY.HTML" class="project-btn demo-btn" target="_blank">Live Demo</a>
+                            <a href="https://drive.google.com/file/d/1oy75MmJVfr9PoSM4xlfz-s116BNhOaGz/view?usp=sharing" class="project-btn download-btn">Download ZIP</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="project-card" data-category="business">
+                    <div class="project-thumbnail">
+                        <img src="IMAGE/MOTOR.jpg" alt="Car Rental System">
+                    </div>
+                    <div class="project-info">
+                        <h3>Motorcycle Dealership</h3>
+                        <p>Explore over 50 new and used motorcycles, schedule a test ride, and apply for financing all in one place.</p>
+                        <div class="project-buttons">
+                            <a href="PROJECT/MOTOR.HTML" class="project-btn demo-btn" target="_blank">Live Demo</a>
+                            <a href="https://drive.google.com/file/d/12FrrLNzkanNYNGTyx50p8BHpKhdOyrxF/view?usp=sharing" class="project-btn download-btn">Download ZIP</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="project-card" data-category="business">
+                    <div class="project-thumbnail">
+                        <img src="IMAGE/DEVICE.jpg">
+                    </div>
+                    <div class="project-info">
+                        <h3>Device Repair</h3>
+                        <p>Repair and restore over 200 devices, offering instant quotes, secure shipping, and a warranty-backed repair process.</p>
+                        <div class="project-buttons">
+                            <a href="PROJECT/DEVICE.HTML" class="project-btn demo-btn" target="_blank">Live Demo</a>
+                            <a href="https://drive.google.com/file/d/1egjcy4AZROWDvlv1PxfwzPZAMntYnP2U/view?usp=sharing" class="project-btn download-btn">Download ZIP</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 4 -->
+                
+                <div class="project-card" data-category="business">
+                    <div class="project-thumbnail">
+                        <img src="IMAGE/FURNITURE.jpg">
+                    </div>
+                    <div class="project-info">
+                        <h3>Furniture Shop</h3>
+                        <p>Catalog of local handicrafts & furniture with preview.</p>
+                        <div class="project-buttons">
+                            <a href="PROJECT/FURNITURE.HTML" class="project-btn demo-btn" target="_blank">Live Demo</a>
+                            <a href="https://drive.google.com/file/d/1LIni5nmMRYAhVUkNgedCCC2s_83Z_qEm/view?usp=sharing" class="project-btn download-btn">Download ZIP</a>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                 <!-- Project-->
+                
+                <div class="project-card" data-category="business">
+                    <div class="project-thumbnail">
+                        <img src="IMAGE/FITNES.jpg">
+                    </div>
+                    <div class="project-info">
+                        <h3>Fitness Gym</h3>
+                        <p>Build strength and community with personalized training, a wide range of classes, and flexible membership.</p>
+                        <div class="project-buttons">
+                            <a href="PROJECT/FITNESS.HTML" class="project-btn demo-btn" target="_blank">Live Demo</a>
+                            <a href="https://drive.google.com/file/d/1CZRryqlmjXTudvxmTOoU62E-OhrWsXbJ/view?usp=sharing" class="project-btn download-btn">Download ZIP</a>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                 <!-- Project-->
+                
+                <div class="project-card" data-category="business">
+                    <div class="project-thumbnail">
+                        <img src="IMAGE/CLEANING.jpg">
+                    </div>
+                    <div class="project-info">
+                        <h3>Cleaning Services</h3>
+                        <p>Revitalize your space with our customizable cleaning services, designed to meet your needs with flexible scheduling and a commitment to quality.</p>
+                        <div class="project-buttons">
+                            <a href="PROJECT/CLEANING%20SERVICE.HTML" class="project-btn demo-btn" target="_blank">Live Demo</a>
+                            <a href="https://drive.google.com/file/d/1TVIGkThQcwBbgXoMX4jyxhJJfFJ9AG7Z/view?usp=sharing" class="project-btn download-btn">Download ZIP</a>
+                        </div>
+                    </div>
+                </div>
+
+                
+                 <!-- Project-->
+                
+                <div class="project-card" data-category="business"> <!---BUSINESS--->
+                    <div class="project-thumbnail">
+                        <img src="IMAGE/PET%20GROOMING.jpg">
+                    </div>
+                    <div class="project-info">
+                        <h3>Pet Grooming and Veterinary</h3>
+                        <p>Pamper your pet with our one-stop shop for comprehensive care, offering professional grooming and expert veterinary services all under one roof.</p>
+                        <div class="project-buttons">
+                            <a href="PROJECT/PET%20GROOMING.HTML" class="project-btn demo-btn" target="_blank">Live Demo</a>
+                            <a href="https://drive.google.com/file/d/17QY5HwVWUTT6GcMM4_sC64_Eo6Ff_w9i/view?usp=sharing" class="project-btn download-btn">Download ZIP</a>
+                        </div>
+                    </div>
+                </div>
+                
+                 <!-- Project-->
+                
+                <div class="project-card" data-category="business"> <!---BUSINESS--->
+                    <div class="project-thumbnail">
+                        <img src="IMAGE/POS.jpg">
+                    </div>
+                    <div class="project-info">
+                        <h3>Restaurant Reservation POS</h3>
+                        <p>Effortlessly manage your restaurant with a seamless system that combines online reservation booking with an integrated point-of-sale for efficient table and order management.</p>
+                        <div class="project-buttons">
+                            <a href="PROJECT/RESTAURANT%20RESERVATION.HTML" class="project-btn demo-btn" target="_blank">Live Demo</a>
+                            <a href="https://drive.google.com/file/d/1OCGBqNLRC87gNQG-G5P7r9aW1RBrCtqw/view?usp=sharing" class="project-btn download-btn">Download ZIP</a>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                 <!-- Project-->
+                
+                <div class="project-card" data-category="business">
+                    <div class="project-thumbnail">
+                        <img src="IMAGE/VIDEOGRAPHY.jpg">
+                    </div>
+                    <div class="project-info">
+                        <h3>Videography</h3>
+                        <p>Showcase your visual storytelling with a portfolio website that highlights your videography skills, offering clients easy access to your services and contact information.</p>
+                        <div class="project-buttons">
+                            <a href="PROJECT/VIDEOGRAPHY.HTML" class="project-btn demo-btn" target="_blank">Live Demo</a>
+                            <a href="https://drive.google.com/file/d/17lut8qk36KzqLycK7nfps0RdXifXNm8m/view?usp=sharing" class="project-btn download-btn">Download ZIP</a>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                 <!-- Project-->
+                
+                <div class="project-card" data-category="business">
+                    <div class="project-thumbnail">
+                        <img src="IMAGE/TRAVEL.jpg">
+                    </div>
+                    <div class="project-info">
+                        <h3>Travel and Tours</h3>
+                        <p>Discover your next adventure with our travel and tours website, offering curated packages, easy booking, and personalized itineraries for destinations around the globe.</p>
+                        <div class="project-buttons">
+                            <a href="PROJECT/TRAVEL.HTML" class="project-btn demo-btn" target="_blank">Live Demo</a>
+                            <a href="https://drive.google.com/file/d/1sTKQ_qpcrUElptAe0l2zduDwomKrknis/view?usp=sharing" class="project-btn download-btn">Download ZIP</a>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                 <!-- Project-->
+                
+                <div class="project-card" data-category="business">
+                    <div class="project-thumbnail">
+                        <img src="IMAGE/LOCAL%20TRANSPORTATION.jpg">
+                    </div>
+                    <div class="project-info">
+                        <h3>Local Transportation</h3>
+                        <p>Easily book and track rides, find public transport routes, and get real-time schedules to navigate your city with confidence.</p>
+                        <div class="project-buttons">
+                            <a href="PROJECT/LOCAL%20TRANSPORT.HTML" class="project-btn demo-btn" target="_blank">Live Demo</a>
+                            <a href="https://drive.google.com/file/d/1oFYcpydJBcsvsNJlDSzZsa6LPxwRzG_J/view?usp=sharing" class="project-btn download-btn">Download ZIP</a>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                
+                <!-- COMMUNITY -->
+                
+                
+                <!-- Project 5 -->
+                <div class="project-card" data-category="community">
+                    <div class="project-thumbnail">
+                        <img src="IMAGE/HEALTHCARE.jpg" alt="Healthcare Booking">
+                    </div>
+                    <div class="project-info">
+                        <h3>Healthcare Booking</h3>
+                        <p>Book doctor's appointments easily with SMS reminders.</p>
+                        <div class="project-buttons">
+                            <a href="PROJECT/HEALTHCARE.HTML" class="project-btn demo-btn" target="_blank">Live Demo</a>
+                            <a href="https://drive.google.com/file/d/1uDrzvzGCs3Qe9GFFSJi9DcXD_n0S5o2T/view?usp=sharing" class="project-btn download-btn">Download ZIP</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 6 -->
+                <div class="project-card" data-category="community">
+                    <div class="project-thumbnail">
+                        <img src="IMAGE/WHAT'S%20OPEN.jpg">
+                    </div>
+                    <div class="project-info">
+                        <h3>What's Open Now?</h3>
+                        <p>Real-time open/close businesses in Dumaguete city.</p>
+                        <div class="project-buttons">
+                            <a href="PROJECT/WHAT'S%20OPEN.HTML" class="project-btn demo-btn" target="_blank">Live Demo</a>
+                            <a href="https://drive.google.com/file/d/1pzG16xIGuUtP8Y7gSZHzKlr1Sdb_UC01/view?usp=sharing" class="project-btn download-btn">Download ZIP</a>
+                        </div>
+                    </div>
+                </div>
+
+                 <!-- Project-->
+                
+                <div class="project-card" data-category="community">
+                    <div class="project-thumbnail">
+                        <img src="IMAGE/BARANGAY%20INFORMATION.jpg">
+                    </div>
+                    <div class="project-info">
+                        <h3>Barangay Information</h3>
+                        <p>Manage community data and service requests with a unified system for barangay residents, officials, and public announcements.</p>
+                        <div class="project-buttons">
+                            <a href="PROJECT/BARANGAY%20INFORMATION.HTML" class="project-btn demo-btn" target="_blank">Live Demo</a>
+                            <a href="https://drive.google.com/file/d/105nd-ej90Cx3JSajjJarYCb4GcNhSk4q/view?usp=sharing" class="project-btn download-btn">Download ZIP</a>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                  <!-- Project-->
+                
+                <div class="project-card" data-category="community">
+                    <div class="project-thumbnail">
+                        <img src="IMAGE/REPORT1.jpg">
+                    </div>
+                    <div class="project-info">
+                        <h3>Citizens Report (Version 1)</h3>
+                        <p>Easily submit, track, and resolve community concerns with a platform that connects citizens directly to local government and emergency services.</p>
+                        <div class="project-buttons">
+                            <a href="PROJECT/REPORT1.HTML" class="project-btn demo-btn" target="_blank">Live Demo</a>
+                            <a href="https://drive.google.com/file/d/1FCLNiSaJGjXsVX8J9oQuFzKCn63NgppG/view?usp=sharing" class="project-btn download-btn">Download ZIP</a>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                 <!-- Project-->
+                
+                <div class="project-card" data-category="community">
+                    <div class="project-thumbnail">
+                        <img src="IMAGE/REPORT2.jpg">
+                    </div>
+                    <div class="project-info">
+                        <h3>Citizens Report (Version 2)</h3>
+                        <p>Easily submit, track, and resolve community concerns with a platform that connects citizens directly to local government and emergency services.</p>
+                        <div class="project-buttons">
+                            <a href="PROJECT/REPORT2.HTML" class="project-btn demo-btn" target="_blank">Live Demo</a>
+                            <a href="https://drive.google.com/file/d/17gJTzde6jUYwD8726O8qy-lrZ4L0M_C2/view?usp=sharing" class="project-btn download-btn">Download ZIP</a>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                 <!-- Project-->
+                
+                <div class="project-card" data-category="community">
+                    <div class="project-thumbnail">
+                        <img src="IMAGE/FILM%20RESOURCE.jpg">
+                    </div>
+                    <div class="project-info">
+                        <h3>Film Making Resources</h3>
+                        <p>Access a curated collection of industry-leading tutorials, free resources, and essential tools to help aspiring and professional filmmakers plan, produce, and perfect their next project.</p>
+                        <div class="project-buttons">
+                            <a href="PROJECT/FILM%20MAKING%20RESOURCES.HTML" class="project-btn demo-btn" target="_blank">Live Demo</a>
+                            <a href="https://drive.google.com/file/d/1XbmNDw5bmhMYaYZe3VcfnCwVOkKDSNZe/view?usp=sharing" class="project-btn download-btn">Download ZIP</a>
+                        </div>
+                    </div>
+                </div>
+                
+                 <!-- Project-->
+                
+                <div class="project-card" data-category="community">
+                    <div class="project-thumbnail">
+                        <img src="IMAGE/FILM%20SOUNDTRACK.jpg">
+                    </div>
+                    <div class="project-info">
+                        <h3>Film Soundtrack</h3>
+                        <p>Discover, license, and download a vast library of high-quality film scores and soundtracks from independent artists, tailored for filmmakers seeking the perfect sound for their projects.</p>
+                        <div class="project-buttons">
+                            <a href="PROJECT/FILM%20SOUNDTRACK.HTML" class="project-btn demo-btn" target="_blank">Live Demo</a>
+                            <a href="https://drive.google.com/file/d/17tKy82GEH3KavxKyKn817piYNV77LfZ_/view?usp=sharing" class="project-btn download-btn">Download ZIP</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- CREATIVE-->
+                
+                <!-- Project 7 -->
+                <div class="project-card" data-category="creative">
+                    <div class="project-thumbnail">
+                        <img src="IMAGE/TAB%20ORGANIZER.jpg">
+                    </div>
+                    <div class="project-info">
+                        <h3>Tab Organizer</h3>
+                        <p>Simplify your browsing with our tab organizer website, designed to help you save, categorize, and manage your open tabs in one clean and accessible dashboard.</p>
+                        <div class="project-buttons">
+                            <a href="PROJECT/TAB%20ORGANIZER.HTML" class="project-btn demo-btn" target="_blank">Live Demo</a>
+                            <a href="https://drive.google.com/file/d/1Inr6uGf0Uii2TIdYYotpqZrKpHqceVfA/view?usp=sharing" class="project-btn download-btn">Download ZIP</a>
+                        </div>
+                    </div>
+                </div>  
+
+                <!-- Project 8 -->
+                <div class="project-card" data-category="creative">
+                    <div class="project-thumbnail">
+                        <img src="IMAGE/PASSWORD%20VAULT.jpg">
+                    </div>
+                    <div class="project-info">
+                        <h3>Password Vault</h3>
+                        <p>Manage all your online credentials securely in a single, encrypted vault, accessible with a master password, and featuring a strong password generator and autofill functionality for a seamless and secure browsing experience.</p>
+                        <div class="project-buttons">
+                            <a href="PROJECT/PASSWORD.HTML" class="project-btn demo-btn" target="_blank">Live Demo</a>
+                            <a href="https://drive.google.com/file/d/1vIkLaE0h6vu7kaMFNSjzOQB2BYpb4R-u/view?usp=sharing" class="project-btn download-btn">Download ZIP</a>
+                        </div>
+                    </div>
+                </div> 
+
+                <!-- Project 9 -->
+                <div class="project-card" data-category="creative">
+                    <div class="project-thumbnail">
+                        <img src="IMAGE/DAILY%20EXPENSE.jpg">
+                    </div>
+                    <div class="project-info">
+                        <h3>Daily Expense Tracker</h3>
+                        <p>Monitor and manage your finances effortlessly with a daily expense tracker that offers real-time insights, customizable categories, and easy data visualization to help you achieve your financial goals.</p>
+                        <div class="project-buttons">
+                            <a href="PROJECT/DAILY%20EXPENSE.html" class="project-btn demo-btn" target="_blank">Live Demo</a>
+                            <a href="https://drive.google.com/file/d/1pYqz3p0DRFIM_LaHSTrQawe2ZYQY0T4u/view?usp=sharing" class="project-btn download-btn">Download ZIP</a>
+                        </div>
+                    </div>
+                </div> 
+
+                <!-- Project 10 
+                <div class="project-card" data-category="creative">
+                    <div class="project-thumbnail">
+                        <img src="">
+                    </div>
+                    <div class="project-info">
+                        <h3>Time Capsule Website</h3>
+                        <p>Post memories to unlock in the future with email reminders.</p>
+                        <div class="project-buttons">
+                            <a href="" class="project-btn demo-btn" target="_blank">Live Demo</a>
+                            <a href="" class="project-btn download-btn">Download ZIP</a>
+                        </div>
+                    </div>
+                </div>  -->
+
+                
+                
+                
+                
+                <!-- SOCIAL -->
+                
+                <!-- Project 11 -->
+                <div class="project-card" data-category="social">
+                    <div class="project-thumbnail">
+                        <img src="IMAGE/SKILL1.jpg">
+                    </div>
+                    <div class="project-info">
+                        <h3>Skill Swap (Version 1)</h3>
+                        <p>Trade skills with others (free exchange) in your community.</p>
+                        <div class="project-buttons">
+                            <a href="PROJECT/SKILL1.HTML" class="project-btn demo-btn" target="_blank">Live Demo</a>
+                            <a href="https://drive.google.com/file/d/1pM9dctQYC_hlMDTnEaWnmcISVHDasJvT/view?usp=sharing" class="project-btn download-btn">Download ZIP</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 12 -->
+                <div class="project-card" data-category="social">
+                    <div class="project-thumbnail">
+                        <img src="IMAGE/SKILL2.jpg">
+                    </div>
+                    <div class="project-info">
+                        <h3>Skill Swap (Version 2)</h3>
+                        <p>Meet people, upgrade for premium features and advanced matching.</p>
+                        <div class="project-buttons">
+                            <a href="PROJECT/SKILL2.HTML" class="project-btn demo-btn" target="_blank">Live Demo</a>
+                            <a href="https://drive.google.com/file/d/1_DdLTFU9YBWXpLCZ281kDJImz7Jp0AKZ/view?usp=sharing" class="project-btn download-btn">Download ZIP</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text scroll-animate">
+                    <h2>About Me</h2>
+                    <p>Hello! I'm the creator behind ARKITEXX, a passionate web developer dedicated to building practical and innovative digital solutions. With a strong foundation in HTML, CSS, and JavaScript, I craft websites that not only look stunning but also serve real-world purposes.</p>
+                    
+                    <div class="skills">
+                        <span class="skill-tag">HTML5</span>
+                        <span class="skill-tag">CSS3</span>
+                        <span class="skill-tag">JavaScript</span>
+                        <span class="skill-tag">UI/UX Design</span>
+                        <span class="skill-tag">Responsive Design</span>
+                        <span class="skill-tag">Frontend Development</span>
+                    </div>
+
+                    <div class="mission">
+                        <h3>My Mission</h3>
+                        <p>I build websites that are practical, useful, and tailored for students, communities, and businesses. My goal is to create digital experiences that solve real problems and make a positive impact in people's lives.</p>
+                    </div>
+                </div>
+                
+                <div class="about-image scroll-animate">
+                    <div style="background: linear-gradient(45deg, #a18cd1, #fbc2eb); height: 400px; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 8rem;">
+                        👨‍💻
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <h2 class="section-title">Get In Touch</h2>
+            <div class="contact-form scroll-animate">
+                <form id="contactForm">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>ARKITEXX</h3>
+                    <p>My Web Creations Hub - A portfolio of practical, useful websites built for students, communities, and businesses.</p>
+                    <div class="social-links">
+                        <a href="https://facebook.com" class="social-icon" target="_blank">📘</a>
+                        <a href="mailto:arrkitexx@gmail.com" class="social-icon">✉️</a>
+                        <a href="https://github.com" class="social-icon" target="_blank">🐙</a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#home">🏠 Home</a></li>
+                        <li><a href="#projects">💻 Projects</a></li>
+                        <li><a href="#about">👤 About Me</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Categories</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">💼 Business & Services</a></li>
+                        <li><a href="#">🏘️ Community & Local</a></li>
+                        <li><a href="#">🎨 Creative & Fun</a></li>
+                        <li><a href="#">👥 Social & People</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Contact Info</h3>
+                    <ul class="footer-links">
+                        <li>📧 arrkitexx@gmail.com</li>
+                        <li>📍 Dumaguete City, Philippines</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 ARKITEXX. All rights reserved. Built with ❤️ for the web community.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="modal success">
+        <div class="modal-content">
+            <div class="modal-icon">✅</div>
+            <h3>Message Sent Successfully!</h3>
+            <p>Your message has been sent directly to arrkitexx@gmail.com. I'll get back to you as soon as possible!</p>
+            <button class="modal-btn" onclick="closeModal('successModal')">Close</button>
+        </div>
+    </div>
+
+    <!-- Error Modal -->
+    <div id="errorModal" class="modal error">
+        <div class="modal-content">
+            <div class="modal-icon">❌</div>
+            <h3>Error Sending Message</h3>
+            <p>There was an issue sending your message. Please try again or contact me directly at arrkitexx@gmail.com</p>
+            <button class="modal-btn" onclick="closeModal('errorModal')">Close</button>
+        </div>
+    </div>
+
+    <script>
+        // Slider functionality
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.slider-dot');
+        const slider = document.querySelector('.slider');
+
+        function showSlide(index) {
+            slider.style.transform = `translateX(-${index * 100}%)`;
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+            currentSlide = index;
+        }
+
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                showSlide(index);
+            });
+        });
+
+        // Auto-slide every 5 seconds
+        setInterval(() => {
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+        }, 5000);
+
+        // Filter functionality
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const projectCards = document.querySelectorAll('.project-card');
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                // Add active class to clicked button
+                button.classList.add('active');
+                
+                const filter = button.dataset.filter;
+                
+                projectCards.forEach(card => {
+                    if (filter === 'all' || card.dataset.category === filter) {
+                        card.style.display = 'block';
+                        card.style.animation = 'cardAppear 0.6s ease-out forwards';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Scroll animations
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.scroll-animate');
+            elements.forEach(element => {
+                const elementPosition = element.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.3;
+                
+                if (elementPosition < screenPosition) {
+                    element.classList.add('animate');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', animateOnScroll);
+        window.addEventListener('load', animateOnScroll);
+
+        // Modal functions
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+
+        // Contact form handling
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+            
+            try {
+                // Create mailto link
+                const subject = encodeURIComponent('Contact from ARKITEXX Portfolio');
+                const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\nMessage: ${message}`);
+                const mailtoLink = `mailto:arrkitexx@gmail.com?subject=${subject}&body=${body}`;
+                
+                // Open email client
+                window.location.href = mailtoLink;
+                
+                // Show success modal
+                openModal('successModal');
+                
+                // Reset form
+                this.reset();
+            } catch (error) {
+                // Show error modal
+                openModal('errorModal');
+            }
+        });
+
+        // View project functionality
+        document.querySelectorAll('.btn[href="#projects"]').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const projectsSection = document.getElementById('projects');
+                projectsSection.scrollIntoView({ behavior: 'smooth' });
+                
+                // Add animation effect
+                projectsSection.style.animation = 'pulse 0.5s ease-in-out';
+                setTimeout(() => {
+                    projectsSection.style.animation = '';
+                }, 500);
+            });
+        });
+    </script>
+</body>
+</html>
