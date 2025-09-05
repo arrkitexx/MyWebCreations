@@ -1,0 +1,2521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tenaniko - Skill Swap Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #38BDF8;
+            --accent: #22C55E;
+            --background: #0B1220;
+            --text: #E6EEF6;
+            --card-bg: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --success: #10B981;
+            --warning: #F59E0B;
+            --error: #EF4444;
+            --sidebar-bg: rgba(11, 18, 32, 0.95);
+            --light-gray: #2D3748;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(56, 189, 248, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(34, 197, 94, 0.1) 0%, transparent 20%);
+            overflow-x: hidden;
+        }
+
+        .lexend {
+            font-family: 'Lexend', sans-serif;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        /* Landing Page */
+        .landing-page {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, var(--background) 0%, #1a2a4a 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .landing-content {
+            max-width: 800px;
+            z-index: 2;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .landing-logo {
+            font-size: 4rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 1rem;
+            animation: gradientShift 3s ease infinite;
+        }
+
+        .landing-title {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .landing-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .landing-tagline {
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            font-style: italic;
+            opacity: 0.8;
+        }
+
+        .landing-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 3rem;
+        }
+
+        .feature-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+            width: 100%;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .landing-footer {
+            margin-top: 4rem;
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        /* Layout */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: var(--sidebar-bg);
+            border-right: 1px solid var(--glass-border);
+            padding: 1.5rem 0;
+            backdrop-filter: blur(10px);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 100;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .logo-container {
+            padding: 0 1.5rem 1.5rem;
+            border-bottom: 1px solid var(--glass-border);
+            margin-bottom: 1.5rem;
+            animation: slideInLeft 0.6s ease-out;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            cursor: pointer;
+            animation: gradientShift 3s ease infinite;
+        }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-item {
+            padding: 0.75rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-left: 3px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateX(5px);
+        }
+
+        .nav-item:hover::before {
+            opacity: 0.1;
+        }
+
+        .nav-item.active {
+            background: rgba(56, 189, 248, 0.1);
+            border-left: 3px solid var(--primary);
+        }
+
+        .nav-item i {
+            width: 20px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-item:hover i {
+            transform: scale(1.2);
+        }
+
+        .user-section {
+            margin-top: auto;
+            padding: 1.5rem;
+            border-top: 1px solid var(--glass-border);
+            animation: slideInLeft 0.8s ease-out;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .user-name {
+            font-weight: 600;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 2rem;
+        }
+
+        /* Header */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            animation: slideInRight 0.6s ease-out;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: none;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--primary), #0EA5E9);
+            color: white;
+            animation: pulse 2s infinite;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(56, 189, 248, 0.4);
+            animation: none;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: rgba(56, 189, 248, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(56, 189, 248, 0.2);
+        }
+
+        .btn-success {
+            background: linear-gradient(45deg, var(--success), #059669);
+            color: white;
+        }
+
+        .btn-success:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn-warning {
+            background: linear-gradient(45deg, var(--warning), #D97706);
+            color: white;
+        }
+
+        .btn-error {
+            background: linear-gradient(45deg, var(--error), #DC2626);
+            color: white;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .modal-content {
+            background: rgba(11, 18, 32, 0.95);
+            margin: 5% auto;
+            padding: 2rem;
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            backdrop-filter: blur(20px);
+            position: relative;
+            animation: slideInLeft 0.4s ease-out;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .close {
+            color: var(--text);
+            float: right;
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            line-height: 1;
+            transition: all 0.3s ease;
+        }
+
+        .close:hover {
+            color: var(--primary);
+            transform: rotate(90deg);
+        }
+
+        .modal-header {
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 10px;
+            border: 1px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        /* Search Bar */
+        .search-bar {
+            max-width: 400px;
+            position: relative;
+            margin-bottom: 2rem;
+            animation: slideInRight 0.6s ease-out;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border-radius: 50px;
+            border: 2px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text);
+            font-size: 1rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .search-bar input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.3);
+        }
+
+        .search-bar i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text);
+            opacity: 0.7;
+            transition: all 0.3s ease;
+        }
+
+        .search-bar input:focus + i {
+            color: var(--primary);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        /* Skills Grid */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-card {
+            background: var(--card-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .skill-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transition: all 0.3s ease;
+        }
+
+        .skill-card:hover::before {
+            height: 6px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            font-weight: bold;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .user-details h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .location {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        .skill-content {
+            margin: 1.5rem 0;
+        }
+
+        .skill-item {
+            margin-bottom: 1rem;
+        }
+
+        .skill-label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .skill-tag {
+            background: rgba(56, 189, 248, 0.2);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+
+        .skill-tag:hover {
+            background: rgba(56, 189, 248, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .stars {
+            color: #FFD700;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        /* Matches Section */
+        .matches-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .match-card {
+            background: var(--card-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            animation: fadeIn 0.7s ease-out;
+        }
+
+        .match-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .match-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .match-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .match-info h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .match-skills {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .match-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .match-btn {
+            flex: 1;
+            padding: 0.5rem;
+            border-radius: 8px;
+            border: none;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .match-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Messages Section */
+        .messages-container {
+            display: flex;
+            gap: 2rem;
+            height: 500px;
+        }
+
+        .conversations {
+            flex: 1;
+            background: var(--card-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 1rem;
+            overflow-y: auto;
+            animation: slideInLeft 0.6s ease-out;
+        }
+
+        .conversation {
+            padding: 1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-bottom: 0.5rem;
+            position: relative;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .conversation:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateX(5px);
+        }
+
+        .conversation.active {
+            background: rgba(56, 189, 248, 0.1);
+            border-left: 3px solid var(--primary);
+        }
+
+        .conversation-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .conversation-name {
+            font-weight: 600;
+        }
+
+        .conversation-time {
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
+        .conversation-preview {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .chat-area {
+            flex: 2;
+            background: var(--card-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            animation: slideInRight 0.6s ease-out;
+        }
+
+        .chat-header {
+            padding: 1rem;
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .message {
+            max-width: 70%;
+            padding: 0.75rem 1rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            position: relative;
+            animation: fadeIn 0.3s ease-out;
+            transition: all 0.3s ease;
+        }
+
+        .message.sent {
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.3), rgba(56, 189, 248, 0.1));
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+        }
+
+        .message.received {
+            background: rgba(255, 255, 255, 0.1);
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+        }
+
+        .message:hover {
+            transform: scale(1.02);
+        }
+
+        .message-time {
+            font-size: 0.7rem;
+            opacity: 0.7;
+            margin-top: 0.25rem;
+            text-align: right;
+        }
+
+        .typing-indicator {
+            align-self: flex-start;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.75rem 1rem;
+            border-radius: 15px;
+            border-bottom-left-radius: 5px;
+            display: none;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 0.25rem;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--text);
+            border-radius: 50%;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-5px); }
+        }
+
+        .message-input {
+            padding: 1rem;
+            border-top: 1px solid var(--glass-border);
+            display: flex;
+            gap: 1rem;
+        }
+
+        .message-input input {
+            flex: 1;
+            padding: 0.75rem;
+            border-radius: 25px;
+            border: 1px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text);
+            transition: all 0.3s ease;
+        }
+
+        .message-input input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+        }
+
+        .message-input button {
+            background: linear-gradient(45deg, var(--primary), #0EA5E9);
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .message-input button:hover {
+            transform: scale(1.1) rotate(10deg);
+            box-shadow: 0 6px 20px rgba(56, 189, 248, 0.4);
+        }
+
+        /* Profile Section */
+        .profile-container {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+        }
+
+        .profile-sidebar {
+            background: var(--card-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            animation: slideInLeft 0.7s ease-out;
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 0 auto 1rem;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .profile-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-location {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            opacity: 0.8;
+            margin-bottom: 1rem;
+        }
+
+        .profile-stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 2rem 0;
+        }
+
+        .stat {
+            text-align: center;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .profile-main {
+            background: var(--card-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 2rem;
+            animation: slideInRight 0.7s ease-out;
+        }
+
+        .profile-section {
+            margin-bottom: 2rem;
+        }
+
+        .profile-section h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .skill-badge {
+            background: rgba(56, 189, 248, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .skill-badge:hover {
+            background: rgba(56, 189, 248, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .bio-text {
+            line-height: 1.7;
+            opacity: 0.9;
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            background: var(--success);
+            color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transform: translateX(200%);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1001;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        /* User Info in Messages */
+        .user-info-popup {
+            position: absolute;
+            background: rgba(11, 18, 32, 0.95);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            padding: 1rem;
+            width: 250px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            display: none;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .user-info-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .popup-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .popup-details h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .popup-details p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .popup-skills {
+            margin-top: 1rem;
+        }
+
+        .popup-skill-item {
+            margin-bottom: 0.75rem;
+        }
+
+        .popup-skill-item h5 {
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .popup-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.25rem;
+            margin-top: 0.25rem;
+        }
+
+        .popup-tag {
+            background: rgba(56, 189, 248, 0.2);
+            padding: 0.1rem 0.5rem;
+            border-radius: 10px;
+            font-size: 0.7rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 80px;
+            }
+            
+            .logo, .user-name, .nav-item span {
+                display: none;
+            }
+            
+            .nav-item {
+                justify-content: center;
+                padding: 1rem;
+            }
+            
+            .main-content {
+                margin-left: 80px;
+            }
+            
+            .profile-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .landing-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .app-container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                display: flex;
+                overflow-x: auto;
+            }
+            
+            .nav-menu {
+                display: flex;
+            }
+            
+            .nav-item {
+                border-left: none;
+                border-bottom: 3px solid transparent;
+            }
+            
+            .nav-item.active {
+                border-left: none;
+                border-bottom: 3px solid var(--primary);
+            }
+            
+            .user-section {
+                display: none;
+            }
+            
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
+            }
+            
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .messages-container {
+                flex-direction: column;
+                height: auto;
+            }
+            
+            .landing-title {
+                font-size: 2rem;
+            }
+            
+            .landing-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .feature-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Landing Page -->
+    <div class="landing-page" id="landing-page">
+        <div class="landing-content">
+            <div class="landing-logo lexend">TENANIKO</div>
+            <h1 class="landing-title">Swap Skills, Not Cash</h1>
+            <p class="landing-subtitle">Connect with people in your community to share skills, knowledge, and experiences</p>
+            <p class="landing-tagline">"Grow together through knowledge exchange"</p>
+            
+            <div class="landing-buttons">
+                <button class="btn btn-primary" onclick="showModal('login-modal')">
+                    <i class="fas fa-sign-in-alt"></i> Log In
+                </button>
+                <button class="btn btn-outline" onclick="showModal('signup-modal')">
+                    <i class="fas fa-user-plus"></i> Sign Up
+                </button>
+            </div>
+            
+            <div class="feature-cards">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <h3>Easy Swapping</h3>
+                    <p>Find perfect skill matches and exchange knowledge without money</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Community</h3>
+                    <p>Connect with like-minded learners in your local community</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h3>Quality</h3>
+                    <p>Build your reputation through reviews and ratings</p>
+                </div>
+            </div>
+            
+            <div class="landing-footer">
+                <p>© 2024 Tenaniko. All rights reserved.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- App Container (Hidden initially) -->
+    <div class="app-container" id="app-container" style="display: none;">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo-container">
+                <div class="logo lexend">TENANIKO</div>
+            </div>
+            
+            <ul class="nav-menu">
+                <li class="nav-item active" data-page="home">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </li>
+                <li class="nav-item" data-page="browse">
+                    <i class="fas fa-search"></i>
+                    <span>Browse Skills</span>
+                </li>
+                <li class="nav-item" data-page="matches">
+                    <i class="fas fa-heart"></i>
+                    <span>Matches</span>
+                </li>
+                <li class="nav-item" data-page="messages">
+                    <i class="fas fa-comments"></i>
+                    <span>Messages</span>
+                </li>
+                <li class="nav-item" data-page="profile">
+                    <i class="fas fa-user"></i>
+                    <span>Profile</span>
+                </li>
+                <li class="nav-item" data-page="create">
+                    <i class="fas fa-plus-circle"></i>
+                    <span>Create Swap</span>
+                </li>
+            </ul>
+            
+            <div class="user-section">
+                <div class="user-profile">
+                    <div class="user-avatar">JD</div>
+                    <div class="user-name">Jane Dela Cruz</div>
+                </div>
+                <button class="btn btn-outline" id="logout-btn" style="width: 100%;">
+                    <i class="fas fa-sign-out-alt"></i> Log Out
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Home Page -->
+            <div id="home-page">
+                <div class="page-header">
+                    <h1 class="page-title lexend">Welcome to Tenaniko</h1>
+                    <button class="btn btn-primary" onclick="showModal('create-swap-modal')">
+                        <i class="fas fa-plus"></i> Create Swap
+                    </button>
+                </div>
+                
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search skills..." id="home-search">
+                </div>
+                
+                <h2 class="lexend" style="margin-bottom: 1.5rem;">Featured Skill Swaps</h2>
+                <div class="skills-grid" id="featured-skills">
+                    <!-- Featured skills will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Browse Skills Page -->
+            <div id="browse-page" style="display: none;">
+                <div class="page-header">
+                    <h1 class="page-title lexend">Browse Skills</h1>
+                    <button class="btn btn-primary" onclick="showModal('create-swap-modal')">
+                        <i class="fas fa-plus"></i> Create Swap
+                    </button>
+                </div>
+                
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search skills..." id="browse-search">
+                </div>
+                
+                <div class="skills-grid" id="all-skills">
+                    <!-- All skills will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Matches Page -->
+            <div id="matches-page" style="display: none;">
+                <div class="page-header">
+                    <h1 class="page-title lexend">Your Matches</h1>
+                </div>
+                
+                <div class="matches-grid" id="matches-container">
+                    <!-- Matches will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Messages Page -->
+            <div id="messages-page" style="display: none;">
+                <div class="page-header">
+                    <h1 class="page-title lexend">Messages</h1>
+                </div>
+                
+                <div class="messages-container">
+                    <div class="conversations" id="conversations-list">
+                        <!-- Conversations will be populated by JavaScript -->
+                    </div>
+                    <div class="chat-area">
+                        <div class="chat-header">
+                            <div class="avatar">MS</div>
+                            <div>
+                                <h3>Mark Santos</h3>
+                                <p style="font-size: 0.9rem; opacity: 0.8;">Online</p>
+                            </div>
+                        </div>
+                        <div class="chat-messages" id="chat-messages">
+                            <!-- Messages will be populated by JavaScript -->
+                            <div class="typing-indicator" id="typing-indicator">
+                                <div class="typing-dots">
+                                    <div class="typing-dot"></div>
+                                    <div class="typing-dot"></div>
+                                    <div class="typing-dot"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="message-input">
+                            <input type="text" placeholder="Type a message..." id="message-input">
+                            <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Page -->
+            <div id="profile-page" style="display: none;">
+                <div class="page-header">
+                    <h1 class="page-title lexend">Your Profile</h1>
+                    <button class="btn btn-primary" onclick="editProfile()">
+                        <i class="fas fa-edit"></i> Edit Profile
+                    </button>
+                </div>
+                
+                <div class="profile-container">
+                    <div class="profile-sidebar">
+                        <div class="profile-avatar">JD</div>
+                        <h2 class="profile-name">Jane Dela Cruz</h2>
+                        <div class="profile-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Dumaguete City, Philippines</span>
+                        </div>
+                        
+                        <div class="profile-stats">
+                            <div class="stat">
+                                <div class="stat-value">4.9</div>
+                                <div class="stat-label">Rating</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">24</div>
+                                <div class="stat-label">Swaps</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">18</div>
+                                <div class="stat-label">Reviews</div>
+                            </div>
+                        </div>
+                        
+                        <p class="bio-text">
+                            Passionate photographer with 5 years of experience. Love teaching others the art of capturing moments. 
+                            Currently learning guitar and would love to exchange skills!
+                        </p>
+                    </div>
+                    
+                    <div class="profile-main">
+                        <div class="profile-section">
+                            <h3><i class="fas fa-chalkboard-teacher"></i> Skills I Offer</h3>
+                            <div class="skills-list" id="skills-offered">
+                                <!-- Skills offered will be populated by JavaScript -->
+                            </div>
+                        </div>
+                        
+                        <div class="profile-section">
+                            <h3><i class="fas fa-graduation-cap"></i> Skills I Want to Learn</h3>
+                            <div class="skills-list" id="skills-wanted">
+                                <!-- Skills wanted will be populated by JavaScript -->
+                            </div>
+                        </div>
+                        
+                        <div class="profile-section">
+                            <h3><i class="fas fa-star"></i> Recent Reviews</h3>
+                            <div id="recent-reviews">
+                                <!-- Reviews will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Info Popup -->
+    <div class="user-info-popup" id="user-info-popup"></div>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('login-modal')">&times;</span>
+            <div class="modal-header">
+                <h2 class="lexend">Log In</h2>
+            </div>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" required placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" required placeholder="Enter your password">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Log In</button>
+            </form>
+            <div style="text-align: center; margin-top: 1rem;">
+                <p>Don't have an account? <a href="#" onclick="switchToSignup()" style="color: var(--primary);">Sign up</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div id="signup-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('signup-modal')">&times;</span>
+            <div class="modal-header">
+                <h2 class="lexend">Sign Up</h2>
+            </div>
+            <form id="signup-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="signup-firstname">First Name</label>
+                        <input type="text" id="signup-firstname" required placeholder="Enter your first name">
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-lastname">Last Name</label>
+                        <input type="text" id="signup-lastname" required placeholder="Enter your last name">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="signup-email">Email</label>
+                    <input type="email" id="signup-email" required placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="signup-password">Password</label>
+                    <input type="password" id="signup-password" required placeholder="Create a password">
+                </div>
+                <div class="form-group">
+                    <label for="signup-location">Location</label>
+                    <input type="text" id="signup-location" placeholder="City, Country">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Create Account</button>
+            </form>
+            <div style="text-align: center; margin-top: 1rem;">
+                <p>Already have an account? <a href="#" onclick="switchToLogin()" style="color: var(--primary);">Log in</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Swap Modal -->
+    <div id="create-swap-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('create-swap-modal')">&times;</span>
+            <div class="modal-header">
+                <h2 class="lexend">Create Skill Swap</h2>
+            </div>
+            <form id="create-swap-form">
+                <div class="form-group">
+                    <label for="swap-offer">What skill do you offer?</label>
+                    <input type="text" id="swap-offer" placeholder="e.g., Guitar Lessons, Photography, Cooking" required>
+                </div>
+                <div class="form-group">
+                    <label for="swap-want">What skill do you want to learn?</label>
+                    <input type="text" id="swap-want" placeholder="e.g., Spanish, Web Design, Yoga" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="swap-mode">Mode</label>
+                        <select id="swap-mode" required>
+                            <option value="">Select mode</option>
+                            <option value="online">Online</option>
+                            <option value="in-person">In-person</option>
+                            <option value="both">Both</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="swap-location">Location</label>
+                        <input type="text" id="swap-location" placeholder="City, Country">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="swap-description">Description</label>
+                    <textarea id="swap-description" rows="3" placeholder="Tell others about your skills and what you're looking for..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    <i class="fas fa-plus"></i> Create Swap
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Message Modal -->
+    <div id="message-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('message-modal')">&times;</span>
+            <div class="modal-header">
+                <h2 class="lexend">Send Message</h2>
+                <p id="message-recipient" style="margin-top: 0.5rem; color: var(--primary);"></p>
+            </div>
+            <form id="message-form">
+                <div class="form-group">
+                    <label for="message-content">Your Message</label>
+                    <textarea id="message-content" rows="4" placeholder="Hi, I'd like to swap [your skill] for [their skill]..." required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    <i class="fas fa-paper-plane"></i> Send Message
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Proposal Modal -->
+    <div id="proposal-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('proposal-modal')">&times;</span>
+            <div class="modal-header">
+                <h2 class="lexend">Propose Skill Swap</h2>
+                <p id="proposal-recipient" style="margin-top: 0.5rem; color: var(--primary);"></p>
+            </div>
+            <form id="proposal-form">
+                <div class="form-group">
+                    <label>Your Offer</label>
+                    <input type="text" id="proposal-offer" placeholder="What you can teach" required>
+                </div>
+                <div class="form-group">
+                    <label>What You Want</label>
+                    <input type="text" id="proposal-want" placeholder="What you want to learn" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="proposal-date">Date</label>
+                        <input type="date" id="proposal-date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="proposal-time">Time</label>
+                        <input type="time" id="proposal-time" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="proposal-mode">Mode</label>
+                    <select id="proposal-mode" required style="background: var(--light-gray);">
+                        <option value="">Select mode</option>
+                        <option value="online">Online (Zoom, etc.)</option>
+                        <option value="in-person">In-person</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-success" style="width: 100%;">
+                    <i class="fas fa-handshake"></i> Send Proposal
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div id="notification" class="notification"></div>
+
+    <script>
+        // Sample data for the application
+        const users = [
+            { id: 1, name: "Jane Dela Cruz", location: "Dumaguete City, Philippines", avatar: "JD", rating: 4.9 },
+            { id: 2, name: "Mark Santos", location: "Dumaguete City, Philippines", avatar: "MS", rating: 4.8 },
+            { id: 3, name: "Rosa Lim", location: "Dumaguete City, Philippines", avatar: "RL", rating: 4.7 },
+            { id: 4, name: "Carlos Rivera", location: "Tagbilaran City, Philippines", avatar: "CR", rating: 4.6 },
+            { id: 5, name: "Maria Chen", location: "Cebu City, Philippines", avatar: "MC", rating: 4.9 }
+        ];
+
+        const skills = [
+            { id: 1, userId: 1, offer: "Portrait Photography", want: "Guitar Lessons", mode: "both", location: "Dumaguete City", tags: ["Photography", "Portraits", "Canon"], description: "Professional photographer offering portrait sessions. Want to learn acoustic guitar basics." },
+            { id: 2, userId: 2, offer: "Acoustic Guitar Coaching", want: "Canva Design", mode: "online", location: "Dumaguete City", tags: ["Guitar", "Music Theory", "Songwriting"], description: "5 years experience teaching guitar. Looking to learn graphic design with Canva." },
+            { id: 3, userId: 3, offer: "Nursing Review Mentorship", want: "Excel Training", mode: "in-person", location: "Dumaguete City", tags: ["Nursing", "Mentorship", "Anatomy"], description: "Registered nurse offering mentorship for nursing students. Want to improve Excel skills for data analysis." },
+            { id: 4, userId: 4, offer: "Spanish Tutoring", want: "Web Development", mode: "online", location: "Tagbilaran City", tags: ["Spanish", "Language", "Conversation"], description: "Native Spanish speaker offering conversational Spanish lessons. Want to learn HTML/CSS basics." },
+            { id: 5, userId: 5, offer: "Web Design (Figma)", want: "Korean Language", mode: "both", location: "Cebu City", tags: ["Web Design", "Figma", "UI/UX"], description: "UI/UX designer offering web design training. Want to learn Korean for K-pop and K-drama." }
+        ];
+
+        const matches = [
+            { id: 1, userId: 1, matchedUserId: 2, offerSkill: "Portrait Photography", wantSkill: "Guitar Lessons", compatibility: 95 },
+            { id: 2, userId: 1, matchedUserId: 5, offerSkill: "Portrait Photography", wantSkill: "Korean Language", compatibility: 88 },
+            { id: 3, userId: 2, matchedUserId: 1, offerSkill: "Acoustic Guitar Coaching", wantSkill: "Canva Design", compatibility: 92 },
+            { id: 4, userId: 3, matchedUserId: 4, offerSkill: "Nursing Review Mentorship", wantSkill: "Web Development", compatibility: 85 },
+            { id: 5, userId: 4, matchedUserId: 1, offerSkill: "Spanish Tutoring", wantSkill: "Portrait Photography", compatibility: 90 }
+        ];
+
+        const conversations = [
+            { id: 1, userId: 2, name: "Mark Santos", lastMessage: "Hey! I'd love to swap guitar lessons for your photography skills.", time: "2 hours ago", unread: 0 },
+            { id: 2, userId: 3, name: "Rosa Lim", lastMessage: "Thanks for the great session yesterday!", time: "1 day ago", unread: 0 },
+            { id: 3, userId: 5, name: "Maria Chen", lastMessage: "Are you available this weekend for our swap?", time: "3 days ago", unread: 1 }
+        ];
+
+        let messages = [
+            { id: 1, conversationId: 1, senderId: 2, content: "Hey! I'd love to swap guitar lessons for your photography skills.", time: "10:30 AM" },
+            { id: 2, conversationId: 1, senderId: 1, content: "Hi Mark! That sounds perfect. I'm available this Saturday at 2 PM.", time: "10:35 AM" },
+            { id: 3, conversationId: 1, senderId: 2, content: "Saturday works great for me! Should we meet at the coffee shop downtown?", time: "10:40 AM" },
+            { id: 4, conversationId: 1, senderId: 1, content: "Yes, that's perfect. I'll bring my camera and we can do a photoshoot while you teach me guitar basics.", time: "10:42 AM" }
+        ];
+
+        // Authentication state
+        let currentUser = null;
+        let isLoggedIn = false;
+
+        // DOM Elements
+        const landingPage = document.getElementById('landing-page');
+        const appContainer = document.getElementById('app-container');
+        const pages = {
+            home: document.getElementById('home-page'),
+            browse: document.getElementById('browse-page'),
+            matches: document.getElementById('matches-page'),
+            messages: document.getElementById('messages-page'),
+            profile: document.getElementById('profile-page')
+        };
+
+        const navItems = document.querySelectorAll('.nav-item');
+        const modals = {
+            login: document.getElementById('login-modal'),
+            signup: document.getElementById('signup-modal'),
+            createSwap: document.getElementById('create-swap-modal'),
+            message: document.getElementById('message-modal'),
+            proposal: document.getElementById('proposal-modal')
+        };
+
+        const forms = {
+            login: document.getElementById('login-form'),
+            signup: document.getElementById('signup-form'),
+            createSwap: document.getElementById('create-swap-form'),
+            message: document.getElementById('message-form'),
+            proposal: document.getElementById('proposal-form')
+        };
+
+        const notification = document.getElementById('notification');
+        const typingIndicator = document.getElementById('typing-indicator');
+        const userInfoPopup = document.getElementById('user-info-popup');
+        const logoutBtn = document.getElementById('logout-btn');
+
+        // Show notification
+        function showNotification(message, type = 'success') {
+            notification.textContent = message;
+            notification.className = 'notification show';
+            if (type === 'error') {
+                notification.style.background = 'var(--error)';
+            } else if (type === 'warning') {
+                notification.style.background = 'var(--warning)';
+            } else {
+                notification.style.background = 'var(--success)';
+            }
+            
+            // Add animation effect
+            notification.style.animation = 'pulse 0.5s';
+            
+            setTimeout(() => {
+                notification.className = 'notification';
+            }, 3000);
+        }
+
+        // Show modal with animation
+        function showModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.style.display = 'block';
+            modal.style.animation = 'fadeIn 0.3s ease-out';
+        }
+
+        // Close modal
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Switch between login and signup
+        function switchToSignup() {
+            closeModal('login-modal');
+            showModal('signup-modal');
+        }
+
+        function switchToLogin() {
+            closeModal('signup-modal');
+            showModal('login-modal');
+        }
+
+        // Authentication functions
+        function login(email, password) {
+            // Simple validation - in real app, this would check against a database
+            if (email && password) {
+                // Find user (in real app, this would be a database lookup)
+                const user = users.find(u => u.name.toLowerCase().includes(email.split('@')[0].toLowerCase()));
+                if (user) {
+                    currentUser = user;
+                    isLoggedIn = true;
+                    showNotification(`Welcome back, ${user.name}!`);
+                    closeModal('login-modal');
+                    showApp();
+                    updateUIForLogin();
+                    return true;
+                }
+            }
+            showNotification('Invalid email or password', 'error');
+            return false;
+        }
+
+        function signup(firstName, lastName, email, password, location) {
+            // Simple validation
+            if (firstName && lastName && email && password) {
+                // Create new user (in real app, this would be saved to database)
+                const newUser = {
+                    id: users.length + 1,
+                    name: `${firstName} ${lastName}`,
+                    location: location || "Unknown Location",
+                    avatar: firstName.charAt(0) + lastName.charAt(0),
+                    rating: 0
+                };
+                
+                users.push(newUser);
+                currentUser = newUser;
+                isLoggedIn = true;
+                
+                showNotification(`Welcome to Tenaniko, ${newUser.name}!`);
+                closeModal('signup-modal');
+                showApp();
+                updateUIForLogin();
+                return true;
+            }
+            
+            showNotification('Please fill in all required fields', 'error');
+            return false;
+        }
+
+        function logout() {
+            currentUser = null;
+            isLoggedIn = false;
+            showNotification('You have been logged out');
+            updateUIForLogout();
+            hideApp();
+            showModal('login-modal');
+        }
+
+        // Show/hide app and landing page
+        function showApp() {
+            landingPage.style.display = 'none';
+            appContainer.style.display = 'flex';
+        }
+
+        function hideApp() {
+            appContainer.style.display = 'none';
+            landingPage.style.display = 'flex';
+        }
+
+        // Update UI based on login state
+        function updateUIForLogin() {
+            if (currentUser) {
+                document.querySelector('.user-name').textContent = currentUser.name;
+                document.querySelector('.user-avatar').textContent = currentUser.avatar;
+                document.querySelector('.user-section').style.display = 'block';
+                loadPageContent('home');
+            }
+        }
+
+        function updateUIForLogout() {
+            document.querySelector('.user-section').style.display = 'none';
+            // Hide all pages
+            Object.values(pages).forEach(page => {
+                page.style.display = 'none';
+            });
+        }
+
+        // Switch pages
+        function switchPage(pageName) {
+            if (!isLoggedIn) {
+                showNotification('Please log in to access this feature', 'warning');
+                showModal('login-modal');
+                return;
+            }
+            
+            // Hide all pages
+            Object.values(pages).forEach(page => {
+                page.style.display = 'none';
+            });
+            
+            // Show selected page
+            pages[pageName].style.display = 'block';
+            
+            // Update active nav item
+            navItems.forEach(item => {
+                item.classList.remove('active');
+                if (item.dataset.page === pageName) {
+                    item.classList.add('active');
+                }
+            });
+            
+            // Load page content
+            loadPageContent(pageName);
+        }
+
+        // Load page content
+        function loadPageContent(pageName) {
+            switch(pageName) {
+                case 'home':
+                    loadFeaturedSkills();
+                    break;
+                case 'browse':
+                    loadAllSkills();
+                    break;
+                case 'matches':
+                    loadMatches();
+                    break;
+                case 'messages':
+                    loadConversations();
+                    loadMessages(1);
+                    break;
+                case 'profile':
+                    loadProfile();
+                    break;
+            }
+        }
+
+        // Load featured skills
+        function loadFeaturedSkills() {
+            const container = document.getElementById('featured-skills');
+            container.innerHTML = '';
+            
+            // Get first 5 skills as featured
+            const featuredSkills = skills.slice(0, 5);
+            
+            featuredSkills.forEach((skill, index) => {
+                const user = users.find(u => u.id === skill.userId);
+                if (user) {
+                    // Add delay for staggered animation
+                    setTimeout(() => {
+                        container.innerHTML += createSkillCard(skill, user);
+                    }, index * 100);
+                }
+            });
+        }
+
+        // Load all skills
+        function loadAllSkills() {
+            const container = document.getElementById('all-skills');
+            container.innerHTML = '';
+            
+            skills.forEach((skill, index) => {
+                const user = users.find(u => u.id === skill.userId);
+                if (user) {
+                    // Add delay for staggered animation
+                    setTimeout(() => {
+                        container.innerHTML += createSkillCard(skill, user);
+                    }, index * 50);
+                }
+            });
+        }
+
+        // Load matches
+        function loadMatches() {
+            const container = document.getElementById('matches-container');
+            container.innerHTML = '';
+            
+            matches.forEach((match, index) => {
+                const user = users.find(u => u.id === match.userId);
+                const matchedUser = users.find(u => u.id === match.matchedUserId);
+                
+                if (user && matchedUser) {
+                    // Add delay for staggered animation
+                    setTimeout(() => {
+                        container.innerHTML += `
+                            <div class="match-card">
+                                <div class="match-header">
+                                    <div class="match-avatar">${matchedUser.avatar}</div>
+                                    <div class="match-info">
+                                        <h4>${matchedUser.name}</h4>
+                                        <div class="match-skills">${match.offerSkill} ↔ ${match.wantSkill}</div>
+                                    </div>
+                                </div>
+                                <div class="rating">
+                                    <div class="stars">
+                                        ${generateStars(matchedUser.rating)}
+                                    </div>
+                                    <span>${matchedUser.rating}/5</span>
+                                </div>
+                                <div class="match-actions">
+                                    <button class="match-btn btn-primary" onclick="showMessageModal('${matchedUser.name}')">
+                                        <i class="fas fa-envelope"></i>
+                                    </button>
+                                    <button class="match-btn btn-success" onclick="showProposalModal('${matchedUser.name}')">
+                                        <i class="fas fa-handshake"></i>
+                                    </button>
+                                    <button class="match-btn btn-outline" onclick="viewProfile(${matchedUser.id})">
+                                        <i class="fas fa-user"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+                    }, index * 100);
+                }
+            });
+        }
+
+        // Load conversations
+        function loadConversations() {
+            const container = document.getElementById('conversations-list');
+            container.innerHTML = '';
+            
+            conversations.forEach((conv, index) => {
+                // Add delay for staggered animation
+                setTimeout(() => {
+                    container.innerHTML += `
+                        <div class="conversation ${conv.id === 1 ? 'active' : ''}" 
+                             onclick="switchConversation(${conv.id})" 
+                             onmouseover="showUserInfoPopup(event, ${conv.userId})" 
+                             onmouseout="hideUserInfoPopup()">
+                            <div class="conversation-header">
+                                <div class="conversation-name">${conv.name}</div>
+                                <div class="conversation-time">${conv.time}</div>
+                            </div>
+                            <div class="conversation-preview">${conv.lastMessage}</div>
+                        </div>
+                    `;
+                }, index * 50);
+            });
+        }
+
+        // Switch conversation
+        function switchConversation(conversationId) {
+            loadMessages(conversationId);
+            
+            // Update active conversation
+            document.querySelectorAll('.conversation').forEach(conv => {
+                conv.classList.remove('active');
+            });
+            event.target.closest('.conversation').classList.add('active');
+        }
+
+        // Load messages
+        function loadMessages(conversationId) {
+            const container = document.getElementById('chat-messages');
+            container.innerHTML = '<div class="typing-indicator" id="typing-indicator"><div class="typing-dots"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div>';
+            
+            const conversationMessages = messages.filter(msg => msg.conversationId === conversationId);
+            
+            conversationMessages.forEach((msg, index) => {
+                const sender = users.find(u => u.id === msg.senderId);
+                const isSent = msg.senderId === (currentUser ? currentUser.id : 1);
+                
+                // Add delay for staggered animation
+                setTimeout(() => {
+                    addMessageToChat(msg.content, isSent, msg.time);
+                }, index * 100);
+            });
+            
+            // Scroll to bottom with smooth animation
+            setTimeout(() => {
+                container.scrollTop = container.scrollHeight;
+            }, 300);
+        }
+
+        // Add message to chat
+        function addMessageToChat(content, isSent, time) {
+            const container = document.getElementById('chat-messages');
+            const typingIndicator = document.getElementById('typing-indicator');
+            
+            // Remove typing indicator temporarily
+            typingIndicator.style.display = 'none';
+            
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isSent ? 'sent' : 'received'}`;
+            messageDiv.innerHTML = `
+                ${content}
+                <div class="message-time">${time}</div>
+            `;
+            
+            container.insertBefore(messageDiv, typingIndicator);
+            
+            // Add animation
+            messageDiv.style.animation = 'fadeIn 0.3s ease-out';
+            
+            // Scroll to bottom with smooth animation
+            container.scrollTop = container.scrollHeight;
+        }
+
+        // Show typing indicator
+        function showTypingIndicator() {
+            const typingIndicator = document.getElementById('typing-indicator');
+            typingIndicator.style.display = 'block';
+            const container = document.getElementById('chat-messages');
+            container.scrollTop = container.scrollHeight;
+        }
+
+        // Hide typing indicator
+        function hideTypingIndicator() {
+            const typingIndicator = document.getElementById('typing-indicator');
+            typingIndicator.style.display = 'none';
+        }
+
+        // Generate contextual response
+        function generateResponse(message) {
+            const lowerMessage = message.toLowerCase();
+            
+            // Photography related responses
+            if (lowerMessage.includes('photography') || lowerMessage.includes('camera') || lowerMessage.includes('photoshoot')) {
+                const responses = [
+                    "That sounds amazing! I'd love to learn more about photography techniques.",
+                    "I'm really excited about the photoshoot idea. What kind of shots are you thinking?",
+                    "Great! I've been wanting to improve my photography skills. Any tips for a beginner guitarist?",
+                    "Perfect! I can teach you guitar basics while you help me with portrait photography."
+                ];
+                return responses[Math.floor(Math.random() * responses.length)];
+            }
+            
+            // Guitar related responses
+            if (lowerMessage.includes('guitar') || lowerMessage.includes('music') || lowerMessage.includes('lesson')) {
+                const responses = [
+                    "I'm really looking forward to learning guitar! What style do you teach?",
+                    "That's awesome! I play acoustic guitar and can teach you some beginner chords.",
+                    "Great! I've always wanted to learn guitar. What's your teaching approach?",
+                    "Perfect match! I can show you guitar techniques while you help me with design skills."
+                ];
+                return responses[Math.floor(Math.random() * responses.length)];
+            }
+            
+            // Time related responses
+            if (lowerMessage.includes('saturday') || lowerMessage.includes('time') || lowerMessage.includes('when')) {
+                const responses = [
+                    "Saturday at 2 PM works perfectly for me! Looking forward to it.",
+                    "That time is great! Should we meet at the usual coffee shop?",
+                    "Perfect timing! I'll prepare my guitar and we can get started right away.",
+                    "Sounds good! I'll bring my camera and we can make the most of the afternoon."
+                ];
+                return responses[Math.floor(Math.random() * responses.length)];
+            }
+            
+            // Location related responses
+            if (lowerMessage.includes('coffee shop') || lowerMessage.includes('location') || lowerMessage.includes('where')) {
+                const responses = [
+                    "The downtown coffee shop is perfect! It's cozy and has great lighting for photos.",
+                    "Yes, let's meet there. It's a great spot for both photography and guitar practice.",
+                    "That location works for me! I'll bring my guitar and we can set up in the back area.",
+                    "Perfect choice! I love that place for creative collaborations."
+                ];
+                return responses[Math.floor(Math.random() * responses.length)];
+            }
+            
+            // General responses
+            const generalResponses = [
+                "That sounds great! I'm really excited about this skill swap.",
+                "Perfect! I think we'll both benefit a lot from this exchange.",
+                "I'm looking forward to learning from you and sharing my skills as well.",
+                "This is exactly what I was hoping for! When would you like to schedule our first session?",
+                "Awesome! I think we have a lot to offer each other. Let's make this work!",
+                "Great idea! I'm ready to get started whenever you are.",
+                "That's exactly what I was looking for. Let's plan our sessions soon!",
+                "Wonderful! I can't wait to start learning and teaching."
+            ];
+            
+            return generalResponses[Math.floor(Math.random() * generalResponses.length)];
+        }
+
+        // Send message
+        function sendMessage() {
+            const input = document.getElementById('message-input');
+            const message = input.value.trim();
+            
+            if (message) {
+                // Add user's message immediately
+                const time = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                addMessageToChat(message, true, time);
+                
+                // Clear input
+                input.value = '';
+                
+                // Show typing indicator
+                showTypingIndicator();
+                
+                // Simulate response after delay
+                setTimeout(() => {
+                    hideTypingIndicator();
+                    
+                    // Generate and send response
+                    const response = generateResponse(message);
+                    const responseTime = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                    
+                    // Add response to messages array
+                    messages.push({
+                        id: messages.length + 1,
+                        conversationId: 1,
+                        senderId: 2, // Mark Santos
+                        content: response,
+                        time: responseTime
+                    });
+                    
+                    // Add response to chat with animation
+                    addMessageToChat(response, false, responseTime);
+                }, 2000 + Math.random() * 3000); // Random delay between 2-5 seconds
+            }
+        }
+
+        // Load profile
+        function loadProfile() {
+            const skillsOffered = document.getElementById('skills-offered');
+            const skillsWanted = document.getElementById('skills-wanted');
+            const reviewsContainer = document.getElementById('recent-reviews');
+            
+            // Clear containers
+            skillsOffered.innerHTML = '';
+            skillsWanted.innerHTML = '';
+            reviewsContainer.innerHTML = '';
+            
+            // Get current user's skills
+            if (currentUser) {
+                const userSkills = skills.filter(skill => skill.userId === currentUser.id);
+                
+                if (userSkills.length > 0) {
+                    const skill = userSkills[0];
+                    
+                    // Populate skills offered
+                    skillsOffered.innerHTML = `
+                        <div class="skill-badge">${skill.offer}</div>
+                    `;
+                    
+                    // Populate skills wanted
+                    skillsWanted.innerHTML = `
+                        <div class="skill-badge">${skill.want}</div>
+                    `;
+                }
+                
+                // Update profile info
+                document.querySelector('.profile-name').textContent = currentUser.name;
+                document.querySelector('.profile-avatar').textContent = currentUser.avatar;
+                document.querySelector('.profile-location span').textContent = currentUser.location;
+            }
+            
+            // Add sample reviews with animation
+            setTimeout(() => {
+                reviewsContainer.innerHTML = `
+                    <div style="background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 10px; margin-bottom: 1rem; animation: fadeIn 0.5s ease-out;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                            <strong>Mark Santos</strong>
+                            <div class="stars">${generateStars(5)}</div>
+                        </div>
+                        <p>"This person is an amazing photography teacher! Very patient and knowledgeable. I learned so much in just one session."</p>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 10px; animation: fadeIn 0.7s ease-out;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                            <strong>Rosa Lim</strong>
+                            <div class="stars">${generateStars(4)}</div>
+                        </div>
+                        <p>"Great communication and very professional. Highly recommend for anyone looking to swap skills!"</p>
+                    </div>
+                `;
+            }, 300);
+        }
+
+        // Create skill card HTML
+        function createSkillCard(skill, user) {
+            return `
+                <div class="skill-card">
+                    <div class="user-info">
+                        <div class="avatar">${user.avatar}</div>
+                        <div class="user-details">
+                            <h3>${user.name}</h3>
+                            <div class="location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                ${user.location}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-content">
+                        <div class="skill-item">
+                            <div class="skill-label">
+                                <i class="fas fa-chalkboard-teacher"></i>
+                                Offers
+                            </div>
+                            <p>${skill.offer}</p>
+                            <div class="skill-tags">
+                                ${skill.tags.slice(0, 3).map(tag => `<span class="skill-tag">${tag}</span>`).join('')}
+                            </div>
+                        </div>
+                        
+                        <div class="skill-item">
+                            <div class="skill-label">
+                                <i class="fas fa-graduation-cap"></i>
+                                Wants
+                            </div>
+                            <p>${skill.want}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="rating">
+                        <div class="stars">
+                            ${generateStars(user.rating)}
+                        </div>
+                        <span>${user.rating}/5</span>
+                    </div>
+                    
+                    <div class="card-actions">
+                        <button class="btn btn-primary" onclick="showMessageModal('${user.name}')">
+                            <i class="fas fa-envelope"></i> Message
+                        </button>
+                        <button class="btn btn-outline" onclick="showProposalModal('${user.name}')">
+                            <i class="fas fa-handshake"></i> Propose Swap
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Show user info popup in messages section
+        function showUserInfoPopup(event, userId) {
+            const user = users.find(u => u.id === userId);
+            const skill = skills.find(s => s.userId === userId);
+            
+            if (user && skill) {
+                userInfoPopup.innerHTML = `
+                    <div class="user-info-header">
+                        <div class="popup-avatar">${user.avatar}</div>
+                        <div class="popup-details">
+                            <h4>${user.name}</h4>
+                            <p>${user.location}</p>
+                            <div class="rating">
+                                <div class="stars">
+                                    ${generateStars(user.rating)}
+                                </div>
+                                <span>${user.rating}/5</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="popup-skills">
+                        <div class="popup-skill-item">
+                            <h5><i class="fas fa-chalkboard-teacher"></i> Offers</h5>
+                            <p>${skill.offer}</p>
+                            <div class="popup-tags">
+                                ${skill.tags.map(tag => `<span class="popup-tag">${tag}</span>`).join('')}
+                            </div>
+                        </div>
+                        <div class="popup-skill-item">
+                            <h5><i class="fas fa-graduation-cap"></i> Wants</h5>
+                            <p>${skill.want}</p>
+                        </div>
+                    </div>
+                `;
+                
+                userInfoPopup.style.display = 'block';
+                
+                // Position popup
+                const rect = event.target.getBoundingClientRect();
+                userInfoPopup.style.left = `${rect.right + 10}px`;
+                userInfoPopup.style.top = `${rect.top}px`;
+            }
+        }
+
+        // Hide user info popup
+        function hideUserInfoPopup() {
+            userInfoPopup.style.display = 'none';
+        }
+
+        // Generate star rating HTML
+        function generateStars(rating) {
+            let stars = '';
+            const fullStars = Math.floor(rating);
+            const hasHalfStar = rating % 1 >= 0.5;
+            
+            for (let i = 0; i < fullStars; i++) {
+                stars += '<i class="fas fa-star"></i>';
+            }
+            
+            if (hasHalfStar) {
+                stars += '<i class="fas fa-star-half-alt"></i>';
+            }
+            
+            const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+            for (let i = 0; i < emptyStars; i++) {
+                stars += '<i class="far fa-star"></i>';
+            }
+            
+            return stars;
+        }
+
+        // Show message modal
+        function showMessageModal(recipient) {
+            if (!isLoggedIn) {
+                showNotification('Please log in to send messages', 'warning');
+                showModal('login-modal');
+                return;
+            }
+            document.getElementById('message-recipient').textContent = `To: ${recipient}`;
+            showModal('message-modal');
+        }
+
+        // Show proposal modal
+        function showProposalModal(recipient) {
+            if (!isLoggedIn) {
+                showNotification('Please log in to propose swaps', 'warning');
+                showModal('login-modal');
+                return;
+            }
+            document.getElementById('proposal-recipient').textContent = `To: ${recipient}`;
+            showModal('proposal-modal');
+        }
+
+        // View profile
+        function viewProfile(userId) {
+            if (!isLoggedIn) {
+                showNotification('Please log in to view profiles', 'warning');
+                showModal('login-modal');
+                return;
+            }
+            showNotification(`Viewing profile of user ${userId}`);
+        }
+
+        // Edit profile
+        function editProfile() {
+            if (!isLoggedIn) {
+                showNotification('Please log in to edit your profile', 'warning');
+                showModal('login-modal');
+                return;
+            }
+            showNotification('Profile editing feature coming soon!');
+        }
+
+        // Event Listeners
+        // Navigation
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                switchPage(item.dataset.page);
+            });
+        });
+
+        // Form submissions
+        forms.login.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            login(email, password);
+        });
+
+        forms.signup.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const firstName = document.getElementById('signup-firstname').value;
+            const lastName = document.getElementById('signup-lastname').value;
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            const location = document.getElementById('signup-location').value;
+            signup(firstName, lastName, email, password, location);
+        });
+
+        forms.createSwap.addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (!isLoggedIn) {
+                showNotification('Please log in to create swaps', 'warning');
+                closeModal('create-swap-modal');
+                showModal('login-modal');
+                return;
+            }
+            const offer = document.getElementById('swap-offer').value;
+            showNotification(`Skill swap created: ${offer}`);
+            closeModal('create-swap-modal');
+            forms.createSwap.reset();
+        });
+
+        forms.message.addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (!isLoggedIn) {
+                showNotification('Please log in to send messages', 'warning');
+                closeModal('message-modal');
+                showModal('login-modal');
+                return;
+            }
+            showNotification('Message sent successfully!');
+            closeModal('message-modal');
+            forms.message.reset();
+        });
+
+        forms.proposal.addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (!isLoggedIn) {
+                showNotification('Please log in to propose swaps', 'warning');
+                closeModal('proposal-modal');
+                showModal('login-modal');
+                return;
+            }
+            showNotification('Swap proposal sent successfully!');
+            closeModal('proposal-modal');
+            forms.proposal.reset();
+        });
+
+        // Logout button
+        logoutBtn.addEventListener('click', logout);
+
+        // Close modals when clicking outside
+        window.addEventListener('click', (event) => {
+            Object.values(modals).forEach(modal => {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        });
+
+        // Message input enter key
+        document.getElementById('message-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function() {
+            // Start with landing page
+            landingPage.style.display = 'flex';
+            appContainer.style.display = 'none';
+            
+            // Add hover effects to cards (only for skill cards)
+            document.addEventListener('mouseover', (e) => {
+                if (e.target.closest('.skill-card, .match-card, .feature-card')) {
+                    e.target.closest('.skill-card, .match-card, .feature-card').style.transform = 'translateY(-10px) scale(1.02)';
+                }
+            });
+            
+            document.addEventListener('mouseout', (e) => {
+                if (e.target.closest('.skill-card, .match-card, .feature-card')) {
+                    e.target.closest('.skill-card, .match-card, .feature-card').style.transform = 'translateY(0) scale(1)';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

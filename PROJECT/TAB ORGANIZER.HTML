@@ -1,0 +1,1491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BigBoyy - Tab Organizer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #00c9a7;
+            --dark: #1a1a2e;
+            --darker: #0f0f1a;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --border: #dee2e6;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+            transition: background 0.5s ease;
+        }
+
+        /* Background themes */
+        .theme-ocean {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .theme-sunset {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .theme-forest {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+
+        .theme-midnight {
+            background: linear-gradient(135deg, #2c3e50 0%, #4ca1af 100%);
+        }
+
+        .theme-fire {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+        }
+
+        .theme-cosmic {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Lexend', sans-serif;
+            font-weight: 600;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 15, 26, 0.95);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+            transform: translateY(0);
+            transition: var(--transition);
+        }
+
+        .navbar.scrolled {
+            padding: 0.75rem 2rem;
+            background: rgba(15, 15, 26, 0.98);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            animation: fadeInDown 0.6s ease-out;
+        }
+
+        .logo i {
+            color: var(--primary);
+            animation: pulse 2s infinite;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            animation: fadeInDown 0.6s ease-out 0.2s both;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a.active {
+            color: var(--primary);
+        }
+
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: rgba(15, 15, 26, 0.95);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 6rem 1.5rem 1.5rem;
+            height: 100vh;
+            position: fixed;
+            overflow-y: auto;
+            transform: translateX(0);
+            transition: var(--transition);
+            box-shadow: inset -1px 0 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .new-folder-btn {
+            background: linear-gradient(45deg, var(--primary), #6a11cb);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+            animation: slideInLeft 0.6s ease-out 0.3s both;
+        }
+
+        .new-folder-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(67, 97, 238, 0.4);
+        }
+
+        .new-folder-btn:active {
+            transform: translateY(0);
+        }
+
+        .folders-list {
+            list-style: none;
+        }
+
+        .folder-item {
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: var(--transition);
+            color: white;
+            animation: slideInLeft 0.6s ease-out 0.4s both;
+            opacity: 0;
+            transform: translateX(-20px);
+        }
+
+        .folder-item:nth-child(1) { animation-delay: 0.4s; }
+        .folder-item:nth-child(2) { animation-delay: 0.5s; }
+        .folder-item:nth-child(3) { animation-delay: 0.6s; }
+        .folder-item:nth-child(4) { animation-delay: 0.7s; }
+        .folder-item:nth-child(5) { animation-delay: 0.8s; }
+
+        .folder-item:hover, .folder-item.active {
+            background: linear-gradient(45deg, rgba(67, 97, 238, 0.3), rgba(106, 17, 203, 0.3));
+            transform: translateX(5px);
+        }
+
+        .folder-item i {
+            color: var(--primary);
+            transition: var(--transition);
+        }
+
+        .folder-item:hover i {
+            transform: scale(1.2);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 6rem 2rem 2rem;
+        }
+
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.6s ease-out 0.9s both;
+        }
+
+        .search-bar {
+            position: relative;
+            width: 300px;
+            animation: slideInRight 0.6s ease-out 1s both;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+            font-size: 1rem;
+            color: white;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+        }
+
+        .search-bar input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .search-bar input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.3);
+        }
+
+        .search-bar i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .save-tab-btn {
+            background: linear-gradient(45deg, var(--secondary), #00d2ff);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(0, 201, 167, 0.3);
+            animation: slideInRight 0.6s ease-out 1.1s both;
+        }
+
+        .save-tab-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 201, 167, 0.4);
+        }
+
+        .save-tab-btn:active {
+            transform: translateY(0);
+        }
+
+        .tabs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .tab-card {
+            background: rgba(15, 15, 26, 0.8);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            color: white;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: fadeInUp 0.6s ease-out both;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .tab-card:nth-child(1) { animation-delay: 0.2s; }
+        .tab-card:nth-child(2) { animation-delay: 0.4s; }
+        .tab-card:nth-child(3) { animation-delay: 0.6s; }
+        .tab-card:nth-child(4) { animation-delay: 0.8s; }
+
+        .tab-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+            border-color: rgba(67, 97, 238, 0.3);
+        }
+
+        .tab-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .favicon {
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(45deg, var(--primary), #6a11cb);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: white;
+            transition: var(--transition);
+        }
+
+        .tab-card:hover .favicon {
+            transform: rotate(360deg);
+        }
+
+        .tab-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 0.25rem;
+        }
+
+        .tab-url {
+            font-size: 0.85rem;
+            color: #a0a0c0;
+            word-break: break-all;
+        }
+
+        .tab-note {
+            color: #c0c0e0;
+            font-size: 0.9rem;
+            margin: 1rem 0;
+            line-height: 1.4;
+        }
+
+        .tab-actions {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .tab-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            border: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tab-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: var(--transition);
+        }
+
+        .tab-btn:hover::before {
+            left: 100%;
+        }
+
+        .open-btn {
+            background: linear-gradient(45deg, var(--secondary), #00d2ff);
+            color: white;
+        }
+
+        .open-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 201, 167, 0.3);
+        }
+
+        .pin-btn {
+            background: rgba(255, 193, 7, 0.2);
+            color: var(--warning);
+        }
+
+        .pin-btn.pinned {
+            background: linear-gradient(45deg, var(--warning), #ff8c00);
+            color: var(--dark);
+        }
+
+        .delete-btn {
+            background: rgba(220, 53, 69, 0.2);
+            color: var(--danger);
+        }
+
+        .delete-btn:hover {
+            background: linear-gradient(45deg, var(--danger), #ff416c);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .pinned-tag {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: linear-gradient(45deg, var(--warning), #ff8c00);
+            color: var(--dark);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            animation: bounce 2s infinite;
+        }
+
+        .folder-tag {
+            display: inline-block;
+            background: linear-gradient(45deg, var(--primary), #6a11cb);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            margin-top: 0.5rem;
+            animation: pulse 3s infinite;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 280px;
+            right: 0;
+            background: rgba(15, 15, 26, 0.95);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
+            animation: slideInUp 0.6s ease-out 1.2s both;
+        }
+
+        .footer-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+        }
+
+        .footer-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .modal-content {
+            background: rgba(15, 15, 26, 0.95);
+            border-radius: 12px;
+            padding: 2rem;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: var(--shadow-lg);
+            color: white;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transform: scale(0.7);
+            opacity: 0;
+            animation: modalAppear 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-header h3 {
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: rgba(255, 255, 255, 0.7);
+            transition: var(--transition);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .close-modal:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(90deg);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: white;
+            font-size: 0.95rem;
+        }
+
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+            font-size: 1rem;
+            color: white;
+            transition: var(--transition);
+            box-sizing: border-box;
+        }
+
+        .form-group input::placeholder, .form-group textarea::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.3);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            border: none;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            font-size: 0.9rem;
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: var(--transition);
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--primary), #6a11cb);
+            color: white;
+            box-shadow: 0 2px 8px rgba(67, 97, 238, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
+        }
+
+        /* Settings Modal */
+        .settings-content {
+            max-width: 600px;
+        }
+
+        .theme-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .theme-option {
+            height: 80px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            border: 2px solid transparent;
+        }
+
+        .theme-option:hover {
+            transform: scale(1.05);
+        }
+
+        .theme-option.active {
+            border-color: var(--primary);
+            transform: scale(1.05);
+        }
+
+        .theme-option::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .theme-option span {
+            position: absolute;
+            bottom: 5px;
+            left: 5px;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 500;
+            z-index: 2;
+        }
+
+        .theme-ocean-option {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .theme-sunset-option {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .theme-forest-option {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+
+        .theme-midnight-option {
+            background: linear-gradient(135deg, #2c3e50 0%, #4ca1af 100%);
+        }
+
+        .theme-fire-option {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+        }
+
+        .theme-cosmic-option {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-5px); }
+            60% { transform: translateY(-3px); }
+        }
+
+        @keyframes modalAppear {
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                padding: 6rem 1rem 1rem;
+            }
+            
+            .main-content {
+                margin-left: 0;
+                padding: 6rem 1rem 4rem;
+            }
+            
+            .footer {
+                left: 0;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .content-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: stretch;
+            }
+            
+            .search-bar {
+                width: 100%;
+            }
+            
+            .theme-options {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.85rem;
+            }
+            
+            .close-modal {
+                font-size: 1.1rem;
+                width: 28px;
+                height: 28px;
+            }
+        }
+    </style>
+</head>
+<body class="theme-ocean">
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-bookmark"></i>
+            <span>BigBoyy</span>
+        </div>
+        <div class="nav-links">
+            <a href="#" class="active" data-view="home">Home</a>
+            <a href="#" data-view="categories">Categories</a>
+            <a href="#" data-view="favorites">Favorites</a>
+            <a href="#" id="settingsLink">Settings</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <button class="new-folder-btn" id="newFolderBtn">
+                <i class="fas fa-plus"></i>
+                New Folder
+            </button>
+            <ul class="folders-list" id="foldersList">
+                <li class="folder-item active" data-folder="all">
+                    <i class="fas fa-folder"></i>
+                    <span>All Tabs</span>
+                </li>
+                <li class="folder-item" data-folder="Work">
+                    <i class="fas fa-briefcase"></i>
+                    <span>Work</span>
+                </li>
+                <li class="folder-item" data-folder="School">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>School</span>
+                </li>
+                <li class="folder-item" data-folder="Travel">
+                    <i class="fas fa-plane"></i>
+                    <span>Travel</span>
+                </li>
+                <li class="folder-item" data-folder="Research">
+                    <i class="fas fa-search"></i>
+                    <span>Research</span>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="content-header">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search saved tabs..." id="searchInput">
+                </div>
+                <button class="save-tab-btn" id="saveTabBtn">
+                    <i class="fas fa-plus"></i>
+                    Save Current Tab
+                </button>
+            </div>
+
+            <div class="tabs-grid" id="tabsGrid">
+                <!-- Tab cards will be generated here -->
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <button class="footer-btn" id="exportBtn">
+                <i class="fas fa-file-export"></i>
+                Export Tabs
+            </button>
+            <button class="footer-btn" id="importBtn">
+                <i class="fas fa-file-import"></i>
+                Import Tabs
+            </button>
+            <button class="footer-btn">
+                <i class="fas fa-folder-open"></i>
+                Bulk Open
+            </button>
+        </footer>
+    </div>
+
+    <!-- Save Tab Modal -->
+    <div class="modal" id="saveTabModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Save Tab</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <form id="saveTabForm">
+                <div class="form-group">
+                    <label for="tabUrl">URL</label>
+                    <input type="url" id="tabUrl" placeholder="https://example.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="tabTitle">Title</label>
+                    <input type="text" id="tabTitle" placeholder="Page Title">
+                </div>
+                <div class="form-group">
+                    <label for="tabFolder">Folder</label>
+                    <select id="tabFolder">
+                        <option value="">Select a folder</option>
+                        <option value="Work">Work</option>
+                        <option value="School">School</option>
+                        <option value="Travel">Travel</option>
+                        <option value="Research">Research</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="tabNote">Note (Optional)</label>
+                    <textarea id="tabNote" rows="3" placeholder="Add a note about this tab..."></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary close-modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Tab</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- New Folder Modal -->
+    <div class="modal" id="newFolderModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Create New Folder</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <form id="newFolderForm">
+                <div class="form-group">
+                    <label for="folderName">Folder Name</label>
+                    <input type="text" id="folderName" placeholder="Enter folder name" required>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary close-modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create Folder</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div class="modal" id="settingsModal">
+        <div class="modal-content settings-content">
+            <div class="modal-header">
+                <h3>Settings</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="form-group">
+                <label>Background Theme</label>
+                <div class="theme-options">
+                    <div class="theme-option theme-ocean-option active" data-theme="ocean">
+                        <span>Ocean</span>
+                    </div>
+                    <div class="theme-option theme-sunset-option" data-theme="sunset">
+                        <span>Sunset</span>
+                    </div>
+                    <div class="theme-option theme-forest-option" data-theme="forest">
+                        <span>Forest</span>
+                    </div>
+                    <div class="theme-option theme-midnight-option" data-theme="midnight">
+                        <span>Midnight</span>
+                    </div>
+                    <div class="theme-option theme-fire-option" data-theme="fire">
+                        <span>Fire</span>
+                    </div>
+                    <div class="theme-option theme-cosmic-option" data-theme="cosmic">
+                        <span>Cosmic</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="button" class="btn btn-secondary close-modal">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample data
+        let tabs = [
+            {
+                id: 1,
+                url: "https://github.com",
+                title: "GitHub",
+                folder: "Work",
+                note: "Code repository for projects",
+                pinned: true,
+                favicon: "G"
+            },
+            {
+                id: 2,
+                url: "https://stackoverflow.com",
+                title: "Stack Overflow",
+                folder: "Work",
+                note: "Programming Q&A",
+                pinned: false,
+                favicon: "S"
+            },
+            {
+                id: 3,
+                url: "https://wikipedia.org",
+                title: "Wikipedia",
+                folder: "Research",
+                note: "General knowledge research",
+                pinned: true,
+                favicon: "W"
+            },
+            {
+                id: 4,
+                url: "https://youtube.com",
+                title: "YouTube",
+                folder: "Personal",
+                note: "Video tutorials and entertainment",
+                pinned: false,
+                favicon: "Y"
+            }
+        ];
+
+        let folders = ["All Tabs", "Work", "School", "Travel", "Research", "Personal"];
+        let currentTheme = 'ocean';
+        let currentView = 'home';
+        let currentFolder = 'all';
+        let favorites = [1, 3]; // IDs of favorited tabs
+
+        // DOM Elements
+        const saveTabBtn = document.getElementById('saveTabBtn');
+        const newFolderBtn = document.getElementById('newFolderBtn');
+        const exportBtn = document.getElementById('exportBtn');
+        const importBtn = document.getElementById('importBtn');
+        const saveTabModal = document.getElementById('saveTabModal');
+        const newFolderModal = document.getElementById('newFolderModal');
+        const settingsModal = document.getElementById('settingsModal');
+        const settingsLink = document.getElementById('settingsLink');
+        const closeButtons = document.querySelectorAll('.close-modal');
+        const saveTabForm = document.getElementById('saveTabForm');
+        const newFolderForm = document.getElementById('newFolderForm');
+        const tabsGrid = document.getElementById('tabsGrid');
+        const foldersList = document.getElementById('foldersList');
+        const navbar = document.querySelector('.navbar');
+        const themeOptions = document.querySelectorAll('.theme-option');
+        const navLinks = document.querySelectorAll('.nav-links a[data-view]');
+        const folderItems = document.querySelectorAll('.folder-item');
+        const searchInput = document.getElementById('searchInput');
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Modal Functions
+        function openModal(modal) {
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(modal) {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Navigation Functions
+        function switchView(view) {
+            currentView = view;
+            
+            // Update active nav link
+            navLinks.forEach(link => {
+                if (link.dataset.view === view) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+            
+            // Render tabs based on view
+            renderTabs();
+        }
+
+        function switchFolder(folder) {
+            currentFolder = folder;
+            
+            // Update active folder
+            folderItems.forEach(item => {
+                if (item.dataset.folder === folder) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+            
+            // Render tabs based on folder
+            renderTabs();
+        }
+
+        // Event Listeners for Modals
+        saveTabBtn.addEventListener('click', () => openModal(saveTabModal));
+        newFolderBtn.addEventListener('click', () => openModal(newFolderModal));
+        settingsLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            openModal(settingsModal);
+        });
+
+        closeButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                closeModal(saveTabModal);
+                closeModal(newFolderModal);
+                closeModal(settingsModal);
+            });
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === saveTabModal) closeModal(saveTabModal);
+            if (e.target === newFolderModal) closeModal(newFolderModal);
+            if (e.target === settingsModal) closeModal(settingsModal);
+        });
+
+        // Navigation Event Listeners
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                switchView(link.dataset.view);
+            });
+        });
+
+        folderItems.forEach(item => {
+            item.addEventListener('click', () => {
+                switchFolder(item.dataset.folder);
+            });
+        });
+
+        // Search functionality
+        searchInput.addEventListener('input', () => {
+            renderTabs();
+        });
+
+        // Theme Selection
+        themeOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                // Remove active class from all options
+                themeOptions.forEach(opt => opt.classList.remove('active'));
+                
+                // Add active class to clicked option
+                option.classList.add('active');
+                
+                // Get theme name
+                const theme = option.dataset.theme;
+                currentTheme = theme;
+                
+                // Apply theme to body
+                document.body.className = `theme-${theme}`;
+            });
+        });
+
+        // Save Tab Form
+        saveTabForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const url = document.getElementById('tabUrl').value;
+            const title = document.getElementById('tabTitle').value || new URL(url).hostname;
+            const folder = document.getElementById('tabFolder').value;
+            const note = document.getElementById('tabNote').value;
+            
+            const newTab = {
+                id: Date.now(),
+                url: url,
+                title: title,
+                folder: folder,
+                note: note,
+                pinned: false,
+                favicon: title.charAt(0).toUpperCase()
+            };
+            
+            tabs.push(newTab);
+            renderTabs();
+            closeModal(saveTabModal);
+            saveTabForm.reset();
+            
+            // Show success animation
+            const saveBtn = document.querySelector('.save-tab-btn');
+            saveBtn.innerHTML = '<i class="fas fa-check"></i> Saved!';
+            setTimeout(() => {
+                saveBtn.innerHTML = '<i class="fas fa-plus"></i> Save Current Tab';
+            }, 2000);
+        });
+
+        // New Folder Form
+        newFolderForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const folderName = document.getElementById('folderName').value;
+            folders.push(folderName);
+            
+            // Add to folder list
+            const folderItem = document.createElement('li');
+            folderItem.className = 'folder-item';
+            folderItem.dataset.folder = folderName;
+            folderItem.innerHTML = `
+                <i class="fas fa-folder"></i>
+                <span>${folderName}</span>
+            `;
+            folderItem.addEventListener('click', () => {
+                switchFolder(folderName);
+            });
+            foldersList.appendChild(folderItem);
+            
+            closeModal(newFolderModal);
+            newFolderForm.reset();
+        });
+
+        // Tab Actions
+        function openTab(url) {
+            window.open(url, '_blank');
+            
+            // Add animation effect
+            const btn = event.target.closest('.open-btn');
+            if (btn) {
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Opening...';
+                setTimeout(() => {
+                    btn.innerHTML = '<i class="fas fa-external-link-alt"></i> Open';
+                }, 1000);
+            }
+        }
+
+        function togglePin(id) {
+            const tab = tabs.find(t => t.id === id);
+            if (tab) {
+                tab.pinned = !tab.pinned;
+                renderTabs();
+            }
+        }
+
+        function toggleFavorite(id) {
+            const index = favorites.indexOf(id);
+            if (index > -1) {
+                favorites.splice(index, 1);
+            } else {
+                favorites.push(id);
+            }
+            renderTabs();
+        }
+
+        function deleteTab(id) {
+            tabs = tabs.filter(t => t.id !== id);
+            favorites = favorites.filter(favId => favId !== id);
+            renderTabs();
+        }
+
+        // Render Functions
+        function renderTabs() {
+            tabsGrid.innerHTML = '';
+            
+            // Filter tabs based on current view and folder
+            let filteredTabs = [...tabs];
+            
+            // Apply folder filter
+            if (currentFolder !== 'all') {
+                filteredTabs = filteredTabs.filter(tab => tab.folder === currentFolder);
+            }
+            
+            // Apply view filter
+            if (currentView === 'favorites') {
+                filteredTabs = filteredTabs.filter(tab => favorites.includes(tab.id));
+            }
+            
+            // Apply search filter
+            const searchTerm = searchInput.value.toLowerCase();
+            if (searchTerm) {
+                filteredTabs = filteredTabs.filter(tab => 
+                    tab.title.toLowerCase().includes(searchTerm) || 
+                    tab.url.toLowerCase().includes(searchTerm) ||
+                    (tab.note && tab.note.toLowerCase().includes(searchTerm))
+                );
+            }
+            
+            // Sort pinned tabs first
+            filteredTabs.sort((a, b) => {
+                if (a.pinned && !b.pinned) return -1;
+                if (!a.pinned && b.pinned) return 1;
+                return 0;
+            });
+            
+            filteredTabs.forEach((tab, index) => {
+                const tabCard = document.createElement('div');
+                tabCard.className = 'tab-card';
+                tabCard.style.animationDelay = `${index * 0.1}s`;
+                tabCard.innerHTML = `
+                    ${tab.pinned ? '<div class="pinned-tag">PINNED</div>' : ''}
+                    <div class="tab-header">
+                        <div class="favicon">${tab.favicon}</div>
+                        <div>
+                            <div class="tab-title">${tab.title}</div>
+                            <div class="tab-url">${tab.url}</div>
+                        </div>
+                    </div>
+                    ${tab.note ? `<div class="tab-note">${tab.note}</div>` : ''}
+                    ${tab.folder ? `<div class="folder-tag">${tab.folder}</div>` : ''}
+                    <div class="tab-actions">
+                        <button class="tab-btn open-btn" onclick="openTab('${tab.url}')">
+                            <i class="fas fa-external-link-alt"></i> Open
+                        </button>
+                        <button class="tab-btn pin-btn ${tab.pinned ? 'pinned' : ''}" onclick="togglePin(${tab.id})">
+                            <i class="fas fa-thumbtack"></i> ${tab.pinned ? 'Unpin' : 'Pin'}
+                        </button>
+                        <button class="tab-btn delete-btn" onclick="deleteTab(${tab.id})">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    </div>
+                `;
+                tabsGrid.appendChild(tabCard);
+            });
+        }
+
+        function renderFolders() {
+            foldersList.innerHTML = '';
+            
+            folders.forEach((folder, index) => {
+                const folderItem = document.createElement('li');
+                folderItem.className = 'folder-item';
+                if (index === 0) folderItem.classList.add('active');
+                folderItem.dataset.folder = folder === "All Tabs" ? "all" : folder;
+                
+                let icon = 'fa-folder';
+                if (folder === 'Work') icon = 'fa-briefcase';
+                if (folder === 'School') icon = 'fa-graduation-cap';
+                if (folder === 'Travel') icon = 'fa-plane';
+                if (folder === 'Research') icon = 'fa-search';
+                
+                folderItem.innerHTML = `
+                    <i class="fas ${icon}"></i>
+                    <span>${folder}</span>
+                `;
+                
+                folderItem.addEventListener('click', () => {
+                    switchFolder(folderItem.dataset.folder);
+                });
+                
+                foldersList.appendChild(folderItem);
+            });
+        }
+
+        // Export/Import Functions
+        exportBtn.addEventListener('click', () => {
+            const dataStr = JSON.stringify(tabs, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            
+            const exportFileDefaultName = 'bigboyy-tabs.json';
+            
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+            
+            // Show success animation
+            exportBtn.innerHTML = '<i class="fas fa-check"></i> Exported!';
+            setTimeout(() => {
+                exportBtn.innerHTML = '<i class="fas fa-file-export"></i> Export Tabs';
+            }, 2000);
+        });
+
+        importBtn.addEventListener('click', () => {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            
+            input.onchange = e => {
+                const file = e.target.files[0];
+                const reader = new FileReader();
+                reader.readAsText(file, 'UTF-8');
+                
+                reader.onload = readerEvent => {
+                    const content = readerEvent.target.result;
+                    try {
+                        const importedTabs = JSON.parse(content);
+                        tabs = [...tabs, ...importedTabs];
+                        renderTabs();
+                        alert('Tabs imported successfully!');
+                    } catch (error) {
+                        alert('Error importing tabs. Please check the file format.');
+                    }
+                };
+            };
+            
+            input.click();
+        });
+
+        // Initialize
+        renderTabs();
+        renderFolders();
+
+        // Set current tab URL in save form
+        document.getElementById('saveTabBtn').addEventListener('click', () => {
+            // In a real implementation, you would get the current tab URL
+            // For demo purposes, we'll use a placeholder
+            document.getElementById('tabUrl').value = 'https://example.com';
+            document.getElementById('tabTitle').value = 'Example Website';
+        });
+
+        // Add hover effects to folder items
+        document.querySelectorAll('.folder-item').forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                item.style.transform = 'translateX(5px)';
+            });
+            
+            item.addEventListener('mouseleave', () => {
+                item.style.transform = 'translateX(0)';
+            });
+        });
+    </script>
+</body>
+</html>

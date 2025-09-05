@@ -1,0 +1,1737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIGBOYY - Film Soundtrack Explorer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@400;700&family=Trebuchet+MS:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --dark-bg: #0a0a1a;
+            --darker-bg: #050510;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --gold: #ffd700;
+            --blue: #00bfff;
+            --text-light: #ffffff;
+            --text-gray: #cccccc;
+        }
+
+        body {
+            font-family: 'Trebuchet MS', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Lexend Deca', sans-serif;
+            font-weight: 700;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header & Navigation */
+        header {
+            background: rgba(10, 10, 26, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--gold);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            margin-right: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--gold);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gold);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, 
+                rgba(10, 10, 26, 0.9) 0%, 
+                rgba(5, 5, 16, 0.8) 50%, 
+                rgba(10, 10, 26, 0.9) 100%);
+            z-index: -1;
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 800px;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, var(--gold), var(--blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            color: var(--text-gray);
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 15px 40px;
+            background: linear-gradient(45deg, var(--gold), var(--blue));
+            color: var(--dark-bg);
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 50px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.3);
+        }
+
+        /* Waveform Animation */
+        .waveform {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            z-index: 1;
+        }
+
+        .wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 200%;
+            height: 100px;
+            background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" fill="rgba(255,215,0,0.1)"/></svg>');
+            background-size: 50% 100%;
+            animation: wave 12s linear infinite;
+        }
+
+        .wave:nth-child(2) {
+            animation: wave 15s linear infinite reverse;
+            opacity: 0.5;
+        }
+
+        @keyframes wave {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Section Styling */
+        section {
+            padding: 100px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            color: var(--gold);
+        }
+
+        /* Soundtrack Library */
+        .library-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .search-bar {
+            flex: 1;
+            max-width: 400px;
+            position: relative;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 12px 20px;
+            border-radius: 30px;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+
+        .search-bar input:focus {
+            outline: none;
+            border-color: var(--gold);
+        }
+
+        .filters {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .filter-select {
+            padding: 10px 15px;
+            border-radius: 20px;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-light);
+        }
+
+        .soundtracks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .soundtrack-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 215, 0, 0.1);
+        }
+
+        .soundtrack-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 215, 0, 0.3);
+        }
+
+        .soundtrack-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--gold), var(--blue));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .soundtrack-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 200px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 215, 0, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            cursor: pointer;
+        }
+
+        .soundtrack-card:hover .play-button {
+            opacity: 1;
+        }
+
+        .play-button i {
+            color: var(--dark-bg);
+            font-size: 1.5rem;
+        }
+
+        .card-content h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--gold);
+        }
+
+        .card-content p {
+            margin-bottom: 8px;
+            color: var(--text-gray);
+        }
+
+        .composer {
+            color: var(--blue);
+            font-weight: 500;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+        }
+
+        .modal-content {
+            background: var(--darker-bg);
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 15px;
+            width: 80%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .close {
+            color: var(--text-gray);
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: var(--gold);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-body {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .modal-image {
+            width: 100%;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .modal-image img {
+            width: 100%;
+            height: auto;
+        }
+
+        .track-list {
+            list-style: none;
+        }
+
+        .track-list li {
+            padding: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .track-list li:last-child {
+            border-bottom: none;
+        }
+
+        .play-track {
+            background: none;
+            border: none;
+            color: var(--blue);
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        .play-track:hover {
+            color: var(--gold);
+        }
+
+        .trivia {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 10px;
+            border-left: 4px solid var(--gold);
+        }
+
+        /* Playlists */
+        .playlists-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .playlist-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+            border: 1px solid rgba(0, 191, 255, 0.1);
+        }
+
+        .playlist-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 191, 255, 0.3);
+        }
+
+        .playlist-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: var(--blue);
+        }
+
+        .playlist-card h3 {
+            color: var(--gold);
+            margin-bottom: 10px;
+        }
+
+        /* Composers */
+        .composers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .composer-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            transition: transform 0.3s ease;
+            border: 1px solid rgba(255, 215, 0, 0.1);
+        }
+
+        .composer-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 215, 0, 0.3);
+        }
+
+        .composer-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            overflow: hidden;
+            border: 3px solid var(--gold);
+        }
+
+        .composer-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .composer-card h3 {
+            color: var(--gold);
+            margin-bottom: 10px;
+        }
+
+        .signature-works {
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: var(--text-gray);
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background: linear-gradient(to bottom, var(--gold), var(--blue));
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
+        }
+
+        .timeline-item {
+            padding: 20px 40px;
+            position: relative;
+            width: 50%;
+            box-sizing: border-box;
+        }
+
+        .timeline-item:nth-child(odd) {
+            left: 0;
+        }
+
+        .timeline-item:nth-child(even) {
+            left: 50%;
+        }
+
+        .timeline-content {
+            padding: 20px;
+            background: var(--card-bg);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .timeline-content:hover {
+            transform: scale(1.05);
+            border-color: rgba(255, 215, 0, 0.3);
+        }
+
+        .timeline-content h3 {
+            color: var(--gold);
+            margin-bottom: 10px;
+        }
+
+        /* Favorites */
+        .favorites-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .favorite-button {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: var(--text-gray);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .favorite-button.active {
+            color: #ff6b6b;
+        }
+
+        .favorite-button:hover {
+            color: #ff6b6b;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--darker-bg);
+            padding: 50px 0 20px;
+            border-top: 1px solid rgba(255, 215, 0, 0.1);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+
+        .footer-section h3 {
+            color: var(--gold);
+            margin-bottom: 20px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: var(--text-gray);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--gold);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: var(--card-bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+        }
+
+        .social-links a:hover {
+            transform: translateY(-3px);
+            background: var(--gold);
+            color: var(--dark-bg);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-gray);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.2rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .modal-body {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline::after {
+                left: 31px;
+            }
+
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+
+            .timeline-item:nth-child(even) {
+                left: 0;
+            }
+        }
+
+        /* Audio Player */
+        .now-playing {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(10, 10, 26, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 20px;
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1px solid rgba(255, 215, 0, 0.1);
+            z-index: 1001;
+        }
+
+        .now-playing.active {
+            display: flex;
+        }
+
+        .track-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .track-image {
+            width: 50px;
+            height: 50px;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .track-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .control-button {
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .control-button:hover {
+            color: var(--gold);
+        }
+
+        .progress-bar {
+            flex: 1;
+            max-width: 300px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--gold), var(--blue));
+            width: 0%;
+        }
+
+        /* Visualizer */
+        .visualizer {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            height: 30px;
+            gap: 2px;
+            margin-top: 10px;
+        }
+
+        .bar {
+            width: 4px;
+            background: var(--gold);
+            border-radius: 2px;
+            height: 5px;
+            animation: visualizer 1.5s infinite ease-in-out;
+            animation-delay: calc(var(--i) * 0.1s);
+        }
+
+        @keyframes visualizer {
+            0%, 100% { height: 5px; }
+            50% { height: 25px; }
+        }
+
+        /* Loading spinner */
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 3px solid var(--gold);
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: none;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="#" class="logo"><i class="fas fa-music"></i> BIGBOYY</a>
+                <ul class="nav-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#library">Library</a></li>
+                    <li><a href="#playlists">Playlists</a></li>
+                    <li><a href="#composers">Composers</a></li>
+                    <li><a href="#timeline">Timeline</a></li>
+                    <li><a href="#favorites">Favorites</a></li>
+                    <li><a href="#about">About</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Discover the Music of Cinema</h1>
+            <p>Explore iconic soundtracks, themes, and the composers behind them.</p>
+            <a href="#library" class="cta-button">Start Exploring</a>
+        </div>
+        <div class="waveform">
+            <div class="wave"></div>
+            <div class="wave"></div>
+        </div>
+    </section>
+
+    <!-- Soundtrack Library -->
+    <section id="library">
+        <div class="container">
+            <h2 class="section-title">Soundtrack Library</h2>
+            <div class="library-controls">
+                <div class="search-bar">
+                    <input type="text" placeholder="Search movies, composers, tracks...">
+                </div>
+                <div class="filters">
+                    <select class="filter-select">
+                        <option>All Composers</option>
+                        <option>Hans Zimmer</option>
+                        <option>John Williams</option>
+                        <option>Joe Hisaishi</option>
+                        <option>Ennio Morricone</option>
+                        <option>Howard Shore</option>
+                        <option>James Horner</option>
+                        <option>Danny Elfman</option>
+                    </select>
+                    <select class="filter-select">
+                        <option>All Genres</option>
+                        <option>Sci-Fi</option>
+                        <option>Fantasy</option>
+                        <option>Romance</option>
+                        <option>Thriller</option>
+                        <option>Action</option>
+                        <option>Adventure</option>
+                        <option>Drama</option>
+                    </select>
+                    <select class="filter-select">
+                        <option>All Decades</option>
+                        <option>1970s</option>
+                        <option>1980s</option>
+                        <option>1990s</option>
+                        <option>2000s</option>
+                        <option>2010s</option>
+                        <option>2020s</option>
+                    </select>
+                </div>
+            </div>
+            <div class="soundtracks-grid">
+                <!-- Soundtrack cards will be generated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Playlists -->
+    <section id="playlists">
+        <div class="container">
+            <h2 class="section-title">Featured Playlists</h2>
+            <div class="playlists-grid">
+                <div class="playlist-card">
+                    <div class="playlist-icon">
+                        <i class="fas fa-fist-raised"></i>
+                    </div>
+                    <h3>Epic Battles</h3>
+                    <p>15 tracks • 1h 20m</p>
+                </div>
+                <div class="playlist-card">
+                    <div class="playlist-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3>Romantic Scores</h3>
+                    <p>12 tracks • 55m</p>
+                </div>
+                <div class="playlist-card">
+                    <div class="playlist-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3>Sci-Fi & Mystery</h3>
+                    <p>18 tracks • 1h 45m</p>
+                </div>
+                <div class="playlist-card">
+                    <div class="playlist-icon">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <h3>Classic Disney Magic</h3>
+                    <p>20 tracks • 1h 30m</p>
+                </div>
+                <div class="playlist-card">
+                    <div class="playlist-icon">
+                        <i class="fas fa-dragon"></i>
+                    </div>
+                    <h3>Fantasy Adventures</h3>
+                    <p>22 tracks • 1h 50m</p>
+                </div>
+                <div class="playlist-card">
+                    <div class="playlist-icon">
+                        <i class="fas fa-skull"></i>
+                    </div>
+                    <h3>Horror & Suspense</h3>
+                    <p>16 tracks • 1h 10m</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Composer Profiles -->
+    <section id="composers">
+        <div class="container">
+            <h2 class="section-title">Legendary Composers</h2>
+            <div class="composers-grid">
+                <div class="composer-card">
+                    <div class="composer-image">
+                        <img src="https://placehold.co/120x120/ffd700/000000?text=HZ" alt="Hans Zimmer">
+                    </div>
+                    <h3>Hans Zimmer</h3>
+                    <p>German film composer and record producer</p>
+                    <div class="signature-works">
+                        <strong>Signature Works:</strong> Inception, Interstellar, Pirates of the Caribbean
+                    </div>
+                </div>
+                <div class="composer-card">
+                    <div class="composer-image">
+                        <img src="https://placehold.co/120x120/00bfff/000000?text=JW" alt="John Williams">
+                    </div>
+                    <h3>John Williams</h3>
+                    <p>American composer, conductor, and pianist</p>
+                    <div class="signature-works">
+                        <strong>Signature Works:</strong> Star Wars, Harry Potter, Jurassic Park
+                    </div>
+                </div>
+                <div class="composer-card">
+                    <div class="composer-image">
+                        <img src="https://placehold.co/120x120/ff6b6b/000000?text=JH" alt="Joe Hisaishi">
+                    </div>
+                    <h3>Joe Hisaishi</h3>
+                    <p>Japanese composer and musical director</p>
+                    <div class="signature-works">
+                        <strong>Signature Works:</strong> Spirited Away, Howl's Moving Castle, Ponyo
+                    </div>
+                </div>
+                <div class="composer-card">
+                    <div class="composer-image">
+                        <img src="https://placehold.co/120x120/9b59b6/000000?text=EM" alt="Ennio Morricone">
+                    </div>
+                    <h3>Ennio Morricone</h3>
+                    <p>Italian composer, orchestrator, conductor</p>
+                    <div class="signature-works">
+                        <strong>Signature Works:</strong> The Good, the Bad and the Ugly, Once Upon a Time in America
+                    </div>
+                </div>
+                <div class="composer-card">
+                    <div class="composer-image">
+                        <img src="https://placehold.co/120x120/3498db/000000?text=HS" alt="Howard Shore">
+                    </div>
+                    <h3>Howard Shore</h3>
+                    <p>Canadian composer, conductor, and orchestrator</p>
+                    <div class="signature-works">
+                        <strong>Signature Works:</strong> The Lord of the Rings, The Hobbit, Se7en
+                    </div>
+                </div>
+                <div class="composer-card">
+                    <div class="composer-image">
+                        <img src="https://placehold.co/120x120/e67e22/000000?text=JH" alt="James Horner">
+                    </div>
+                    <h3>James Horner</h3>
+                    <p>American composer, conductor, and orchestrator</p>
+                    <div class="signature-works">
+                        <strong>Signature Works:</strong> Titanic, Avatar, Braveheart
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Timeline -->
+    <section id="timeline">
+        <div class="container">
+            <h2 class="section-title">Soundtrack Timeline</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>1971 - Shaft</h3>
+                        <p>Isaac Hayes</p>
+                        <p>First African-American to win an Oscar for Best Original Song</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>1977 - Star Wars</h3>
+                        <p>John Williams</p>
+                        <p>Revolutionary orchestral scoring that defined space opera</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>1982 - Blade Runner</h3>
+                        <p>Vangelis</p>
+                        <p>Electronic synth pioneer in film scoring</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>1985 - Back to the Future</h3>
+                        <p>Alan Silvestri</p>
+                        <p>Iconic temporal themes and memorable motifs</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>1993 - Jurassic Park</h3>
+                        <p>John Williams</p>
+                        <p>Majestic themes that brought dinosaurs to life</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>1994 - The Lion King</h3>
+                        <p>Hans Zimmer & Elton John</p>
+                        <p>Combination of African rhythms and pop ballads</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>1997 - Titanic</h3>
+                        <p>James Horner</p>
+                        <p>Heartfelt melodies that became chart-topping hits</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>2001 - The Lord of the Rings</h3>
+                        <p>Howard Shore</p>
+                        <p>Epic orchestral leitmotifs for Middle-earth</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>2003 - The Matrix Reloaded</h3>
+                        <p>Don Davis</p>
+                        <p>Electronic and orchestral fusion</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>2008 - The Dark Knight</h3>
+                        <p>Hans Zimmer & James Newton Howard</p>
+                        <p>Modern superhero scoring with electronic elements</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>2009 - Avatar</h3>
+                        <p>James Horner</p>
+                        <p>Ethnic influences and sweeping orchestral arrangements</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>2010 - Inception</h3>
+                        <p>Hans Zimmer</p>
+                        <p>Time manipulation through music</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Favorites -->
+    <section id="favorites">
+        <div class="container">
+            <h2 class="section-title">My Favorites</h2>
+            <div class="favorites-grid">
+                <!-- Favorites will be populated by JavaScript -->
+                <p id="no-favorites">No favorites yet. Start exploring and heart your favorite tracks!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="container">
+            <h2 class="section-title">About BIGBOYY</h2>
+            <div style="text-align: center; max-width: 800px; margin: 0 auto;">
+                <p style="font-size: 1.2rem; margin-bottom: 30px; color: var(--text-gray);">
+                    Celebrating the art of film music. BIGBOYY is your ultimate destination for exploring the most iconic soundtracks in cinema history. 
+                    From the sweeping orchestral scores of John Williams to the innovative electronic compositions of Hans Zimmer, 
+                    we bring you the stories behind the music that moves us.
+                </p>
+                <div style="display: flex; justify-content: center; gap: 30px; flex-wrap: wrap;">
+                    <div style="text-align: center; flex: 1; min-width: 250px;">
+                        <h3 style="color: var(--gold); margin-bottom: 15px;">Contact Us</h3>
+                        <p style="color: var(--text-gray); margin-bottom: 20px;">Have a soundtrack suggestion? Want to share your thoughts?</p>
+                        <p style="color: var(--blue); margin-top: 10px;">contact@bigboyy.com</p>
+                    </div>
+                    <div style="text-align: center; flex: 1; min-width: 250px;">
+                        <h3 style="color: var(--gold); margin-bottom: 15px;">Feedback</h3>
+                        <p style="color: var(--text-gray); margin-bottom: 20px;">We're always improving. Let us know how we can make your experience better.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>BIGBOYY</h3>
+                    <p style="color: var(--text-gray); margin-bottom: 20px;">
+                        Your ultimate destination for exploring iconic film soundtracks and the composers behind them.
+                    </p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-spotify"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#library">Soundtrack Library</a></li>
+                        <li><a href="#playlists">Playlists</a></li>
+                        <li><a href="#composers">Composers</a></li>
+                        <li><a href="#favorites">Favorites</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Legal</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Copyright Information</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 BIGBOYY - Film Soundtrack Explorer. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Now Playing Bar -->
+    <div class="now-playing" id="nowPlaying">
+        <div class="track-info">
+            <div class="track-image">
+                <img src="" alt="Now Playing" id="nowPlayingImage">
+            </div>
+            <div>
+                <div id="nowPlayingTitle">No track playing</div>
+                <div id="nowPlayingArtist" style="color: var(--text-gray); font-size: 0.9rem;"></div>
+                <div class="visualizer" id="visualizer">
+                    <!-- Visualizer bars will be generated by JavaScript -->
+                </div>
+            </div>
+        </div>
+        <div class="controls">
+            <button class="control-button" id="prevButton">
+                <i class="fas fa-step-backward"></i>
+            </button>
+            <button class="control-button" id="playPauseButton">
+                <i class="fas fa-play"></i>
+            </button>
+            <button class="control-button" id="nextButton">
+                <i class="fas fa-step-forward"></i>
+            </button>
+            <div class="spinner" id="loadingSpinner"></div>
+        </div>
+        <div class="progress-bar" id="progressBar">
+            <div class="progress" id="progress"></div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="soundtrackModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Soundtrack Details</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div class="modal-image">
+                        <img src="" alt="Soundtrack" id="modalImage">
+                    </div>
+                </div>
+                <div>
+                    <h3>Track List</h3>
+                    <ul class="track-list" id="trackList">
+                        <!-- Track list will be populated by JavaScript -->
+                    </ul>
+                    <div class="trivia" id="trivia">
+                        <!-- Trivia will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden Audio Element -->
+    <audio id="audioPlayer" style="display: none;"></audio>
+
+    <script>
+        // Extended sample data with more film soundtracks
+        const soundtracks = [
+            {
+                id: 1,
+                movie: "Inception",
+                track: "Time",
+                composer: "Hans Zimmer",
+                image: "https://placehold.co/300x400/ffd700/000000?text=Inception",
+                tracks: [
+                    "Time",
+                    "Dream Is Collapsing",
+                    "Mombasa",
+                    "Kick"
+                ],
+                trivia: "Hans Zimmer composed the entire soundtrack using only one instrument - the Brahma pipe, a type of horn.",
+                audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+            },
+            {
+                id: 2,
+                movie: "Star Wars",
+                track: "Main Theme",
+                composer: "John Williams",
+                image: "https://placehold.co/300x400/00bfff/000000?text=Star+Wars",
+                tracks: [
+                    "Main Theme",
+                    "The Imperial March",
+                    "Binary Sunset",
+                    "Cantina Band"
+                ],
+                trivia: "John Williams won an Academy Award for Best Original Score for the first Star Wars movie in 1978.",
+                audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"
+            },
+            {
+                id: 3,
+                movie: "Spirited Away",
+                track: "One Summer's Day",
+                composer: "Joe Hisaishi",
+                image: "https://placehold.co/300x400/ff6b6b/000000?text=Spirited+Away",
+                tracks: [
+                    "One Summer's Day",
+                    "The Empty Restaurant",
+                    "Always With Me",
+                    "Reprise"
+                ],
+                trivia: "Joe Hisaishi has collaborated with Hayao Miyazaki on nearly all of his films since 1984.",
+                audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"
+            },
+            {
+                id: 4,
+                movie: "The Good, the Bad and the Ugly",
+                track: "The Ecstasy of Gold",
+                composer: "Ennio Morricone",
+                image: "https://placehold.co/300x400/9b59b6/000000?text=Good+Bad+Ugly",
+                tracks: [
+                    "The Ecstasy of Gold",
+                    "The Good, the Bad and the Ugly",
+                    "Mexican Standoff",
+                    "The Trio"
+                ],
+                trivia: "Ennio Morricone wrote over 400 film scores throughout his career.",
+                audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3"
+            },
+            {
+                id: 5,
+                movie: "Interstellar",
+                track: "Cornfield Chase",
+                composer: "Hans Zimmer",
+                image: "https://placehold.co/300x400/3498db/000000?text=Interstellar",
+                tracks: [
+                    "Cornfield Chase",
+                    "Dust",
+                    "Day One",
+                    "Stay"
+                ],
+                trivia: "Hans Zimmer used a church organ as the main instrument for Interstellar's score, which is one of the largest in the world.",
+                audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3"
+            },
+            {
+                id: 6,
+                movie: "Jurassic Park",
+                track: "Theme from Jurassic Park",
+                composer: "John Williams",
+                image: "https://placehold.co/300x400/e67e22/000000?text=Jurassic+Park",
+                tracks: [
+                    "Theme from Jurassic Park",
+                    "Journey to the Island",
+                    "Welcome to Jurassic Park",
+                    "Life Finds a Way"
+                ],
+                trivia: "The iconic Jurassic Park theme was inspired by a piece by Claude Debussy.",
+                audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3"
+            },
+            {
+                id: 7,
+                movie: "The Dark Knight",
+                track: "The Dark Knight",
+                composer: "Hans Zimmer & James Newton Howard",
+                image: "https://placehold.co/300x400/2c3e50/000000?text=Dark+Knight",
+                tracks: [
+                    "The Dark Knight",
+                    "Why So Serious?",
+                    "Like a Dog Chasing Cars",
+                    "A Watchful Guardian"
+                ],
+                trivia: "The Joker's theme was created using a single note played on a cello with a distorted effect.",
+                audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3"
+            },
+            {
+                id: 8,
+                movie: "Pirates of the Caribbean",
+                track: "He's a Pirate",
+                composer: "Klaus Badelt & Hans Zimmer",
+                image: "https://placehold.co/300x400/f39c12/000000?text=Pirates+Caribbean",
+                tracks: [
+                    "He's a Pirate",
+                    "The Medallion Calls",
+                    "Will and Elizabeth",
+                    "Swords Crossed"
+                ],
+                trivia: "The main theme was originally composed for the ride at Disney theme parks before being adapted for the films.",
+                audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3"
+            },
+            {
+                id: 9,
+                movie: "The Lord of the Rings",
+                track: "Concerning Hobbits",
+                composer: "Howard Shore",
+                image: "https://placehold.co/300x400/8e44ad/000000?text=LOTR",
+                tracks: [
+                    "Concerning Hobbits",
+                    "The Bridge of Khazad-dûm",
+                    "The Ride of the Rohirrim",
+                    "Into the West"
+                ],
+                trivia: "Howard Shore created different musical themes for each of the races in Middle-earth.",
+                audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3"
+            },
+            {
+                id: 10,
+                movie: "Titanic",
+                track: "My Heart Will Go On",
+                composer: "James Horner",
+                image: "https://placehold.co/300x400/1abc9c/000000?text=Titanic",
+                tracks: [
+                    "My Heart Will Go On",
+                    "Rose",
+                    "Southampton",
+                    "Hymn to the Sea"
+                ],
+                trivia: "Celine Dion's version of the song became one of the best-selling singles of all time.",
+                audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3"
+            },
+            {
+                id: 11,
+                movie: "Gladiator",
+                track: "Now We Are Free",
+                composer: "Hans Zimmer & Lisa Gerrard",
+                image: "https://placehold.co/300x400/c0392b/000000?text=Gladiator",
+                tracks: [
+                    "Now We Are Free",
+                    "The Battle",
+                    "Barbarian Horde",
+                    "Elysium"
+                ],
+                trivia: "Lisa Gerrard's vocals were created using a constructed language called 'Latinic' for the film.",
+                audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-11.mp3"
+            },
+            {
+                id: 12,
+                movie: "Avatar",
+                track: "I See You",
+                composer: "James Horner",
+                image: "https://placehold.co/300x400/27ae60/000000?text=Avatar",
+                tracks: [
+                    "I See You",
+                    "Pure Spirits of the Forest",
+                    "Becoming One of 'The People'",
+                    "The Na'vi Song"
+                ],
+                trivia: "James Horner incorporated traditional Native American instruments and vocals to create the Na'vi music.",
+                audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-12.mp3"
+            }
+        ];
+
+        // DOM Elements
+        const soundtracksGrid = document.querySelector('.soundtracks-grid');
+        const modal = document.getElementById('soundtrackModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalImage = document.getElementById('modalImage');
+        const trackList = document.getElementById('trackList');
+        const trivia = document.getElementById('trivia');
+        const closeBtn = document.querySelector('.close');
+        const nowPlaying = document.getElementById('nowPlaying');
+        const nowPlayingImage = document.getElementById('nowPlayingImage');
+        const nowPlayingTitle = document.getElementById('nowPlayingTitle');
+        const nowPlayingArtist = document.getElementById('nowPlayingArtist');
+        const playPauseButton = document.getElementById('playPauseButton');
+        const progressBar = document.getElementById('progressBar');
+        const progress = document.getElementById('progress');
+        const favoritesGrid = document.querySelector('.favorites-grid');
+        const noFavorites = document.getElementById('no-favorites');
+        const audioPlayer = document.getElementById('audioPlayer');
+        const visualizer = document.getElementById('visualizer');
+        const loadingSpinner = document.getElementById('loadingSpinner');
+
+        // Favorites array
+        let favorites = [];
+
+        // Current playing track
+        let currentTrack = null;
+        let isPlaying = false;
+
+        // Initialize the page
+        function init() {
+            renderSoundtracks();
+            renderFavorites();
+            setupEventListeners();
+            createVisualizer();
+        }
+
+        // Create visualizer bars
+        function createVisualizer() {
+            visualizer.innerHTML = '';
+            for (let i = 0; i < 20; i++) {
+                const bar = document.createElement('div');
+                bar.className = 'bar';
+                bar.style.setProperty('--i', i);
+                visualizer.appendChild(bar);
+            }
+        }
+
+        // Render soundtracks
+        function renderSoundtracks() {
+            soundtracksGrid.innerHTML = '';
+            soundtracks.forEach(soundtrack => {
+                const card = document.createElement('div');
+                card.className = 'soundtrack-card';
+                card.innerHTML = `
+                    <div class="card-image">
+                        <img src="${soundtrack.image}" alt="${soundtrack.movie}">
+                        <div class="play-button" data-id="${soundtrack.id}">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <button class="favorite-button ${favorites.includes(soundtrack.id) ? 'active' : ''}" data-id="${soundtrack.id}">
+                        <i class="fas fa-heart"></i>
+                    </button>
+                    <div class="card-content">
+                        <h3>${soundtrack.movie}</h3>
+                        <p><i class="fas fa-music"></i> ${soundtrack.track}</p>
+                        <p class="composer"><i class="fas fa-user"></i> ${soundtrack.composer}</p>
+                    </div>
+                `;
+                soundtracksGrid.appendChild(card);
+            });
+        }
+
+        // Render favorites
+        function renderFavorites() {
+            if (favorites.length === 0) {
+                noFavorites.style.display = 'block';
+                favoritesGrid.innerHTML = '';
+                return;
+            }
+
+            noFavorites.style.display = 'none';
+            favoritesGrid.innerHTML = '';
+
+            favorites.forEach(id => {
+                const soundtrack = soundtracks.find(s => s.id === id);
+                if (soundtrack) {
+                    const card = document.createElement('div');
+                    card.className = 'soundtrack-card';
+                    card.innerHTML = `
+                        <div class="card-image">
+                            <img src="${soundtrack.image}" alt="${soundtrack.movie}">
+                            <div class="play-button" data-id="${soundtrack.id}">
+                                <i class="fas fa-play"></i>
+                            </div>
+                        </div>
+                        <button class="favorite-button active" data-id="${soundtrack.id}">
+                            <i class="fas fa-heart"></i>
+                        </button>
+                        <div class="card-content">
+                            <h3>${soundtrack.movie}</h3>
+                            <p><i class="fas fa-music"></i> ${soundtrack.track}</p>
+                            <p class="composer"><i class="fas fa-user"></i> ${soundtrack.composer}</p>
+                        </div>
+                    `;
+                    favoritesGrid.appendChild(card);
+                }
+            });
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Close modal
+            closeBtn.addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+
+            // Close modal when clicking outside
+            window.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+
+            // Play buttons
+            document.addEventListener('click', (e) => {
+                if (e.target.closest('.play-button')) {
+                    const id = parseInt(e.target.closest('.play-button').dataset.id);
+                    playTrack(id);
+                }
+            });
+
+            // Favorite buttons
+            document.addEventListener('click', (e) => {
+                if (e.target.closest('.favorite-button')) {
+                    const button = e.target.closest('.favorite-button');
+                    const id = parseInt(button.dataset.id);
+                    toggleFavorite(id, button);
+                }
+            });
+
+            // Soundtrack cards (open modal)
+            document.addEventListener('click', (e) => {
+                if (e.target.closest('.soundtrack-card') && !e.target.closest('.play-button') && !e.target.closest('.favorite-button')) {
+                    const card = e.target.closest('.soundtrack-card');
+                    const id = parseInt(card.querySelector('.play-button').dataset.id);
+                    openModal(id);
+                }
+            });
+
+            // Play/Pause button
+            playPauseButton.addEventListener('click', togglePlayPause);
+
+            // Progress bar
+            progressBar.addEventListener('click', (e) => {
+                if (currentTrack && audioPlayer.duration) {
+                    const rect = progressBar.getBoundingClientRect();
+                    const pos = (e.clientX - rect.left) / rect.width;
+                    audioPlayer.currentTime = pos * audioPlayer.duration;
+                }
+            });
+
+            // Audio player events
+            audioPlayer.addEventListener('play', () => {
+                isPlaying = true;
+                playPauseButton.innerHTML = '<i class="fas fa-pause"></i>';
+                document.querySelectorAll('.bar').forEach(bar => {
+                    bar.style.animationPlayState = 'running';
+                });
+                loadingSpinner.style.display = 'none';
+            });
+
+            audioPlayer.addEventListener('pause', () => {
+                isPlaying = false;
+                playPauseButton.innerHTML = '<i class="fas fa-play"></i>';
+                document.querySelectorAll('.bar').forEach(bar => {
+                    bar.style.animationPlayState = 'paused';
+                });
+            });
+
+            audioPlayer.addEventListener('timeupdate', () => {
+                if (audioPlayer.duration) {
+                    const percent = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+                    progress.style.width = `${percent}%`;
+                }
+            });
+
+            audioPlayer.addEventListener('ended', () => {
+                isPlaying = false;
+                playPauseButton.innerHTML = '<i class="fas fa-play"></i>';
+                document.querySelectorAll('.bar').forEach(bar => {
+                    bar.style.animationPlayState = 'paused';
+                });
+            });
+
+            audioPlayer.addEventListener('loadstart', () => {
+                loadingSpinner.style.display = 'block';
+            });
+
+            audioPlayer.addEventListener('canplay', () => {
+                loadingSpinner.style.display = 'none';
+            });
+        }
+
+        // Open modal with soundtrack details
+        function openModal(id) {
+            const soundtrack = soundtracks.find(s => s.id === id);
+            if (soundtrack) {
+                modalTitle.textContent = `${soundtrack.movie} - ${soundtrack.composer}`;
+                modalImage.src = soundtrack.image;
+                
+                trackList.innerHTML = '';
+                soundtrack.tracks.forEach(track => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `
+                        <span>${track}</span>
+                        <button class="play-track" data-id="${soundtrack.id}" data-track="${track}">
+                            <i class="fas fa-play"></i>
+                        </button>
+                    `;
+                    trackList.appendChild(li);
+                });
+
+                trivia.innerHTML = `
+                    <h4>Did You Know?</h4>
+                    <p>${soundtrack.trivia}</p>
+                `;
+
+                modal.style.display = 'block';
+            }
+        }
+
+        // Play track
+        function playTrack(id) {
+            const soundtrack = soundtracks.find(s => s.id === id);
+            if (soundtrack) {
+                currentTrack = soundtrack;
+                
+                // Set audio source
+                audioPlayer.src = soundtrack.audio;
+                audioPlayer.load();
+                
+                // Update now playing bar
+                nowPlaying.classList.add('active');
+                nowPlayingImage.src = soundtrack.image;
+                nowPlayingTitle.textContent = soundtrack.movie;
+                nowPlayingArtist.textContent = soundtrack.composer;
+                
+                // Show loading spinner
+                loadingSpinner.style.display = 'block';
+                
+                // Play audio
+                audioPlayer.play().then(() => {
+                    // Start visualizer animation
+                    document.querySelectorAll('.bar').forEach(bar => {
+                        bar.style.animationPlayState = 'running';
+                    });
+                }).catch(error => {
+                    console.error('Error playing audio:', error);
+                    loadingSpinner.style.display = 'none';
+                    alert('Unable to play audio. Please try again.');
+                });
+            }
+        }
+
+        // Toggle play/pause
+        function togglePlayPause() {
+            if (currentTrack) {
+                if (isPlaying) {
+                    audioPlayer.pause();
+                } else {
+                    audioPlayer.play();
+                }
+            }
+        }
+
+        // Toggle favorite
+        function toggleFavorite(id, button) {
+            const index = favorites.indexOf(id);
+            if (index > -1) {
+                favorites.splice(index, 1);
+                button.classList.remove('active');
+            } else {
+                favorites.push(id);
+                button.classList.add('active');
+            }
+            
+            // Re-render favorites
+            renderFavorites();
+        }
+
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

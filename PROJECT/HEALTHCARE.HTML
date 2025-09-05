@@ -1,0 +1,1662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIGBOYY - Healthcare Booking</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0d9488;
+            --primary-light: #14b8a6;
+            --secondary: #3b82f6;
+            --accent: #f97316;
+            --light-gray: #f8fafc;
+            --gray: #e2e8f0;
+            --dark-gray: #64748b;
+            --dark: #1e293b;
+            --success: #10b981;
+            --danger: #ef4444;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #ffffff;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-light);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #059669;
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, rgba(13, 148, 136, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%),url('https://images.pexels.com/photos/40568/medical-appointment-doctor-healthcare-40568.jpeg');
+            background-size: cover;
+            padding: 160px 0 100px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            color: var(--dark);
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--dark-gray);
+            margin-bottom: 40px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .search-bar {
+            background: white;
+            border-radius: 50px;
+            padding: 5px;
+            display: flex;
+            max-width: 700px;
+            margin: 0 auto 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-bar input {
+            flex: 1;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 50px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .search-bar button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.3s;
+        }
+
+        .search-bar button:hover {
+            background: var(--primary-light);
+        }
+
+        .quick-actions {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 50px;
+        }
+
+        .action-card {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            text-align: center;
+            width: 200px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+
+        .action-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .action-card i {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        /* Specialties Section */
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--dark);
+            margin-bottom: 15px;
+        }
+
+        .section-title p {
+            color: var(--dark-gray);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .specialties-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .specialty-card {
+            background: white;
+            padding: 30px 20px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .specialty-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .specialty-card i {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        /* Doctors Section */
+        .doctors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .doctor-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s;
+        }
+
+        .doctor-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .doctor-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            padding: 30px 20px;
+            text-align: center;
+            color: white;
+        }
+
+        .doctor-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            background: var(--gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+
+        .doctor-info {
+            padding: 25px;
+        }
+
+        .doctor-info h3 {
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+
+        .doctor-specialty {
+            color: var(--primary);
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+
+        .doctor-details {
+            margin-bottom: 20px;
+        }
+
+        .doctor-details div {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            color: var(--dark-gray);
+        }
+
+        .doctor-details i {
+            margin-right: 10px;
+            color: var(--primary);
+        }
+
+        .rating {
+            color: #fbbf24;
+            margin-bottom: 20px;
+        }
+
+        /* Testimonials */
+        .testimonials-slider {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .testimonial-content {
+            font-size: 1.1rem;
+            font-style: italic;
+            color: var(--dark-gray);
+            margin-bottom: 20px;
+        }
+
+        .testimonial-author {
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            text-align: center;
+            padding: 80px 0;
+            border-radius: 0;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .cta-section p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn-light {
+            background: white;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .btn-light:hover {
+            background: var(--gray);
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 60px 0 30px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-column ul li a {
+            color: var(--gray);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-column ul li a:hover {
+            color: white;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            transition: background 0.3s;
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--gray);
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            padding: 25px;
+            border-bottom: 1px solid var(--gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            color: var(--dark);
+            margin: 0;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--dark-gray);
+        }
+
+        .modal-body {
+            padding: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--gray);
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .modal-footer {
+            padding: 25px;
+            border-top: 1px solid var(--gray);
+            text-align: right;
+        }
+
+        /* Call Modal Styles */
+        .call-modal {
+            background: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .call-header {
+            padding: 30px 25px 20px;
+            background: var(--primary);
+            color: white;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .call-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .call-body {
+            padding: 30px 25px;
+        }
+
+        .contact-info {
+            margin-bottom: 30px;
+        }
+
+        .contact-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .contact-info p {
+            color: var(--dark-gray);
+            margin-bottom: 5px;
+        }
+
+        .call-animation {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 25px;
+            border-radius: 50%;
+            background: rgba(13, 148, 136, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: pulse 2s infinite;
+        }
+
+        .call-animation i {
+            font-size: 3rem;
+            color: var(--primary);
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(13, 148, 136, 0.4);
+            }
+            70% {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 20px rgba(13, 148, 136, 0);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(13, 148, 136, 0);
+            }
+        }
+
+        .call-footer {
+            padding: 25px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .call-btn {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .call-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .call-btn:active {
+            transform: scale(0.95);
+        }
+
+        .call-btn.end {
+            background: var(--danger);
+            color: white;
+        }
+
+        .call-btn.answer {
+            background: var(--success);
+            color: white;
+        }
+
+        /* Drawer Styles */
+        .drawer-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+        }
+
+        .drawer {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100%;
+            background: white;
+            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.2);
+            z-index: 2001;
+            transition: right 0.3s ease;
+            overflow-y: auto;
+        }
+
+        .drawer.open {
+            right: 0;
+        }
+
+        .drawer-header {
+            padding: 25px;
+            border-bottom: 1px solid var(--gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--primary);
+            color: white;
+        }
+
+        .drawer-header h2 {
+            margin: 0;
+        }
+
+        .drawer-body {
+            padding: 25px;
+        }
+
+        .drawer-doctor-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--gray);
+        }
+
+        .drawer-doctor-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .drawer-doctor-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-right: 15px;
+        }
+
+        .drawer-doctor-info h3 {
+            margin: 0 0 5px 0;
+            color: var(--dark);
+        }
+
+        .drawer-doctor-info p {
+            margin: 0;
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .drawer-doctor-details {
+            margin-bottom: 15px;
+        }
+
+        .drawer-doctor-details div {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            color: var(--dark-gray);
+            font-size: 14px;
+        }
+
+        .drawer-doctor-details i {
+            margin-right: 8px;
+            color: var(--primary);
+            width: 16px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .quick-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .action-card {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .drawer {
+                width: 100%;
+                right: -100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="#" class="logo">BIG<span>BOYY</span></a>
+                <div class="nav-links">
+                    <a href="#">Home</a>
+                    <a href="#">Doctors</a>
+                    <a href="#">Clinics</a>
+                    <a href="#">Teleconsult</a>
+                    <a href="#">Pharmacy</a>
+                    <a href="#">Blog</a>
+                </div>
+                <div class="auth-buttons">
+                    <button class="btn btn-outline" onclick="openModal('login')">Login</button>
+                    <button class="btn btn-primary" onclick="openModal('signup')">Sign Up</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Find and Book Doctors Near You</h1>
+            <p>Your trusted healthcare partner for convenient, accessible, and quality medical services in Dumaguete and beyond.</p>
+            
+            <div class="search-bar">
+                <input type="text" placeholder="Search for doctors, clinics, or specialties...">
+                <button><i class="fas fa-search"></i> Search</button>
+            </div>
+
+            <div class="quick-actions">
+                <div class="action-card" onclick="openModal('appointment')">
+                    <i class="fas fa-calendar-check"></i>
+                    <h3>Book Appointment</h3>
+                </div>
+                <div class="action-card" onclick="openModal('teleconsult')">
+                    <i class="fas fa-video"></i>
+                    <h3>Teleconsult</h3>
+                </div>
+                <div class="action-card" onclick="openCallModal('(035) 123-4567', 'Emergency Hotline')">
+                    <i class="fas fa-phone-alt"></i>
+                    <h3>Emergency</h3>
+                </div>
+                <div class="action-card" onclick="openModal('pharmacy')">
+                    <i class="fas fa-pills"></i>
+                    <h3>Pharmacy</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Specialties Section -->
+    <section class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Featured Specialties</h2>
+                <p>Find the right specialist for your healthcare needs</p>
+            </div>
+            <div class="specialties-grid">
+                <div class="specialty-card" onclick="openSpecialtyDrawer('Dentist')">
+                    <i class="fas fa-tooth"></i>
+                    <h3>Dentist</h3>
+                </div>
+                <div class="specialty-card" onclick="openSpecialtyDrawer('Dermatologist')">
+                    <i class="fas fa-allergies"></i>
+                    <h3>Dermatologist</h3>
+                </div>
+                <div class="specialty-card" onclick="openSpecialtyDrawer('Pediatrics')">
+                    <i class="fas fa-baby"></i>
+                    <h3>Pediatrics</h3>
+                </div>
+                <div class="specialty-card" onclick="openSpecialtyDrawer('OB-GYN')">
+                    <i class="fas fa-venus-mars"></i>
+                    <h3>OB-GYN</h3>
+                </div>
+                <div class="specialty-card" onclick="openSpecialtyDrawer('Ophthalmologist')">
+                    <i class="fas fa-eye"></i>
+                    <h3>Ophthalmologist</h3>
+                </div>
+                <div class="specialty-card" onclick="openSpecialtyDrawer('Cardiologist')">
+                    <i class="fas fa-heartbeat"></i>
+                    <h3>Cardiologist</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Doctors Section -->
+    <section class="section" style="background: var(--light-gray);">
+        <div class="container">
+            <div class="section-title">
+                <h2>Featured Doctors</h2>
+                <p>Meet our trusted healthcare professionals</p>
+            </div>
+            <div class="doctors-grid">
+                <div class="doctor-card">
+                    <div class="doctor-header">
+                        <div class="doctor-image">
+                            <i class="fas fa-user-md"></i>
+                        </div>
+                        <h3>Dr. Maria Santos</h3>
+                        <p>Pediatrician</p>
+                    </div>
+                    <div class="doctor-info">
+                        <div class="doctor-details">
+                            <div><i class="fas fa-hospital"></i> Silliman Medical Center</div>
+                            <div><i class="fas fa-map-marker-alt"></i> Hibbard Ave., Dumaguete</div>
+                            <div><i class="fas fa-phone"></i> <span class="phone-number">(035) 225-1234</span></div>
+                        </div>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span>(4.5)</span>
+                        </div>
+                        <div style="display: flex; gap: 10px;">
+                            <button class="btn btn-primary" style="flex: 1;" onclick="openModal('book-appointment', 'Dr. Maria Santos')">Book Now</button>
+                            <button class="btn btn-outline" style="flex: 1;" onclick="openCallModal('(035) 225-1234', 'Dr. Maria Santos')">Call</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="doctor-card">
+                    <div class="doctor-header">
+                        <div class="doctor-image">
+                            <i class="fas fa-user-md"></i>
+                        </div>
+                        <h3>Dr. James Villanueva</h3>
+                        <p>Dentist</p>
+                    </div>
+                    <div class="doctor-info">
+                        <div class="doctor-details">
+                            <div><i class="fas fa-hospital"></i> Dental Smiles Dumaguete</div>
+                            <div><i class="fas fa-map-marker-alt"></i> Locsin St., Dumaguete</div>
+                            <div><i class="fas fa-phone"></i> <span class="phone-number">(035) 422-6789</span></div>
+                        </div>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span>(5.0)</span>
+                        </div>
+                        <div style="display: flex; gap: 10px;">
+                            <button class="btn btn-primary" style="flex: 1;" onclick="openModal('book-appointment', 'Dr. James Villanueva')">Book Now</button>
+                            <button class="btn btn-outline" style="flex: 1;" onclick="openCallModal('(035) 422-6789', 'Dr. James Villanueva')">Call</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="doctor-card">
+                    <div class="doctor-header">
+                        <div class="doctor-image">
+                            <i class="fas fa-user-md"></i>
+                        </div>
+                        <h3>Dr. Liza Uy</h3>
+                        <p>Dermatologist</p>
+                    </div>
+                    <div class="doctor-info">
+                        <div class="doctor-details">
+                            <div><i class="fas fa-hospital"></i> Holy Child Hospital</div>
+                            <div><i class="fas fa-map-marker-alt"></i> Gov. Perdices St., Dumaguete</div>
+                            <div><i class="fas fa-phone"></i> <span class="phone-number">(035) 225-9876</span></div>
+                        </div>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <span>(4.0)</span>
+                        </div>
+                        <div style="display: flex; gap: 10px;">
+                            <button class="btn btn-primary" style="flex: 1;" onclick="openModal('book-appointment', 'Dr. Liza Uy')">Book Now</button>
+                            <button class="btn btn-outline" style="flex: 1;" onclick="openCallModal('(035) 225-9876', 'Dr. Liza Uy')">Call</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>What Our Patients Say</h2>
+                <p>Real stories from real patients</p>
+            </div>
+            <div class="testimonials-slider">
+                <div class="testimonial-content">
+                    "Booking my appointment through BIGBOYY was so easy and convenient. I found the perfect dermatologist and got my skin issue resolved quickly. Highly recommended!"
+                </div>
+                <div class="testimonial-author">
+                    - Sarah Johnson, Patient
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Book Your First Appointment Today</h2>
+            <p>Experience hassle-free healthcare booking with our trusted network of doctors and clinics</p>
+            <button class="btn btn-light" onclick="openModal('signup')">Get Started - It's Free</button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3>BIGBOYY</h3>
+                    <p>Making healthcare accessible and convenient in Dumaguete and beyond.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Find Doctors</a></li>
+                        <li><a href="#">Find Clinics</a></li>
+                        <li><a href="#">Teleconsultation</a></li>
+                        <li><a href="#">Pharmacy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Services</h3>
+                    <ul>
+                        <li><a href="#">Appointment Booking</a></li>
+                        <li><a href="#">Online Consultations</a></li>
+                        <li><a href="#">Medicine Delivery</a></li>
+                        <li><a href="#">Health Blog</a></li>
+                        <li><a href="#">Emergency Services</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> Dumaguete City, Philippines</li>
+                        <li><i class="fas fa-phone"></i> <span class="phone-number">(035) 123-4567</span></li>
+                        <li><i class="fas fa-envelope"></i> info@bigboyy.com</li>
+                    </ul>
+                    <button class="btn btn-outline" style="margin-top: 15px; width: 100%;" onclick="openCallModal('(035) 123-4567', 'BIGBOYY Support')">Call Support</button>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 BIGBOYY Healthcare Booking. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal Overlay -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="modalTitle">Modal Title</h2>
+                <button class="close-modal" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Modal content will be inserted here -->
+            </div>
+            <div class="modal-footer" id="modalFooter">
+                <!-- Modal footer will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Call Modal Overlay -->
+    <div class="modal-overlay" id="callModalOverlay">
+        <div class="call-modal">
+            <div class="call-header">
+                <h2>Calling...</h2>
+            </div>
+            <div class="call-body">
+                <div class="contact-info">
+                    <h3 id="callContactName">Contact Name</h3>
+                    <p id="callPhoneNumber">Phone Number</p>
+                </div>
+                <div class="call-animation">
+                    <i class="fas fa-phone"></i>
+                </div>
+                <p id="callStatus">Connecting...</p>
+            </div>
+            <div class="call-footer">
+                <button class="call-btn end" onclick="endCall()">
+                    <i class="fas fa-phone-slash"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Drawer Overlay -->
+    <div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+    <div class="drawer" id="specialtyDrawer">
+        <div class="drawer-header">
+            <h2 id="drawerTitle">Specialty Doctors</h2>
+            <button class="close-modal" onclick="closeDrawer()" style="color: white; background: none; border: none; font-size: 24px;">&times;</button>
+        </div>
+        <div class="drawer-body" id="drawerBody">
+            <!-- Drawer content will be inserted here -->
+        </div>
+    </div>
+
+    <script>
+        // Audio elements for call sounds
+        let ringtone = new Audio("RINGTONE.mp3");
+        
+        let dialtone = new Audio("CONVO.wav");
+        
+        let busytone = new Audio("END CALL.mp3");
+
+        // New conversation audio element
+        let conversationAudio = new Audio("CONVO.wav");
+
+        // Sample data for doctors by specialty
+        const doctorsBySpecialty = {
+            'Dentist': [
+                { name: 'Dr. James Villanueva', clinic: 'Dental Smiles Dumaguete', address: 'Locsin St., Dumaguete', phone: '(035) 422-6789', rating: 5.0 },
+                { name: 'Dr. Robert Chen', clinic: 'Smile Perfect Dental', address: 'Rizal St., Dumaguete', phone: '(035) 225-3344', rating: 4.8 }
+            ],
+            'Dermatologist': [
+                { name: 'Dr. Liza Uy', clinic: 'Holy Child Hospital', address: 'Gov. Perdices St., Dumaguete', phone: '(035) 225-9876', rating: 4.0 },
+                { name: 'Dr. Maria Rodriguez', clinic: 'Skin Care Center', address: 'Perdices St., Dumaguete', phone: '(035) 422-1122', rating: 4.7 }
+            ],
+            'Pediatrics': [
+                { name: 'Dr. Maria Santos', clinic: 'Silliman Medical Center', address: 'Hibbard Ave., Dumaguete', phone: '(035) 225-1234', rating: 4.5 },
+                { name: 'Dr. Anna Lim', clinic: 'Children First Clinic', address: 'Piapi, Dumaguete', phone: '(035) 420-5566', rating: 4.9 }
+            ],
+            'OB-GYN': [
+                { name: 'Dr. Anna Ramos', clinic: 'ACE Dumaguete Doctors Hospital', address: 'Piapi, Dumaguete', phone: '(035) 420-5678', rating: 4.6 },
+                { name: 'Dr. Carla Martinez', clinic: 'Women Care Center', address: 'Lee Plaza, Dumaguete', phone: '(035) 225-7788', rating: 4.8 }
+            ],
+            'Ophthalmologist': [
+                { name: 'Dr. John Tan', clinic: 'Dumaguete Eye Center', address: 'Locsin St., Dumaguete', phone: '(035) 225-7654', rating: 4.7 },
+                { name: 'Dr. Lisa Wong', clinic: 'Vision Plus Clinic', address: 'Rizal St., Dumaguete', phone: '(035) 422-9988', rating: 4.5 }
+            ],
+            'Cardiologist': [
+                { name: 'Dr. Roberto Diaz', clinic: 'ACE Dumaguete Doctors Hospital', address: 'Piapi, Dumaguete', phone: '(035) 420-1122', rating: 4.4 },
+                { name: 'Dr. Michael Chen', clinic: 'Heart Care Center', address: 'Perdices St., Dumaguete', phone: '(035) 225-4455', rating: 4.6 }
+            ]
+        };
+
+        // Current call variables
+        let currentCallTimeout;
+        let isCalling = false;
+        let isConversationPlaying = false;
+
+        // Open modal function
+        function openModal(type, doctorName = '') {
+            const modal = document.getElementById('modalOverlay');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalBody = document.getElementById('modalBody');
+            const modalFooter = document.getElementById('modalFooter');
+
+            switch(type) {
+                case 'login':
+                    modalTitle.textContent = 'Login to Your Account';
+                    modalBody.innerHTML = `
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" placeholder="Enter your email">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" placeholder="Enter your password">
+                        </div>
+                    `;
+                    modalFooter.innerHTML = `
+                        <button class="btn btn-primary" onclick="handleLogin()">Login</button>
+                        <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+                    `;
+                    break;
+                case 'signup':
+                    modalTitle.textContent = 'Create New Account';
+                    modalBody.innerHTML = `
+                        <div class="form-group">
+                            <label for="fullname">Full Name</label>
+                            <input type="text" id="fullname" placeholder="Enter your full name">
+                        </div>
+                        <div class="form-group">
+                            <label for="signup-email">Email Address</label>
+                            <input type="email" id="signup-email" placeholder="Enter your email">
+                        </div>
+                        <div class="form-group">
+                            <label for="signup-password">Password</label>
+                            <input type="password" id="signup-password" placeholder="Create a password">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" placeholder="Enter your phone number">
+                        </div>
+                    `;
+                    modalFooter.innerHTML = `
+                        <button class="btn btn-primary" onclick="handleSignup()">Sign Up</button>
+                        <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+                    `;
+                    break;
+                case 'appointment':
+                    modalTitle.textContent = 'Book an Appointment';
+                    modalBody.innerHTML = `
+                        <div class="form-group">
+                            <label for="doctor">Select Doctor</label>
+                            <select id="doctor">
+                                <option value="">Choose a doctor</option>
+                                <option value="Dr. Maria Santos">Dr. Maria Santos - Pediatrician</option>
+                                <option value="Dr. James Villanueva">Dr. James Villanueva - Dentist</option>
+                                <option value="Dr. Liza Uy">Dr. Liza Uy - Dermatologist</option>
+                                <option value="Dr. Anna Ramos">Dr. Anna Ramos - OB-GYN</option>
+                                <option value="Dr. John Tan">Dr. John Tan - Ophthalmologist</option>
+                                <option value="Dr. Roberto Diaz">Dr. Roberto Diaz - Cardiologist</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="date">Select Date</label>
+                            <input type="date" id="date">
+                        </div>
+                        <div class="form-group">
+                            <label for="time">Select Time</label>
+                            <select id="time">
+                                <option value="">Choose a time</option>
+                                <option value="09:00">09:00 AM</option>
+                                <option value="10:00">10:00 AM</option>
+                                <option value="11:00">11:00 AM</option>
+                                <option value="14:00">02:00 PM</option>
+                                <option value="15:00">03:00 PM</option>
+                                <option value="16:00">04:00 PM</option>
+                            </select>
+                        </div>
+                    `;
+                    modalFooter.innerHTML = `
+                        <button class="btn btn-primary" onclick="handleAppointment()">Book Appointment</button>
+                        <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+                    `;
+                    break;
+                case 'teleconsult':
+                    modalTitle.textContent = 'Teleconsultation';
+                    modalBody.innerHTML = `
+                        <div class="form-group">
+                            <label for="tele-doctor">Select Doctor</label>
+                            <select id="tele-doctor">
+                                <option value="">Choose a doctor</option>
+                                <option value="Dr. Maria Santos">Dr. Maria Santos - Pediatrician</option>
+                                <option value="Dr. James Villanueva">Dr. James Villanueva - Dentist</option>
+                                <option value="Dr. Liza Uy">Dr. Liza Uy - Dermatologist</option>
+                                <option value="Dr. Anna Ramos">Dr. Anna Ramos - OB-GYN</option>
+                                <option value="Dr. John Tan">Dr. John Tan - Ophthalmologist</option>
+                                <option value="Dr. Roberto Diaz">Dr. Roberto Diaz - Cardiologist</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="tele-date">Preferred Date</label>
+                            <input type="date" id="tele-date">
+                        </div>
+                        <div class="form-group">
+                            <label for="tele-time">Preferred Time</label>
+                            <select id="tele-time">
+                                <option value="">Choose a time</option>
+                                <option value="09:00">09:00 AM</option>
+                                <option value="10:00">10:00 AM</option>
+                                <option value="11:00">11:00 AM</option>
+                                <option value="14:00">02:00 PM</option>
+                                <option value="15:00">03:00 PM</option>
+                                <option value="16:00">04:00 PM</option>
+                            </select>
+                        </div>
+                    `;
+                    modalFooter.innerHTML = `
+                        <button class="btn btn-primary" onclick="handleTeleconsult()">Schedule Teleconsult</button>
+                        <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+                    `;
+                    break;
+                case 'pharmacy':
+                    modalTitle.textContent = 'Pharmacy Services';
+                    modalBody.innerHTML = `
+                        <div class="form-group">
+                            <label for="medicine">Search Medicine</label>
+                            <input type="text" id="medicine" placeholder="Enter medicine name">
+                        </div>
+                        <div class="form-group">
+                            <label for="pharmacy">Select Pharmacy</label>
+                            <select id="pharmacy">
+                                <option value="">Choose a pharmacy</option>
+                                <option value="Mercury Drug">Mercury Drug Dumaguete</option>
+                                <option value="Rose Pharmacy">Rose Pharmacy</option>
+                                <option value="Generic Pharmacy">Generic Pharmacy</option>
+                            </select>
+                        </div>
+                    `;
+                    modalFooter.innerHTML = `
+                        <button class="btn btn-primary" onclick="handlePharmacy()">Search Medicine</button>
+                        <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+                    `;
+                    break;
+                case 'book-appointment':
+                    modalTitle.textContent = `Book Appointment with ${doctorName}`;
+                    modalBody.innerHTML = `
+                        <div class="form-group">
+                            <label for="patient-name">Your Name</label>
+                            <input type="text" id="patient-name" placeholder="Enter your full name">
+                        </div>
+                        <div class="form-group">
+                            <label for="patient-age">Age</label>
+                            <input type="number" id="patient-age" placeholder="Enter your age">
+                        </div>
+                        <div class="form-group">
+                            <label for="patient-phone">Phone Number</label>
+                            <input type="tel" id="patient-phone" placeholder="Enter your phone number">
+                        </div>
+                        <div class="form-group">
+                            <label for="reason">Reason for Visit</label>
+                            <textarea id="reason" rows="3" placeholder="Briefly describe your reason for visit"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="visit-date">Select Date</label>
+                            <input type="date" id="visit-date">
+                        </div>
+                        <div class="form-group">
+                            <label for="visit-time">Select Time</label>
+                            <select id="visit-time">
+                                <option value="">Choose a time</option>
+                                <option value="09:00">09:00 AM</option>
+                                <option value="10:00">10:00 AM</option>
+                                <option value="11:00">11:00 AM</option>
+                                <option value="14:00">02:00 PM</option>
+                                <option value="15:00">03:00 PM</option>
+                                <option value="16:00">04:00 PM</option>
+                            </select>
+                        </div>
+                    `;
+                    modalFooter.innerHTML = `
+                        <button class="btn btn-primary" onclick="handleBookAppointment('${doctorName}')">Confirm Booking</button>
+                        <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+                    `;
+                    break;
+            }
+
+            modal.style.display = 'flex';
+        }
+
+        // Close modal function
+        function closeModal() {
+            document.getElementById('modalOverlay').style.display = 'none';
+        }
+
+        // Open call modal function
+        function openCallModal(phoneNumber, contactName) {
+            const callModal = document.getElementById('callModalOverlay');
+            const callContactName = document.getElementById('callContactName');
+            const callPhoneNumber = document.getElementById('callPhoneNumber');
+            const callStatus = document.getElementById('callStatus');
+            
+            callContactName.textContent = contactName;
+            callPhoneNumber.textContent = phoneNumber;
+            callStatus.textContent = 'Connecting...';
+            
+            // Play ringtone
+            ringtone.loop = true;
+            ringtone.play().catch(e => console.log("Audio play failed:", e));
+            
+            callModal.style.display = 'flex';
+            isCalling = true;
+            isConversationPlaying = false;
+            
+            // Simulate call connection 
+            currentCallTimeout = setTimeout(() => {
+                if (isCalling) {
+                    document.querySelector('.call-header h2').textContent = 'Connected';
+                    callStatus.textContent = '';
+                    ringtone.pause();
+                    ringtone.currentTime = 0;
+                    
+                    // Play conversation audio when connected
+                    playConversationAudio();
+                }
+            }, 10000);
+        }
+
+        // Play conversation audio
+        function playConversationAudio() {
+            if (!isConversationPlaying) {
+                conversationAudio.loop = true;
+                conversationAudio.play().catch(e => console.log("Conversation audio play failed:", e));
+                isConversationPlaying = true;
+            }
+        }
+
+        // Stop conversation audio
+        function stopConversationAudio() {
+            if (isConversationPlaying) {
+                conversationAudio.pause();
+                conversationAudio.currentTime = 0;
+                isConversationPlaying = false;
+            }
+        }
+
+        // End call function
+        function endCall() {
+            const callModal = document.getElementById('callModalOverlay');
+            const callStatus = document.getElementById('callStatus');
+            
+            // Stop ringtone
+            ringtone.pause();
+            ringtone.currentTime = 0;
+            
+            // Stop conversation audio
+            stopConversationAudio();
+            
+            // Play busy tone briefly
+            busytone.play().catch(e => console.log("Audio play failed:", e));
+            
+            // Update UI
+            callStatus.textContent = 'Call ended';
+            document.querySelector('.call-header h2').textContent = 'Call Ended';
+            
+            // Hide call modal after 1 second
+            setTimeout(() => {
+                callModal.style.display = 'none';
+                isCalling = false;
+                clearTimeout(currentCallTimeout);
+                
+                // Reset call modal
+                setTimeout(() => {
+                    callStatus.textContent = 'Connecting...';
+                    document.querySelector('.call-header h2').textContent = 'Calling...';
+                }, 500);
+            }, 1000);
+        }
+
+        // Open specialty drawer function
+        function openSpecialtyDrawer(specialty) {
+            const drawer = document.getElementById('specialtyDrawer');
+            const drawerTitle = document.getElementById('drawerTitle');
+            const drawerBody = document.getElementById('drawerBody');
+            const drawerOverlay = document.getElementById('drawerOverlay');
+
+            drawerTitle.textContent = `${specialty} Doctors`;
+            
+            let doctorsHTML = '';
+            const doctors = doctorsBySpecialty[specialty] || [];
+            
+            doctors.forEach(doctor => {
+                doctorsHTML += `
+                    <div class="drawer-doctor-card">
+                        <div class="drawer-doctor-header">
+                            <div class="drawer-doctor-image">
+                                <i class="fas fa-user-md"></i>
+                            </div>
+                            <div class="drawer-doctor-info">
+                                <h3>${doctor.name}</h3>
+                                <p>${specialty}</p>
+                            </div>
+                        </div>
+                        <div class="drawer-doctor-details">
+                            <div><i class="fas fa-hospital"></i> ${doctor.clinic}</div>
+                            <div><i class="fas fa-map-marker-alt"></i> ${doctor.address}</div>
+                            <div><i class="fas fa-phone"></i> <span class="phone-number">${doctor.phone}</span></div>
+                        </div>
+                        <div class="rating" style="margin-bottom: 15px;">
+                            ${generateStars(doctor.rating)}
+                            <span>(${doctor.rating})</span>
+                        </div>
+                        <div style="display: flex; gap: 10px;">
+                            <button class="btn btn-primary" style="flex: 1;" onclick="openModal('book-appointment', '${doctor.name}')">Book Now</button>
+                            <button class="btn btn-outline" style="flex: 1;" onclick="openCallModal('${doctor.phone}', '${doctor.name}')">Call</button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            drawerBody.innerHTML = doctorsHTML;
+            drawer.classList.add('open');
+            drawerOverlay.style.display = 'block';
+        }
+
+        // Close drawer function
+        function closeDrawer() {
+            const drawer = document.getElementById('specialtyDrawer');
+            const drawerOverlay = document.getElementById('drawerOverlay');
+            
+            drawer.classList.remove('open');
+            setTimeout(() => {
+                drawerOverlay.style.display = 'none';
+            }, 300);
+        }
+
+        // Generate star rating HTML
+        function generateStars(rating) {
+            let stars = '';
+            const fullStars = Math.floor(rating);
+            const hasHalfStar = rating % 1 >= 0.5;
+            
+            for (let i = 0; i < fullStars; i++) {
+                stars += '<i class="fas fa-star"></i>';
+            }
+            
+            if (hasHalfStar) {
+                stars += '<i class="fas fa-star-half-alt"></i>';
+            }
+            
+            const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+            for (let i = 0; i < emptyStars; i++) {
+                stars += '<i class="far fa-star"></i>';
+            }
+            
+            return stars;
+        }
+
+        // Handle login
+        function handleLogin() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            if (email && password) {
+                alert('Login successful!');
+                closeModal();
+            } else {
+                alert('Please fill in all fields');
+            }
+        }
+
+        // Handle signup
+        function handleSignup() {
+            const fullname = document.getElementById('fullname').value;
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            const phone = document.getElementById('phone').value;
+            
+            if (fullname && email && password && phone) {
+                alert('Account created successfully!');
+                closeModal();
+            } else {
+                alert('Please fill in all fields');
+            }
+        }
+
+        // Handle appointment booking
+        function handleAppointment() {
+            const doctor = document.getElementById('doctor').value;
+            const date = document.getElementById('date').value;
+            const time = document.getElementById('time').value;
+            
+            if (doctor && date && time) {
+                alert(`Appointment booked with ${doctor} on ${date} at ${time}`);
+                closeModal();
+            } else {
+                alert('Please fill in all fields');
+            }
+        }
+
+        // Handle teleconsult
+        function handleTeleconsult() {
+            const doctor = document.getElementById('tele-doctor').value;
+            const date = document.getElementById('tele-date').value;
+            const time = document.getElementById('tele-time').value;
+            
+            if (doctor && date && time) {
+                alert(`Teleconsult scheduled with ${doctor} on ${date} at ${time}`);
+                closeModal();
+            } else {
+                alert('Please fill in all fields');
+            }
+        }
+
+        // Handle pharmacy
+        function handlePharmacy() {
+            const medicine = document.getElementById('medicine').value;
+            const pharmacy = document.getElementById('pharmacy').value;
+            
+            if (medicine && pharmacy) {
+                alert(`Searching for ${medicine} at ${pharmacy}`);
+                closeModal();
+            } else {
+                alert('Please fill in all fields');
+            }
+        }
+
+        // Handle book appointment
+        function handleBookAppointment(doctorName) {
+            const patientName = document.getElementById('patient-name').value;
+            const age = document.getElementById('patient-age').value;
+            const phone = document.getElementById('patient-phone').value;
+            const date = document.getElementById('visit-date').value;
+            const time = document.getElementById('visit-time').value;
+            
+            if (patientName && age && phone && date && time) {
+                alert(`Appointment confirmed with ${doctorName} for ${patientName} on ${date} at ${time}`);
+                closeModal();
+            } else {
+                alert('Please fill in all fields');
+            }
+        }
+
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('modalOverlay');
+            const callModal = document.getElementById('callModalOverlay');
+            const drawerOverlay = document.getElementById('drawerOverlay');
+            
+            if (event.target === modal) {
+                closeModal();
+            }
+            
+            if (event.target === callModal) {
+                endCall();
+            }
+            
+            if (event.target === drawerOverlay) {
+                closeDrawer();
+            }
+        };
+
+        // Close modals with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeModal();
+                closeDrawer();
+                if (isCalling) {
+                    endCall();
+                }
+            }
+        });
+
+        // Simple JavaScript for interactive elements
+        document.addEventListener('DOMContentLoaded', function() {
+            // Search functionality
+            const searchButton = document.querySelector('.search-bar button');
+            searchButton.addEventListener('click', function() {
+                const searchTerm = document.querySelector('.search-bar input').value;
+                if (searchTerm.trim() !== '') {
+                    alert(`Searching for: ${searchTerm}`);
+                } else {
+                    alert('Please enter a search term');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

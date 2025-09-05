@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EXPENSE TRACKER</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+        :root {
+            --c-primary: #007bff; --c-primary-hover: #0069d9; --c-success: #28a745;
+            --c-success-hover: #218838; --c-danger: #dc3545; --c-danger-hover: #c82333;
+            --c-secondary: #6c757d; --c-bg: #f8f9fa; --c-surface: #ffffff;
+            --c-text: #212529; --c-text-muted: #6c757d; --c-border: #dee2e6;
+            --c-shadow: rgba(0, 0, 0, 0.08);
+        }
+
+        body.dark-mode {
+            --c-primary: #3498db; --c-primary-hover: #2980b9; --c-success: #2ecc71;
+            --c-success-hover: #27ae60; --c-danger: #e74c3c; --c-danger-hover: #c0392b;
+            --c-secondary: #95a5a6; --c-bg: #2c3e50; --c-surface: #34495e;
+            --c-text: #ecf0f1; --c-text-muted: #bdc3c7; --c-border: #4a627a;
+            --c-shadow: rgba(0, 0, 0, 0.2);
+        }
+        
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Poppins', sans-serif; background-color: black; color: var(--c-text);
+            display: flex; justify-content: center; align-items: flex-start;
+            min-height: 100vh; padding: 3rem 1rem; text-transform: uppercase;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        ::placeholder, :-ms-input-placeholder, ::-ms-input-placeholder { text-transform: uppercase; color: var(--c-text-muted) !important; opacity: 1; }
+
+        .container {
+            background: var(--c-surface); border: 1px solid var(--c-border); padding: 2.5rem;
+            border-radius: 16px; box-shadow: 0 8px 30px var(--c-shadow); width: 100%; max-width: 900px;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .header-controls {
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem;
+            border-bottom: 1px solid var(--c-border); padding-bottom: 1rem;
+        }
+        
+        .header-controls h1 { margin: 0; font-size: 2.2rem; }
+        .header-buttons { display: flex; gap: 0.75rem; }
+
+        .btn {
+            padding: 0.6rem 1.2rem; border: none; border-radius: 8px; font-weight: 600;
+            cursor: pointer; text-align: center; font-size: 0.8rem; transition: all 0.2s ease;
+        }
+        
+        .btn-primary { background-color: var(--c-primary); color: white; }
+        .btn-success { background-color: var(--c-success); color: white; }
+        .btn-secondary { background-color: var(--c-secondary); color: white; }
+        .btn-outline { background-color: transparent; color: var(--c-text-muted); border: 1px solid var(--c-border); }
+        .btn-outline:hover { background-color: var(--c-primary); color: var(--c-surface); border-color: var(--c-primary); }
+        
+        .summary-section { background: var(--c-bg); border-radius: 12px; padding: 1.5rem; margin-bottom: 2.5rem; border: 1px solid var(--c-border); }
+        .wallet-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; }
+        .wallet-controls input {
+            flex: 1 1 200px; padding: 0.8rem 1rem; border-radius: 8px; color: var(--c-text);
+            font-size: 1rem; background-color: var(--c-surface); border: 1px solid var(--c-border);
+        }
+        .balance-overview { display: flex; justify-content: space-around; text-align: center; flex-wrap: wrap; }
+        .balance-overview div { padding: 0 10px; }
+        .balance-overview h3 { font-size: 1rem; font-weight: 400; color: var(--c-text-muted); margin-bottom: 0.5rem; }
+        .balance-overview p { font-size: 1.8rem; font-weight: 600; }
+        #wallet-total { color: var(--c-primary); }
+        #total-spent, #remaining-balance.negative { color: var(--c-danger); }
+        #remaining-balance.positive { color: var(--c-success); }
+
+        .expense-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+        .add-expense-btn { grid-column: 1 / -1; margin-top: 1rem; font-size: 1.1rem; }
+        .form-control label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--c-text-muted); }
+        .form-control input, .form-control select { width: 100%; padding: 0.8rem 1rem; border-radius: 8px; color: var(--c-text); font-size: 1rem; background-color: var(--c-surface); border: 1px solid var(--c-border); }
+        
+        .hidden { display: none !important; }
+        
+        .history-header { display: flex; justify-content: flex-end; margin-bottom: 1rem; }
+        .history-list { list-style-type: none; padding: 0; }
+        .history-item { background-color: var(--c-bg); border: 1px solid var(--c-border); border-radius: 12px; margin-bottom: 1rem; padding: 1rem; }
+        .history-item-summary { display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+        .history-item-summary h3 { font-size: 1.1rem; }
+        .history-item-summary p { font-size: 0.9rem; color: var(--c-text-muted); }
+        .history-item-actions { display: flex; align-items: center; gap: 1rem; }
+        .btn-delete-history {
+            background-color: var(--c-danger); color: white; border: none; border-radius: 50%; width: 28px; height: 28px;
+            font-size: 1.2rem; line-height: 28px; cursor: pointer;
+        }
+        .history-details { margin-top: 1rem; border-top: 1px solid var(--c-border); padding-top: 1rem; }
+        
+        .expense-table { width: 100%; border-collapse: collapse; }
+        .expense-table th, .expense-table td { padding: 1rem; text-align: left; border-bottom: 1px solid var(--c-border); }
+        .expense-table tr:last-child td { border-bottom: none; }
+        .expense-table th { color: var(--c-text-muted); font-size: 0.8rem; letter-spacing: 0.5px; background: var(--c-bg); position: sticky; top: 0; }
+        .delete-btn { background: none; border: none; cursor: pointer; color: var(--c-danger); font-size: 1.2rem; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header-controls">
+            <h1 id="main-title">OUR EXPENSES</h1>
+            <div class="header-buttons">
+                <button id="view-history-btn" class="btn btn-outline">VIEW HISTORY</button>
+                <button id="theme-toggle-btn" class="btn btn-outline">DARK MODE</button>
+            </div>
+        </div>
+        
+        <div id="tracker-view">
+             <section class="summary-section">
+                <div class="wallet-controls">
+                    <input type="number" id="wallet-input" placeholder="ENTER AN AMOUNT">
+                    <button class="btn btn-primary" id="set-new-budget-btn">SET NEW BUDGET</button>
+                    <button class="btn btn-success" id="add-to-wallet-btn">ADD BUDGET</button>
+                    <button class="btn btn-secondary" id="reset-budget-btn">RESET</button>
+                </div>
+                <div class="balance-overview">
+                    <div><h3>MY WALLET</h3><p id="wallet-total">₱0.00</p></div>
+                    <div><h3>TOTAL SPENT</h3><p id="total-spent">₱0.00</p></div>
+                    <div><h3>REMAINING</h3><p id="remaining-balance" class="positive">₱0.00</p></div>
+                </div>
+            </section>
+            <section class="records-section">
+                <form class="expense-form" id="expense-form">
+                    <div class="form-control"><label for="description">DESCRIPTION</label><input type="text" id="description" required></div>
+                    <div class="form-control"><label for="amount">AMOUNT</label><input type="number" id="amount" step="0.01" required></div>
+                    <div class="form-control"><label for="category">CATEGORY</label><select id="category" required><option value="" disabled selected>LISTS</option>
+                        
+                    <option value="Food">FOOD</option>
+                    <option value="Transportation">TRANSPORTATION</option>
+                    <option value="Water Bill">WATER BILL</option>
+                    <option value="Electricity">ELECTRICITY BILL</option>
+                    <option value="Wi-Fi">WI-FI</option>
+                    <option value="Gasoline">GASOLINE</option>
+                    <option value="Work">WORK MONEY</option>
+                    <option value="Drinks">DRINKS</option>
+                    <option value="Others">OTHERS</option>
+                        
+                        </select></div>
+                    <button type="submit" class="btn btn-primary add-expense-btn">ADD EXPENSE</button>
+                </form>
+                <div class="expense-table-container">
+                    <table class="expense-table" style="margin-top: 3%;">
+                        <thead><tr><th>DESCRIPTION</th><th>AMOUNT</th><th>CATEGORY</th><th>DATE</th><th>ACTION</th></tr></thead>
+                        <tbody id="expense-list"></tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+
+        <div id="history-view" class="hidden">
+            <div class="history-header">
+                 <button id="copy-btn" class="btn btn-success">HISTORY COPY SHEETS</button>
+            </div>
+            <ul id="history-list" class="history-list"></ul>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const themeToggleBtn = document.getElementById('theme-toggle-btn');
+        const viewHistoryBtn = document.getElementById('view-history-btn');
+        const mainTitle = document.getElementById('main-title');
+        const trackerView = document.getElementById('tracker-view');
+        const historyView = document.getElementById('history-view');
+        const expenseForm = document.getElementById('expense-form');
+        const expenseList = document.getElementById('expense-list');
+        const totalSpentElement = document.getElementById('total-spent');
+        const remainingBalanceElement = document.getElementById('remaining-balance');
+        const walletTotalElement = document.getElementById('wallet-total');
+        const historyList = document.getElementById('history-list');
+        const walletInput = document.getElementById('wallet-input');
+        const setNewBudgetBtn = document.getElementById('set-new-budget-btn');
+        const addToWalletBtn = document.getElementById('add-to-wallet-btn');
+        const resetBudgetBtn = document.getElementById('reset-budget-btn');
+        const copyBtn = document.getElementById('copy-btn');
+
+        let activeBudget = JSON.parse(localStorage.getItem('activeBudget')) || { wallet: 0, expenses: [] };
+        let history = JSON.parse(localStorage.getItem('expenseHistory')) || [];
+
+        const applyTheme = (theme) => {
+            document.body.classList.toggle('dark-mode', theme === 'dark');
+            themeToggleBtn.textContent = theme === 'dark' ? 'DAY MODE' : 'DARK MODE';
+        };
+
+        const saveState = () => {
+            localStorage.setItem('activeBudget', JSON.stringify(activeBudget));
+            localStorage.setItem('expenseHistory', JSON.stringify(history));
+        };
+        
+        const updateSummary = () => {
+            const totalSpent = activeBudget.expenses.reduce((sum, exp) => sum + exp.amount, 0);
+            const remaining = activeBudget.wallet - totalSpent;
+            walletTotalElement.textContent = `₱${activeBudget.wallet.toFixed(2)}`;
+            totalSpentElement.textContent = `₱${totalSpent.toFixed(2)}`;
+            remainingBalanceElement.textContent = `₱${remaining.toFixed(2)}`;
+            remainingBalanceElement.classList.toggle('negative', remaining < 0);
+        };
+        
+        const renderActiveExpenses = () => {
+            expenseList.innerHTML = '';
+            const expenses = activeBudget.expenses.sort((a,b) => new Date(b.date) - new Date(a.date));
+            if (expenses.length === 0) {
+                expenseList.innerHTML = `<tr><td colspan="5" style="text-align:center;">NO EXPENSES IN CURRENT BUDGET</td></tr>`;
+            } else {
+                expenses.forEach(exp => {
+                    const row = document.createElement('tr'); row.dataset.id = exp.id;
+                    row.innerHTML = `
+                        <td>${exp.description}</td><td>₱${exp.amount.toFixed(2)}</td>
+                        <td>${exp.category}</td>
+                        <td>${new Date(exp.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' })}</td>
+                        <td><button class="delete-btn" title="DELETE">✖</button></td>`;
+                    expenseList.appendChild(row);
+                });
+            }
+            updateSummary();
+        };
+
+        const renderHistory = () => {
+            historyList.innerHTML = '';
+            if (history.length === 0) {
+                historyList.innerHTML = '<p>NO HISTORY BUDGETS FOUND!</p>';
+            } else {
+                history.forEach((record, index) => {
+                    const item = document.createElement('li'); item.className = 'history-item'; item.dataset.index = index;
+                    item.innerHTML = `
+                        <div class="history-item-summary">
+                            <div><h3>BUDGET OF ₱${record.wallet.toFixed(2)}</h3><p>SPENT: ₱${record.totalSpent.toFixed(2)} (${new Date(record.startDate).toLocaleDateString()} - ${new Date(record.endDate).toLocaleDateString()})</p></div>
+                            <div class="history-item-actions"><span>VIEW DETAILS</span><button class="btn-delete-history" title="DELETE RECORD">✖</button></div>
+                        </div>
+                        <div class="history-details hidden"></div>`;
+                    historyList.appendChild(item);
+                });
+            }
+        };
+        
+        const archiveCurrentBudget = () => {
+            if (activeBudget.expenses.length === 0) { activeBudget = { wallet: 0, expenses: [] }; return; };
+            const dates = activeBudget.expenses.map(e => new Date(e.date));
+            const report = {
+                wallet: activeBudget.wallet, expenses: activeBudget.expenses,
+                totalSpent: activeBudget.expenses.reduce((sum, exp) => sum + exp.amount, 0),
+                startDate: new Date(Math.min(...dates)).toISOString(), endDate: new Date(Math.max(...dates)).toISOString(),
+                archivedOn: new Date().toISOString()
+            };
+            history.unshift(report);
+            activeBudget = { wallet: 0, expenses: [] };
+            alert("BUDGET CYCLE SAVED. YOU CAN NOW SET A NEW BUDGET!");
+        };
+
+        const copyHistoryForSheets = () => {
+            if (history.length === 0) { alert("NO HISTORY TO COPY."); return; }
+            const headers = ["ARCHIVE PERIOD", "BUDGET AMOUNT", "EXPENSE DESCRIPTION", "AMOUNT", "CATEGORY", "DATE"];
+            let tsvContent = headers.join("\t") + "\n";
+            history.forEach(record => {
+                const archivePeriod = `${new Date(record.startDate).toLocaleDateString()} - ${new Date(record.endDate).toLocaleDateString()}`;
+                record.expenses.forEach(expense => {
+                    const date = new Date(expense.date).toLocaleDateString('en-CA');
+                    const row = [archivePeriod, record.wallet, expense.description, expense.amount, expense.category, date];
+                    tsvContent += row.join("\t") + "\n";
+                });
+            });
+            navigator.clipboard.writeText(tsvContent).then(() => alert("HISTORY DATA COPIED! OPEN GOOGLE SHEETS AND PASTE (CTRL+V)"), () => alert("COULD NOT COPY DATA!"));
+        };
+
+        const initialize = () => {
+            applyTheme(localStorage.getItem('theme') || 'light');
+            
+            themeToggleBtn.addEventListener('click', () => {
+                const newTheme = document.body.classList.contains('dark-mode') ? 'light' : 'dark';
+                localStorage.setItem('theme', newTheme); applyTheme(newTheme);
+            });
+            
+            viewHistoryBtn.addEventListener('click', () => {
+                const isHistoryView = !historyView.classList.contains('hidden');
+                trackerView.classList.toggle('hidden', !isHistoryView); historyView.classList.toggle('hidden', isHistoryView);
+                mainTitle.textContent = isHistoryView ? 'ACTIVE BUDGET' : 'BUDGET ARCHIVES';
+                viewHistoryBtn.textContent = isHistoryView ? 'VIEW HISTORY' : 'ACTIVE BUDGET';
+                if (!isHistoryView) renderHistory();
+            });
+
+            expenseForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const description = document.getElementById('description').value;
+                const amount = parseFloat(document.getElementById('amount').value);
+                const category = document.getElementById('category').value;
+                if (!description || !amount || !category || amount <= 0) { alert("PLEASE FILL ALL FIELDS CORRECTLY!"); return; }
+                if (activeBudget.wallet <= 0) { alert("PLEASE SET A BUDGET FIRST!"); return; }
+                
+                // Add expense with the current date
+                activeBudget.expenses.push({ id: Date.now(), description, amount, category, date: new Date().toISOString() });
+                
+                const totalSpent = activeBudget.expenses.reduce((sum, exp) => sum + exp.amount, 0);
+                if (activeBudget.wallet - totalSpent <= 0) {
+                    if (confirm("BUDGET CONSUMED! SAVE THIS FOR FUTURE REFERENCE?")) archiveCurrentBudget();
+                }
+                saveState(); renderActiveExpenses(); expenseForm.reset();
+            });
+
+            expenseList.addEventListener('click', (e) => {
+                if (e.target.classList.contains('delete-btn')) {
+                    const expenseId = parseInt(e.target.closest('tr').dataset.id);
+                    activeBudget.expenses = activeBudget.expenses.filter(exp => exp.id !== expenseId);
+                    saveState(); renderActiveExpenses();
+                }
+            });
+            
+            setNewBudgetBtn.addEventListener('click', () => {
+                const newAmount = parseFloat(walletInput.value);
+                if (isNaN(newAmount) || newAmount < 0) { alert("INVALID AMOUNT."); return; }
+                if (activeBudget.expenses.length > 0) {
+                    if (!confirm("THIS WILL SAVE YOUR CURRENT EXPENSES AND START A NEW BUDGET. PROCEED?")) return;
+                    archiveCurrentBudget();
+                }
+                activeBudget.wallet = newAmount;
+                saveState(); renderActiveExpenses(); walletInput.value = '';
+            });
+
+            addToWalletBtn.addEventListener('click', () => {
+                const amountToAdd = parseFloat(walletInput.value);
+                if (isNaN(amountToAdd) || amountToAdd <= 0) { alert("INVALID AMOUNT!"); return; }
+                activeBudget.wallet += amountToAdd;
+                saveState(); renderActiveExpenses(); walletInput.value = '';
+            });
+
+            resetBudgetBtn.addEventListener('click', () => {
+                if (confirm("ARE YOU SURE? THIS WILL SAVE THE CURRENT CYCLE AND CLEAR YOUR WALLET")) {
+                    archiveCurrentBudget(); saveState(); renderActiveExpenses();
+                }
+            });
+            
+            historyList.addEventListener('click', (e) => {
+                const itemSummary = e.target.closest('.history-item-summary');
+                if (!itemSummary) return;
+
+                if (e.target.classList.contains('btn-delete-history')) {
+                    e.stopPropagation();
+                    if (!confirm("PERMANENTLY DELETE THIS HISTORY RECORD?")) return;
+                    const indexToDelete = parseInt(itemSummary.parentElement.dataset.index);
+                    history.splice(indexToDelete, 1);
+                    saveState(); renderHistory();
+                    return;
+                }
+
+                const detailsDiv = itemSummary.nextElementSibling;
+                const isHidden = detailsDiv.classList.contains('hidden');
+                document.querySelectorAll('.history-details').forEach(d => d.classList.add('hidden'));
+                if (!isHidden) return;
+                const record = history[itemSummary.parentElement.dataset.index];
+                let tableHTML = `<table class="expense-table"><thead><tr><th>DESC.</th><th>AMT.</th><th>CAT.</th><th>DATE</th></tr></thead><tbody>`;
+                record.expenses.sort((a,b) => new Date(b.date) - new Date(a.date)).forEach(exp => {
+                    tableHTML += `<tr><td>${exp.description}</td><td>₱${exp.amount.toFixed(2)}</td><td>${exp.category}</td><td>${new Date(exp.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' })}</td></tr>`;
+                });
+                detailsDiv.innerHTML = tableHTML + '</tbody></table>';
+                detailsDiv.classList.remove('hidden');
+            });
+            
+            copyBtn.addEventListener('click', copyHistoryForSheets);
+            renderActiveExpenses();
+        };
+
+        initialize();
+    });
+    </script>
+</body>
+</html>

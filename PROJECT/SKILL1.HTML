@@ -1,0 +1,2143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tenaniko - Skill Swap Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #38BDF8;
+            --accent: #22C55E;
+            --background: #0B1220;
+            --text: #E6EEF6;
+            --card-bg: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --success: #10B981;
+            --warning: #F59E0B;
+            --error: #EF4444;
+            --sidebar-bg: rgba(11, 18, 32, 0.95);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(56, 189, 248, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(34, 197, 94, 0.1) 0%, transparent 20%);
+            overflow-x: hidden;
+        }
+
+        .glass-container {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 40px rgba(56, 189, 248, 0.3);
+            border-color: rgba(56, 189, 248, 0.4);
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        /* Layout */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: var(--sidebar-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-right: 1px solid var(--glass-border);
+            padding: 1.5rem 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 100;
+            transform: translateX(0);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .sidebar-logo {
+            font-family: 'Lexend', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            padding: 0 1.5rem 1.5rem;
+            border-bottom: 1px solid var(--glass-border);
+            margin-bottom: 1.5rem;
+            text-align: center;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 0.5rem;
+            animation: slideInLeft 0.6s ease-out;
+            animation-fill-mode: both;
+        }
+
+        .sidebar-menu li:nth-child(1) { animation-delay: 0.1s; }
+        .sidebar-menu li:nth-child(2) { animation-delay: 0.2s; }
+        .sidebar-menu li:nth-child(3) { animation-delay: 0.3s; }
+        .sidebar-menu li:nth-child(4) { animation-delay: 0.4s; }
+        .sidebar-menu li:nth-child(5) { animation-delay: 0.5s; }
+        .sidebar-menu li:nth-child(6) { animation-delay: 0.6s; }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.5rem;
+            color: var(--text);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .sidebar-menu a:hover {
+            background: rgba(56, 189, 248, 0.15);
+            border-left: 3px solid var(--primary);
+            color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .sidebar-menu a.active {
+            background: rgba(56, 189, 248, 0.2);
+            border-left: 3px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .sidebar-menu a i {
+            width: 24px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-menu a:hover i {
+            transform: scale(1.2) rotate(10deg);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 2rem;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        /* Header */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--glass-border);
+            animation: slideInDown 0.8s ease-out;
+        }
+
+        .search-bar {
+            flex: 1;
+            max-width: 500px;
+            position: relative;
+            margin-right: 2rem;
+            animation: slideInLeft 0.8s ease-out;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            padding-left: 2.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+            background: var(--card-bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .search-bar input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.3);
+            transform: scale(1.02);
+        }
+
+        .search-bar i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .search-bar input:focus + i {
+            color: var(--accent);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            animation: slideInRight 0.8s ease-out;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3);
+        }
+
+        .user-avatar:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 6px 20px rgba(56, 189, 248, 0.5);
+        }
+
+        /* Profile Drawer */
+        .profile-drawer {
+            position: fixed;
+            top: 0;
+            right: -350px;
+            width: 300px;
+            height: 100vh;
+            background: var(--sidebar-bg);
+            border-left: 1px solid var(--glass-border);
+            padding: 2rem;
+            z-index: 1000;
+            transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(20px);
+            box-shadow: -5px 0 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .profile-drawer.open {
+            right: 0;
+            animation: slideInRightDrawer 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .drawer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .drawer-header h3 {
+            font-family: 'Lexend', sans-serif;
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .close-drawer {
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .close-drawer:hover {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--error);
+            transform: rotate(90deg);
+        }
+
+        .drawer-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .drawer-item {
+            padding: 1rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            border: 1px solid transparent;
+        }
+
+        .drawer-item:hover {
+            background: rgba(56, 189, 248, 0.15);
+            border-color: var(--glass-border);
+            transform: translateX(5px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .drawer-item i {
+            transition: all 0.3s ease;
+        }
+
+        .drawer-item:hover i {
+            transform: scale(1.2);
+            color: var(--primary);
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            z-index: 999;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .overlay.open {
+            display: block;
+            opacity: 1;
+        }
+
+        /* Sections */
+        .section {
+            display: none;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes slideInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideInRightDrawer {
+            from { opacity: 0; transform: translateX(100%); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        .section-title {
+            font-family: 'Lexend', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .section-title i {
+            animation: bounce 2s infinite;
+        }
+
+        /* Grid Layouts */
+        .grid {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .skills-grid {
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        }
+
+        .matches-grid {
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        }
+
+        .messages-grid {
+            grid-template-columns: 300px 1fr;
+            gap: 1rem;
+        }
+
+        .benefits-grid {
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        }
+
+        /* Cards */
+        .skill-card, .match-card, .message-card, .benefit-card {
+            padding: 1.5rem;
+            animation: fadeInUp 0.6s ease-out;
+            animation-fill-mode: both;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-right: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3);
+        }
+
+        .avatar:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 6px 20px rgba(56, 189, 248, 0.5);
+        }
+
+        .user-details h4 {
+            font-family: 'Lexend', sans-serif;
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .user-details p {
+            color: rgba(230, 238, 246, 0.7);
+            font-size: 0.85rem;
+        }
+
+        .skill-content {
+            margin-bottom: 1rem;
+        }
+
+        .skill-offer, .skill-want {
+            margin-bottom: 0.75rem;
+        }
+
+        .skill-label {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.25rem;
+            display: block;
+            font-size: 0.9rem;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.3rem;
+            margin-top: 0.5rem;
+        }
+
+        .skill-tag {
+            background: rgba(56, 189, 248, 0.2);
+            padding: 0.2rem 0.6rem;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .skill-tag:hover {
+            background: rgba(56, 189, 248, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 2px 8px rgba(56, 189, 248, 0.2);
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .rating i {
+            animation: pulse 2s infinite;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: none;
+            font-family: 'Inter', sans-serif;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), #22A7E0);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(56, 189, 248, 0.4);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--success), #0DA271);
+            color: white;
+        }
+
+        .btn-success:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: rgba(56, 189, 248, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(56, 189, 248, 0.3);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, var(--error), #DC2626);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(239, 68, 68, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        /* Forms */
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.3);
+            transform: scale(1.01);
+        }
+
+        /* Messages */
+        .conversations {
+            background: var(--card-bg);
+            border-radius: 16px;
+            border: 1px solid var(--glass-border);
+            height: 500px;
+            overflow-y: auto;
+            transition: all 0.3s ease;
+        }
+
+        .conversation-item {
+            padding: 1rem;
+            border-bottom: 1px solid var(--glass-border);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .conversation-item:hover {
+            background: rgba(56, 189, 248, 0.15);
+            transform: translateX(5px);
+        }
+
+        .conversation-item.active {
+            background: rgba(56, 189, 248, 0.25);
+        }
+
+        .chat-container {
+            background: var(--card-bg);
+            border-radius: 16px;
+            border: 1px solid var(--glass-border);
+            height: 500px;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .chat-header {
+            padding: 1rem;
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .message {
+            max-width: 70%;
+            padding: 0.8rem 1rem;
+            border-radius: 16px;
+            font-size: 0.9rem;
+            position: relative;
+            animation: fadeIn 0.3s ease-out;
+            transition: all 0.3s ease;
+        }
+
+        .message.sent {
+            background: linear-gradient(135deg, var(--primary), #22A7E0);
+            align-self: flex-end;
+            border-bottom-right-radius: 0;
+        }
+
+        .message.received {
+            background: rgba(255, 255, 255, 0.12);
+            align-self: flex-start;
+            border-bottom-left-radius: 0;
+        }
+
+        .message:hover {
+            transform: scale(1.02);
+        }
+
+        .typing-indicator {
+            display: none;
+            align-self: flex-start;
+            background: rgba(255, 255, 255, 0.12);
+            padding: 0.8rem 1rem;
+            border-radius: 16px;
+            border-bottom-left-radius: 0;
+        }
+
+        .typing-indicator span {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: var(--text);
+            border-radius: 50%;
+            margin: 0 2px;
+            animation: typing 1s infinite;
+        }
+
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .chat-input {
+            padding: 1rem;
+            border-top: 1px solid var(--glass-border);
+            display: flex;
+            gap: 1rem;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 0.8rem;
+            border-radius: 24px;
+            border: 1px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text);
+            transition: all 0.3s ease;
+        }
+
+        .chat-input input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.3);
+        }
+
+        .chat-input button {
+            background: linear-gradient(135deg, var(--primary), #22A7E0);
+            color: white;
+            border: none;
+            border-radius: 24px;
+            padding: 0 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chat-input button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(56, 189, 248, 0.4);
+        }
+
+        /* Profile */
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--glass-border);
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: bold;
+            animation: bounce 3s infinite;
+            box-shadow: 0 12px 30px rgba(56, 189, 248, 0.4);
+        }
+
+        .profile-info h2 {
+            font-family: 'Lexend', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .stat {
+            text-align: center;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .stat:nth-child(1) { animation-delay: 0.2s; }
+        .stat:nth-child(2) { animation-delay: 0.4s; }
+        .stat:nth-child(3) { animation-delay: 0.6s; }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: rgba(230, 238, 246, 0.7);
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 2rem;
+            border-radius: 16px;
+            background: linear-gradient(135deg, var(--success), #0DA271);
+            color: white;
+            font-weight: 500;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            transform: translateX(400px);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+            animation: bounceIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes bounceIn {
+            0% { transform: translateX(400px) scale(0.5); }
+            50% { transform: translateX(-20px) scale(1.1); }
+            70% { transform: translateX(10px) scale(0.9); }
+            100% { transform: translateX(0) scale(1); }
+        }
+
+        /* Login/Signup Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            margin: 5% auto;
+            padding: 2rem;
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            animation: zoomIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-origin: center;
+        }
+
+        @keyframes zoomIn {
+            from { opacity: 0; transform: scale(0.8) translateY(-50px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .close-modal {
+            color: var(--text);
+            float: right;
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            line-height: 1;
+            transition: all 0.3s ease;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .close-modal:hover {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--error);
+            transform: rotate(90deg);
+        }
+
+        .modal h2 {
+            font-family: 'Lexend', sans-serif;
+            margin-bottom: 1.5rem;
+            color: var(--text);
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .form-tabs {
+            display: flex;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 1rem;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab:hover {
+            background: rgba(56, 189, 248, 0.1);
+        }
+
+        .tab.active {
+            border-bottom: 3px solid var(--primary);
+            color: var(--primary);
+            background: rgba(56, 189, 248, 0.05);
+        }
+
+        .form-container {
+            display: none;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .form-container.active {
+            display: block;
+        }
+
+        /* Centered auth text */
+        .auth-text-center {
+            text-align: center;
+            margin: 1rem 0;
+            color: rgba(230, 238, 246, 0.7);
+        }
+
+        /* Benefits Section */
+        .benefit-card {
+            text-align: center;
+            transition: all 0.4s ease;
+        }
+
+        .benefit-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+            box-shadow: 0 8px 25px rgba(56, 189, 248, 0.3);
+        }
+
+        .benefit-card h3 {
+            font-family: 'Lexend', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text);
+        }
+
+        .benefit-card p {
+            color: rgba(230, 238, 246, 0.8);
+            line-height: 1.6;
+        }
+
+        /* Confetti effect */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background-color: var(--primary);
+            opacity: 0.8;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 80px;
+            }
+            .sidebar-logo, .sidebar-menu a span {
+                display: none;
+            }
+            .sidebar-menu a {
+                justify-content: center;
+                padding: 1rem;
+            }
+            .sidebar-menu a i {
+                font-size: 1.2rem;
+            }
+            .main-content {
+                margin-left: 80px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .app-container {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                border-right: none;
+                border-bottom: 1px solid var(--glass-border);
+            }
+            .main-content {
+                margin-left: 0;
+            }
+            .messages-grid {
+                grid-template-columns: 1fr;
+            }
+            .skills-grid, .matches-grid, .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+            .profile-drawer {
+                width: 100%;
+                right: -100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-logo">TENANIKO</div>
+            <ul class="sidebar-menu">
+                <li><a href="#" class="active" data-section="home"><i class="fas fa-home"></i> <span>Home</span></a></li>
+                <li><a href="#" data-section="browse"><i class="fas fa-search"></i> <span>Browse Skills</span></a></li>
+                <li><a href="#" data-section="matches" id="matchesLink" style="display: none;"><i class="fas fa-heart"></i> <span>Matches</span></a></li>
+                <li><a href="#" data-section="messages" id="messagesLink" style="display: none;"><i class="fas fa-comments"></i> <span>Messages</span></a></li>
+                <li><a href="#" data-section="profile" id="profileLink" style="display: none;"><i class="fas fa-user"></i> <span>Profile</span></a></li>
+                <li><a href="#" data-section="create" id="createLink" style="display: none;"><i class="fas fa-plus-circle"></i> <span>Create Swap</span></a></li>
+                <li><a href="#" data-section="benefits"><i class="fas fa-star"></i> <span>Benefits</span></a></li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Top Bar -->
+            <div class="top-bar">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search skills, users..." id="globalSearch">
+                </div>
+                <div class="user-menu">
+                    <button class="btn btn-outline" id="loginBtn">Login</button>
+                    <button class="btn btn-primary" id="signupBtn">Sign Up</button>
+                    <div class="user-avatar" id="userAvatar" style="display: none;">
+                        <span>JD</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Home Section -->
+            <section class="section active" id="home-section">
+                <h1 class="section-title"><i class="fas fa-home"></i> Welcome to Tenaniko</h1>
+                <p style="margin-bottom: 2rem; max-width: 700px; font-size: 1.1rem; line-height: 1.7;">Swap skills, not cash — grow together. Connect with people in your community to exchange knowledge, time, and mentorship.</p>
+                
+                <div class="grid skills-grid" id="featuredSkills">
+                    <!-- Featured skills will be populated by JavaScript -->
+                </div>
+            </section>
+
+            <!-- Browse Skills Section -->
+            <section class="section" id="browse-section">
+                <h1 class="section-title"><i class="fas fa-search"></i> Browse Skills</h1>
+                <div class="grid skills-grid" id="allSkills">
+                    <!-- All skills will be populated by JavaScript -->
+                </div>
+            </section>
+
+            <!-- Matches Section -->
+            <section class="section" id="matches-section">
+                <h1 class="section-title"><i class="fas fa-heart"></i> Your Matches</h1>
+                <div class="grid matches-grid" id="matchesContainer">
+                    <!-- Matches will be populated by JavaScript -->
+                </div>
+            </section>
+
+            <!-- Messages Section -->
+            <section class="section" id="messages-section">
+                <h1 class="section-title"><i class="fas fa-comments"></i> Messages</h1>
+                <div class="grid messages-grid">
+                    <div class="conversations" id="conversationsList">
+                        <!-- Conversations will be populated by JavaScript -->
+                    </div>
+                    <div class="chat-container">
+                        <div class="chat-header">
+                            <div class="avatar">JD</div>
+                            <div>
+                                <h4 id="chatUserName">Select a conversation</h4>
+                                <p style="font-size: 0.8rem; color: rgba(230, 238, 246, 0.7);">Online</p>
+                            </div>
+                        </div>
+                        <div class="chat-messages" id="chatMessages">
+                            <p style="text-align: center; color: rgba(230, 238, 246, 0.5);">Select a conversation to start chatting</p>
+                        </div>
+                        <div class="typing-indicator" id="typingIndicator">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <div class="chat-input">
+                            <input type="text" placeholder="Type your message..." id="messageInput">
+                            <button id="sendMessageBtn"><i class="fas fa-paper-plane"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Profile Section -->
+            <section class="section" id="profile-section">
+                <h1 class="section-title"><i class="fas fa-user"></i> Your Profile</h1>
+                <div class="profile-header">
+                    <div class="profile-avatar">JD</div>
+                    <div class="profile-info">
+                        <h2 id="profileName">Jane Dela Cruz</h2>
+                        <p id="profileLocation">📍 Dumaguete City</p>
+                        <div class="profile-stats">
+                            <div class="stat">
+                                <div class="stat-value" id="skillCount">3</div>
+                                <div class="stat-label">Skills</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value" id="matchCount">12</div>
+                                <div class="stat-label">Matches</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value" id="ratingValue">4.9</div>
+                                <div class="stat-label">Rating</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid skills-grid" id="profileSkills">
+                    <!-- Profile skills will be populated by JavaScript -->
+                </div>
+            </section>
+
+            <!-- Create Swap Section -->
+            <section class="section" id="create-section">
+                <h1 class="section-title"><i class="fas fa-plus-circle"></i> Create Skill Swap</h1>
+                <div class="glass-container" style="padding: 2rem; max-width: 800px; margin: 0 auto;">
+                    <form id="createSwapForm">
+                        <div class="form-group">
+                            <label for="offerSkill">Skill You Offer</label>
+                            <input type="text" id="offerSkill" placeholder="e.g., Portrait Photography" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="offerTags">Tags (comma separated)</label>
+                            <input type="text" id="offerTags" placeholder="e.g., Photography, Portrait, Creative">
+                        </div>
+                        <div class="form-group">
+                            <label for="wantSkill">Skill You Want to Learn</label>
+                            <input type="text" id="wantSkill" placeholder="e.g., Guitar Lessons" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="wantTags">Tags (comma separated)</label>
+                            <input type="text" id="wantTags" placeholder="e.g., Music, Guitar, Beginner">
+                        </div>
+                        <div class="form-group">
+                            <label for="swapMode">Mode</label>
+                            <select id="swapMode">
+                                <option value="online">Online (Zoom, Google Meet)</option>
+                                <option value="inperson">In Person</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="availability">Availability</label>
+                            <input type="text" id="availability" placeholder="e.g., Weekends, After 5 PM">
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">
+                            <i class="fas fa-plus"></i> Create Skill Swap
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Benefits Section -->
+            <section class="section" id="benefits-section">
+                <h1 class="section-title"><i class="fas fa-star"></i> Why Choose Tenaniko?</h1>
+                <p style="margin-bottom: 2rem; max-width: 700px; font-size: 1.1rem; line-height: 1.7;">Discover the amazing benefits of skill swapping and how Tenaniko makes it easy to connect with like-minded individuals in your community.</p>
+                
+                <div class="grid benefits-grid">
+                    <div class="glass-card benefit-card">
+                        <div class="benefit-icon">
+                            <i class="fas fa-handshake"></i>
+                        </div>
+                        <h3>Cost-Free Learning</h3>
+                        <p>Learn new skills without spending money. Exchange your expertise for what you want to learn.</p>
+                    </div>
+                    
+                    <div class="glass-card benefit-card">
+                        <div class="benefit-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3>Community Building</h3>
+                        <p>Connect with people in your area and build meaningful relationships through shared learning.</p>
+                    </div>
+                    
+                    <div class="glass-card benefit-card">
+                        <div class="benefit-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3>Continuous Growth</h3>
+                        <p>Keep learning and growing throughout your life by constantly acquiring new skills.</p>
+                    </div>
+                    
+                    <div class="glass-card benefit-card">
+                        <div class="benefit-icon">
+                            <i class="fas fa-globe-asia"></i>
+                        </div>
+                        <h3>Global Network</h3>
+                        <p>Access a diverse community of learners and teachers from different backgrounds and cultures.</p>
+                    </div>
+                    
+                    <div class="glass-card benefit-card">
+                        <div class="benefit-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h3>Flexible Scheduling</h3>
+                        <p>Set your own availability and learn at your own pace with convenient scheduling options.</p>
+                    </div>
+                    
+                    <div class="glass-card benefit-card">
+                        <div class="benefit-icon">
+                            <i class="fas fa-certificate"></i>
+                        </div>
+                        <h3>Recognition & Reputation</h3>
+                        <p>Build your reputation through reviews and ratings from satisfied skill swap partners.</p>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 3rem;">
+                    <button class="btn btn-primary" id="signupCta" style="font-size: 1.1rem; padding: 1rem 2rem;">
+                        <i class="fas fa-user-plus"></i> Join Tenaniko Today
+                    </button>
+                    <p style="margin-top: 1rem; color: rgba(230, 238, 246, 0.7);">Start your skill swapping journey in seconds!</p>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Profile Drawer -->
+    <div class="profile-drawer" id="profileDrawer">
+        <div class="drawer-header">
+            <h3>Account Settings</h3>
+            <button class="close-drawer" id="closeDrawer">&times;</button>
+        </div>
+        <div class="drawer-content">
+            <div class="drawer-item" id="profileSettings">
+                <i class="fas fa-user-cog"></i>
+                <span>Profile Settings</span>
+            </div>
+            <div class="drawer-item" id="notificationsSettings">
+                <i class="fas fa-bell"></i>
+                <span>Notifications</span>
+            </div>
+            <div class="drawer-item" id="privacySettings">
+                <i class="fas fa-shield-alt"></i>
+                <span>Privacy Settings</span>
+            </div>
+            <div class="drawer-item" id="helpSupport">
+                <i class="fas fa-question-circle"></i>
+                <span>Help & Support</span>
+            </div>
+            <div class="drawer-item" id="logoutBtn">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Login/Signup Modal -->
+    <div class="modal" id="authModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeModal">&times;</span>
+            <h2>Welcome to Tenaniko</h2>
+            
+            <div class="form-tabs">
+                <div class="tab active" data-tab="login">Login</div>
+                <div class="tab" data-tab="signup">Sign Up</div>
+            </div>
+            
+            <!-- Login Form -->
+            <div class="form-container active" id="loginForm">
+                <form id="loginFormContent">
+                    <div class="form-group">
+                        <label for="loginEmail">Email</label>
+                        <input type="email" id="loginEmail" placeholder="Enter your email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </button>
+                    <div class="auth-text-center">
+                        <p>Or continue with</p>
+                    </div>
+                    <button type="button" class="btn btn-outline" style="width: 100%;">
+                        <i class="fab fa-google"></i> Google
+                    </button>
+                </form>
+            </div>
+            
+            <!-- Signup Form -->
+            <div class="form-container" id="signupForm">
+                <form id="signupFormContent">
+                    <div class="form-group">
+                        <label for="signupName">Full Name</label>
+                        <input type="text" id="signupName" placeholder="Enter your full name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signupEmail">Email</label>
+                        <input type="email" id="signupEmail" placeholder="Enter your email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signupPassword">Password</label>
+                        <input type="password" id="signupPassword" placeholder="Create a password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signupLocation">Location</label>
+                        <input type="text" id="signupLocation" placeholder="e.g., Dumaguete City" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        <i class="fas fa-user-plus"></i> Sign Up
+                    </button>
+                    <div class="auth-text-center">
+                        <p>By signing up, you agree to our Terms and Privacy Policy</p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div id="notification" class="notification">
+        <i class="fas fa-check-circle"></i>
+        <span id="notificationText">Notification message</span>
+    </div>
+
+    <script>
+        // Sample data
+        const users = [
+            { id: 1, name: "Jane Dela Cruz", location: "Dumaguete City", avatar: "JD", rating: 4.9, skills: 3 },
+            { id: 2, name: "Mark Santos", location: "Dumaguete City", avatar: "MS", rating: 4.8, skills: 2 },
+            { id: 3, name: "Rosa Lim", location: "Dumaguete City", avatar: "RL", rating: 4.7, skills: 2 },
+            { id: 4, name: "Carlos Reyes", location: "Dumaguete City", avatar: "CR", rating: 4.6, skills: 4 },
+            { id: 5, name: "Ana Martinez", location: "Dumaguete City", avatar: "AM", rating: 4.9, skills: 3 }
+        ];
+
+        const skills = [
+            { id: 1, userId: 1, userName: "Jane Dela Cruz", userAvatar: "JD", location: "Dumaguete City", rating: 4.9,
+              offer: "Portrait Photography", offerTags: ["Photography", "Portrait", "Creative"],
+              want: "Guitar Lessons", wantTags: ["Music", "Guitar", "Beginner"] },
+            { id: 2, userId: 2, userName: "Mark Santos", userAvatar: "MS", location: "Dumaguete City", rating: 4.8,
+              offer: "Acoustic Guitar Coaching", offerTags: ["Music", "Guitar", "Teaching"],
+              want: "Canva Design", wantTags: ["Design", "Digital Art", "Beginner"] },
+            { id: 3, userId: 3, userName: "Rosa Lim", userAvatar: "RL", location: "Dumaguete City", rating: 4.7,
+              offer: "Nursing Review Mentorship", offerTags: ["Education", "Healthcare", "Mentorship"],
+              want: "Excel Training", wantTags: ["Technology", "Data", "Productivity"] },
+            { id: 4, userId: 4, userName: "Carlos Reyes", userAvatar: "CR", location: "Dumaguete City", rating: 4.6,
+              offer: "Spanish Tutoring", offerTags: ["Language", "Education", "Tutoring"],
+              want: "Web Development", wantTags: ["Technology", "Programming", "Beginner"] },
+            { id: 5, userId: 5, userName: "Ana Martinez", userAvatar: "AM", location: "Dumaguete City", rating: 4.9,
+              offer: "Yoga Instruction", offerTags: ["Fitness", "Wellness", "Teaching"],
+              want: "Cooking Classes", wantTags: ["Culinary", "Food", "Beginner"] }
+        ];
+
+        // Conversation context to maintain state
+        const conversationContext = {};
+
+        // State management
+        let currentUser = null;
+        let currentChat = null;
+        let currentSection = 'home';
+
+        // DOM Elements
+        const sections = document.querySelectorAll('.section');
+        const menuLinks = document.querySelectorAll('.sidebar-menu a');
+        const notification = document.getElementById('notification');
+        const notificationText = document.getElementById('notificationText');
+        const loginBtn = document.getElementById('loginBtn');
+        const signupBtn = document.getElementById('signupBtn');
+        const userAvatar = document.getElementById('userAvatar');
+        const globalSearch = document.getElementById('globalSearch');
+        const profileDrawer = document.getElementById('profileDrawer');
+        const overlay = document.getElementById('overlay');
+        const authModal = document.getElementById('authModal');
+        const matchesLink = document.getElementById('matchesLink');
+        const messagesLink = document.getElementById('messagesLink');
+        const profileLink = document.getElementById('profileLink');
+        const createLink = document.getElementById('createLink');
+        const signupCta = document.getElementById('signupCta');
+
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set up navigation
+            menuLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const section = this.getAttribute('data-section');
+                    showSection(section);
+                    menuLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            // Set up authentication
+            loginBtn.addEventListener('click', function() {
+                openAuthModal('login');
+            });
+
+            signupBtn.addEventListener('click', function() {
+                openAuthModal('signup');
+            });
+
+            signupCta.addEventListener('click', function() {
+                openAuthModal('signup');
+            });
+
+            // Set up profile drawer
+            userAvatar.addEventListener('click', function() {
+                profileDrawer.classList.add('open');
+                overlay.classList.add('open');
+            });
+
+            document.getElementById('closeDrawer').addEventListener('click', closeProfileDrawer);
+            document.getElementById('overlay').addEventListener('click', closeProfileDrawer);
+
+            // Set up drawer items
+            document.getElementById('logoutBtn').addEventListener('click', logout);
+            document.getElementById('profileSettings').addEventListener('click', function() {
+                showSection('profile');
+                closeProfileDrawer();
+                menuLinks.forEach(l => l.classList.remove('active'));
+                document.querySelector('[data-section="profile"]').classList.add('active');
+            });
+
+            // Set up auth modal
+            document.getElementById('closeModal').addEventListener('click', closeAuthModal);
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabName = this.getAttribute('data-tab');
+                    switchAuthTab(tabName);
+                });
+            });
+
+            // Set up auth forms
+            document.getElementById('loginFormContent').addEventListener('submit', handleLogin);
+            document.getElementById('signupFormContent').addEventListener('submit', handleSignup);
+
+            // Set up search
+            globalSearch.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    const term = this.value.trim().toLowerCase();
+                    if (term) {
+                        showNotification(`Searching for: ${term}`);
+                        createConfetti();
+                    }
+                }
+            });
+
+            // Set up message functionality
+            document.getElementById('sendMessageBtn').addEventListener('click', sendMessage);
+            document.getElementById('messageInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+
+            // Set up create swap form
+            document.getElementById('createSwapForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                showNotification('Skill swap created successfully!');
+                createConfetti();
+                this.reset();
+                showSection('home');
+                menuLinks.forEach(l => l.classList.remove('active'));
+                document.querySelector('[data-section="home"]').classList.add('active');
+            });
+
+            // Initialize content
+            renderFeaturedSkills();
+            renderAllSkills();
+            renderMatches();
+            renderConversations();
+        });
+
+        // Navigation functions
+        function showSection(sectionName) {
+            currentSection = sectionName;
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(`${sectionName}-section`).classList.add('active');
+            updateAuthUI();
+        }
+
+        // Authentication functions
+        function openAuthModal(defaultTab) {
+            authModal.style.display = 'block';
+            switchAuthTab(defaultTab);
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeAuthModal() {
+            authModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function switchAuthTab(tabName) {
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.form-container').forEach(form => form.classList.remove('active'));
+            
+            document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+            document.getElementById(`${tabName}Form`).classList.add('active');
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            // Simulate login
+            currentUser = users[0]; // Default user for demo
+            showNotification(`Welcome back, ${currentUser.name}!`);
+            createConfetti();
+            closeAuthModal();
+            updateAuthUI();
+            renderProfile();
+            showSection('home');
+        }
+
+        function handleSignup(e) {
+            e.preventDefault();
+            const name = document.getElementById('signupName').value;
+            const email = document.getElementById('signupEmail').value;
+            const location = document.getElementById('signupLocation').value;
+            
+            // Simulate signup
+            currentUser = { 
+                id: users.length + 1, 
+                name: name, 
+                location: location, 
+                avatar: name.split(' ').map(n => n[0]).join(''), 
+                rating: 0, 
+                skills: 0 
+            };
+            showNotification(`Welcome to Tenaniko, ${name}!`);
+            createConfetti();
+            closeAuthModal();
+            updateAuthUI();
+            renderProfile();
+            showSection('home');
+        }
+
+        function logout() {
+            currentUser = null;
+            showNotification('You have been logged out.');
+            closeProfileDrawer();
+            updateAuthUI();
+            showSection('home');
+            menuLinks.forEach(l => l.classList.remove('active'));
+            document.querySelector('[data-section="home"]').classList.add('active');
+        }
+
+        // Profile drawer functions
+        function closeProfileDrawer() {
+            profileDrawer.classList.remove('open');
+            overlay.classList.remove('open');
+        }
+
+        // Authentication UI
+        function updateAuthUI() {
+            if (currentUser) {
+                loginBtn.style.display = 'none';
+                signupBtn.style.display = 'none';
+                userAvatar.style.display = 'flex';
+                userAvatar.innerHTML = `<span>${currentUser.avatar}</span>`;
+                
+                // Show protected menu items
+                matchesLink.style.display = 'flex';
+                messagesLink.style.display = 'flex';
+                profileLink.style.display = 'flex';
+                createLink.style.display = 'flex';
+            } else {
+                loginBtn.style.display = 'block';
+                signupBtn.style.display = 'block';
+                userAvatar.style.display = 'none';
+                
+                // Hide protected menu items
+                matchesLink.style.display = 'none';
+                messagesLink.style.display = 'none';
+                profileLink.style.display = 'none';
+                createLink.style.display = 'none';
+            }
+        }
+
+        // Render functions
+        function renderFeaturedSkills() {
+            const container = document.getElementById('featuredSkills');
+            container.innerHTML = '';
+            
+            // Show first 5 skills as featured
+            skills.slice(0, 5).forEach((skill, index) => {
+                setTimeout(() => {
+                    const card = createSkillCard(skill);
+                    container.appendChild(card);
+                }, index * 100);
+            });
+        }
+
+        function renderAllSkills() {
+            const container = document.getElementById('allSkills');
+            container.innerHTML = '';
+            
+            skills.forEach((skill, index) => {
+                setTimeout(() => {
+                    const card = createSkillCard(skill);
+                    container.appendChild(card);
+                }, index * 50);
+            });
+        }
+
+        function renderMatches() {
+            const container = document.getElementById('matchesContainer');
+            container.innerHTML = '';
+            
+            // Simulate matches based on skill compatibility
+            const matches = skills.slice(0, 5);
+            
+            matches.forEach((skill, index) => {
+                setTimeout(() => {
+                    const card = createMatchCard(skill);
+                    container.appendChild(card);
+                }, index * 100);
+            });
+        }
+
+        function renderConversations() {
+            const container = document.getElementById('conversationsList');
+            container.innerHTML = '';
+            
+            skills.slice(0, 5).forEach((skill, index) => {
+                const item = document.createElement('div');
+                item.className = 'conversation-item';
+                item.innerHTML = `
+                    <div class="user-info">
+                        <div class="avatar">${skill.userAvatar}</div>
+                        <div class="user-details">
+                            <h4>${skill.userName}</h4>
+                            <p style="font-size: 0.8rem;">Click to start conversation</p>
+                        </div>
+                    </div>
+                `;
+                item.addEventListener('click', () => openChat(index + 1, skill));
+                container.appendChild(item);
+            });
+        }
+
+        function renderProfile() {
+            if (!currentUser) return;
+            
+            document.getElementById('profileName').textContent = currentUser.name;
+            document.getElementById('profileLocation').textContent = `📍 ${currentUser.location}`;
+            document.getElementById('skillCount').textContent = currentUser.skills || 0;
+            document.getElementById('matchCount').textContent = '0';
+            document.getElementById('ratingValue').textContent = currentUser.rating || '0.0';
+            
+            const container = document.getElementById('profileSkills');
+            container.innerHTML = '';
+            
+            // Show user's skills
+            const userSkills = skills.filter(skill => skill.userId === currentUser.id);
+            userSkills.forEach((skill, index) => {
+                setTimeout(() => {
+                    const card = createSkillCard(skill, true); // true = profile view
+                    container.appendChild(card);
+                }, index * 100);
+            });
+        }
+
+        // Card creation functions
+        function createSkillCard(skill, isProfileView = false) {
+            const card = document.createElement('div');
+            card.className = 'glass-card skill-card';
+            card.innerHTML = `
+                <div class="user-info">
+                    <div class="avatar">${skill.userAvatar}</div>
+                    <div class="user-details">
+                        <h4>${skill.userName}</h4>
+                        <p>${skill.location}</p>
+                    </div>
+                </div>
+                
+                <div class="skill-content">
+                    <div class="skill-offer">
+                        <span class="skill-label">I Offer:</span>
+                        <strong>${skill.offer}</strong>
+                        <div class="skill-tags">
+                            ${skill.offerTags.map(tag => `<span class="skill-tag">${tag}</span>`).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="skill-want">
+                        <span class="skill-label">I Want to Learn:</span>
+                        <strong>${skill.want}</strong>
+                        <div class="skill-tags">
+                            ${skill.wantTags.map(tag => `<span class="skill-tag">${tag}</span>`).join('')}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="rating">
+                    <i class="fas fa-star"></i>
+                    <span>${skill.rating}</span>
+                </div>
+                
+                ${!isProfileView ? `
+                <button class="btn btn-primary" style="margin-top: 1rem; width: 100%;" onclick="proposeSwap('${skill.userName}', '${skill.offer}', '${skill.want}')">
+                    <i class="fas fa-paper-plane"></i> Propose Swap
+                </button>` : ''}
+            `;
+            return card;
+        }
+
+        function createMatchCard(skill) {
+            const card = document.createElement('div');
+            card.className = 'glass-card match-card';
+            card.innerHTML = `
+                <div class="user-info">
+                    <div class="avatar">${skill.userAvatar}</div>
+                    <div class="user-details">
+                        <h4>${skill.userName}</h4>
+                        <p>${skill.location}</p>
+                    </div>
+                </div>
+                
+                <div class="skill-content">
+                    <div class="skill-offer">
+                        <span class="skill-label">They Offer:</span>
+                        <strong>${skill.offer}</strong>
+                    </div>
+                    
+                    <div class="skill-want">
+                        <span class="skill-label">They Want:</span>
+                        <strong>${skill.want}</strong>
+                    </div>
+                </div>
+                
+                <div class="rating">
+                    <i class="fas fa-star"></i>
+                    <span>${skill.rating}</span>
+                </div>
+                
+                <button class="btn btn-success" style="margin-top: 1rem; width: 100%;" onclick="sendMessageToUser('${skill.userName}')">
+                    <i class="fas fa-comments"></i> Message
+                </button>
+            `;
+            return card;
+        }
+
+        // Interaction functions
+        function proposeSwap(userName, offerSkill, wantSkill) {
+            if (!currentUser) {
+                showNotification('Please login to propose swaps!');
+                openAuthModal('login');
+                return;
+            }
+            
+            showNotification(`Proposal sent to ${userName}!`);
+            createConfetti();
+            
+            // Simulate real-time response after delay
+            setTimeout(() => {
+                showNotification(`${userName} has accepted your proposal!`);
+                createConfetti();
+                
+                // Add to conversations
+                const messagesContainer = document.getElementById('chatMessages');
+                if (messagesContainer) {
+                    const messageDiv = document.createElement('div');
+                    messageDiv.className = 'message received';
+                    messageDiv.innerHTML = `
+                        <p>Hi ${currentUser.name}! I'd love to swap ${wantSkill} for ${offerSkill}. When are you available for our first session?</p>
+                        <small style="opacity: 0.7; font-size: 0.7rem;">Just now</small>
+                    `;
+                    messagesContainer.appendChild(messageDiv);
+                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                }
+            }, 3000);
+        }
+
+        function sendMessageToUser(userName) {
+            if (!currentUser) {
+                showNotification('Please login to send messages!');
+                openAuthModal('login');
+                return;
+            }
+            
+            showNotification(`Starting conversation with ${userName}`);
+            createConfetti();
+            showSection('messages');
+            menuLinks.forEach(l => l.classList.remove('active'));
+            document.querySelector('[data-section="messages"]').classList.add('active');
+        }
+
+        function openChat(chatId, skill) {
+            if (!currentUser) {
+                showNotification('Please login to chat!');
+                openAuthModal('login');
+                return;
+            }
+            
+            currentChat = chatId;
+            document.getElementById('chatUserName').textContent = skill.userName;
+            
+            // Initialize conversation context
+            conversationContext[chatId] = {
+                userName: skill.userName,
+                offer: skill.offer,
+                want: skill.want,
+                offerTags: skill.offerTags,
+                wantTags: skill.wantTags,
+                messages: []
+            };
+            
+            const messagesContainer = document.getElementById('chatMessages');
+            messagesContainer.innerHTML = '';
+            
+            // Add initial messages
+            const initialMessages = [
+                { text: `Hi ${currentUser.name}! I saw your skill swap post about ${skill.want} for ${skill.offer}.`, time: "Just now", type: "received" },
+                { text: `I'd love to learn ${skill.want} in exchange for my ${skill.offer} skills.`, time: "Just now", type: "received" },
+                { text: `When are you available for a session?`, time: "Just now", type: "received" }
+            ];
+            
+            initialMessages.forEach(msg => {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${msg.type}`;
+                messageDiv.innerHTML = `
+                    <p>${msg.text}</p>
+                    <small style="opacity: 0.7; font-size: 0.7rem;">${msg.time}</small>
+                `;
+                messagesContainer.appendChild(messageDiv);
+                if (conversationContext[chatId]) {
+                    conversationContext[chatId].messages.push({text: msg.text, type: msg.type});
+                }
+            });
+            
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function sendMessage() {
+            if (!currentUser) {
+                showNotification('Please login to send messages!');
+                openAuthModal('login');
+                return;
+            }
+            
+            const input = document.getElementById('messageInput');
+            const text = input.value.trim();
+            
+            if (text && currentChat) {
+                const messagesContainer = document.getElementById('chatMessages');
+                const typingIndicator = document.getElementById('typingIndicator');
+                const context = conversationContext[currentChat];
+                
+                // Add user's message
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'message sent';
+                messageDiv.innerHTML = `
+                    <p>${text}</p>
+                    <small style="opacity: 0.7; font-size: 0.7rem;">Just now</small>
+                `;
+                messagesContainer.appendChild(messageDiv);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                
+                // Store message in context
+                if (context) {
+                    context.messages.push({text: text, type: 'sent'});
+                }
+                
+                input.value = '';
+                
+                // Show typing indicator
+                typingIndicator.style.display = 'block';
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                
+                // Generate contextual response
+                const responseText = generateContextualResponse(text, context);
+                
+                // Simulate response after delay
+                const responseDelay = 1000 + Math.random() * 2000; // 1-3 seconds
+                
+                setTimeout(() => {
+                    typingIndicator.style.display = 'none';
+                    
+                    // Add response message
+                    const responseDiv = document.createElement('div');
+                    responseDiv.className = 'message received';
+                    responseDiv.innerHTML = `
+                        <p>${responseText}</p>
+                        <small style="opacity: 0.7; font-size: 0.7rem;">Just now</small>
+                    `;
+                    messagesContainer.appendChild(responseDiv);
+                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                    
+                    // Store response in context
+                    if (context) {
+                        context.messages.push({text: responseText, type: 'received'});
+                    }
+                    
+                    showNotification('New message received!');
+                }, responseDelay);
+            }
+        }
+
+        function generateContextualResponse(userMessage, context) {
+            // Check if context exists
+            if (!context) {
+                return "Thanks for your message! Let me know how I can help you with our skill swap.";
+            }
+            
+            const message = userMessage.toLowerCase();
+            const userName = context.userName;
+            const offer = context.offer;
+            const want = context.want;
+            
+            // Greetings
+            if (message.includes('hello') || message.includes('hi') || message.includes('hey')) {
+                return `Hello ${currentUser.name}! Great to connect with you about swapping ${want} for ${offer}.`;
+            }
+            
+            // Availability/Time
+            if (message.includes('when') || message.includes('available') || message.includes('time') || message.includes('schedule')) {
+                return `I'm flexible with timing. How about we meet on Saturday afternoon? We could do it ${offer.includes('online') ? 'online' : 'in person'}.`;
+            }
+            
+            // Location/Place
+            if (message.includes('where') || message.includes('location') || message.includes('place') || message.includes('meet')) {
+                if (offer.toLowerCase().includes('online') || want.toLowerCase().includes('online')) {
+                    return "We can connect online via Zoom or Google Meet. What works best for you?";
+                } else {
+                    return "We can meet at the community center or a local café. Where would you prefer?";
+                }
+            }
+            
+            // Thanks
+            if (message.includes('thanks') || message.includes('thank you') || message.includes('appreciate')) {
+                return `You're very welcome! I'm excited to learn ${want} from you and share my ${offer} skills.`;
+            }
+            
+            // Skills specific
+            if (message.includes('skill') || message.includes('teach') || message.includes('learn')) {
+                return `Yes, I'm really passionate about ${offer} and would love to help you improve. What specific aspects of ${want} are you most interested in?`;
+            }
+            
+            // Swap details
+            if (message.includes('swap') || message.includes('exchange') || message.includes('trade')) {
+                return `The skill swap sounds perfect! I'll teach you ${offer} and you can help me with ${want}.`;
+            }
+            
+            // Duration/Length
+            if (message.includes('how long') || message.includes('duration') || message.includes('session')) {
+                return "I think 1-2 hour sessions work well for skill exchanges. We can adjust based on what we're covering.";
+            }
+            
+            // Materials/Preparation
+            if (message.includes('material') || message.includes('prepare') || message.includes('bring') || message.includes('need')) {
+                if (offer.toLowerCase().includes('photography') || offer.toLowerCase().includes('camera')) {
+                    return "For photography lessons, you'll need a camera or smartphone with a good camera. I can guide you on settings and techniques.";
+                } else if (offer.toLowerCase().includes('guitar') || offer.toLowerCase().includes('music')) {
+                    return "You'll need a guitar for our sessions. If you don't have one, let me know and I can suggest affordable options.";
+                } else if (offer.toLowerCase().includes('yoga')) {
+                    return "Just bring a yoga mat and comfortable clothes. I'll guide you through poses and breathing techniques.";
+                } else {
+                    return "I'll let you know what materials we'll need as we plan our sessions. Don't worry about having everything right away.";
+                }
+            }
+            
+            // Progress/Improvement
+            if (message.includes('improve') || message.includes('better') || message.includes('practice') || message.includes('exercise')) {
+                return `Great question! For ${want}, I recommend practicing regularly. I can give you specific exercises during our sessions.`;
+            }
+            
+            // Experience level
+            if (message.includes('beginner') || message.includes('experience') || message.includes('level') || message.includes('first time')) {
+                return `No worries about experience level! I'll adjust my teaching to match your current skills. Everyone starts somewhere.`;
+            }
+            
+            // Default response
+            const defaultResponses = [
+                `That's a great point about ${want}. I'm looking forward to our sessions together!`,
+                `I understand. Let's plan our first session soon so we can get started on ${offer} and ${want}.`,
+                `Good question! I think we should focus on the fundamentals first. What specific areas would you like to cover?`,
+                `I'm excited about this skill swap! Your ${offer} skills will definitely help me with ${want}.`,
+                `Let's make this work for both of us. What schedule works best for you?`
+            ];
+            
+            return defaultResponses[Math.floor(Math.random() * defaultResponses.length)];
+        }
+
+        // Utility functions
+        function showNotification(message) {
+            notificationText.textContent = message;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        function createConfetti() {
+            const colors = ['#38BDF8', '#22C55E', '#F59E0B', '#EF4444', '#8B5CF6'];
+            const container = document.body;
+            
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.top = '-10px';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.width = Math.random() * 10 + 5 + 'px';
+                confetti.style.height = Math.random() * 10 + 5 + 'px';
+                confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                container.appendChild(confetti);
+                
+                // Animate confetti
+                const animation = confetti.animate([
+                    { transform: 'translateY(0) rotate(0deg)', opacity: 1 },
+                    { transform: `translateY(${window.innerHeight}px) rotate(${Math.random() * 360}deg)`, opacity: 0 }
+                ], {
+                    duration: Math.random() * 3000 + 2000,
+                    easing: 'cubic-bezier(0.1, 0.8, 0.2, 1)'
+                });
+                
+                animation.onfinish = () => confetti.remove();
+            }
+        }
+
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            if (event.target === authModal) {
+                closeAuthModal();
+            }
+        }
+
+        // Make functions globally accessible
+        window.proposeSwap = proposeSwap;
+        window.sendMessageToUser = sendMessageToUser;
+    </script>
+</body>
+</html>

@@ -1,0 +1,1626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIGBOYY - Filmmaking Resources Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700&family=Trebuchet+MS:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-dark: #1a1a1a;
+            --secondary-dark: #2d2d2d;
+            --accent-gold: #d4af37;
+            --accent-teal: #008080;
+            --accent-crimson: #dc143c;
+            --text-light: #f0f0f0;
+            --text-gray: #cccccc;
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+        }
+
+        body {
+            font-family: 'Trebuchet MS', sans-serif;
+            background-color: var(--primary-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Lexend', sans-serif;
+            font-weight: 700;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: rgba(26, 26, 26, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--glass-border);
+            animation: slideDown 0.8s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            text-decoration: none;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .logo span {
+            color: var(--text-light);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: var(--text-gray);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            position: relative;
+        }
+
+        nav a:hover {
+            color: var(--accent-gold);
+            transform: translateY(-2px);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--accent-gold);
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        .auth-icon {
+            color: var(--text-gray);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .auth-icon:hover {
+            color: var(--accent-gold);
+            transform: scale(1.1);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            background: var(--secondary-dark);
+            margin: 10% auto;
+            padding: 2rem;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 400px;
+            position: relative;
+            animation: slideUp 0.5s ease;
+            border: 1px solid var(--glass-border);
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-gray);
+            transition: color 0.3s ease;
+        }
+
+        .close:hover {
+            color: var(--accent-gold);
+        }
+
+        .modal-form h2 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: var(--accent-gold);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-gray);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid var(--glass-border);
+            background: var(--glass-bg);
+            color: var(--text-light);
+            border-radius: 5px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background: var(--accent-gold);
+            color: var(--primary-dark);
+            border: none;
+            border-radius: 5px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .submit-btn:hover {
+            background: #c19d2a;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+        }
+
+        .switch-form {
+            text-align: center;
+            margin-top: 1rem;
+            color: var(--text-gray);
+        }
+
+        .switch-form a {
+            color: var(--accent-gold);
+            text-decoration: none;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .switch-form a:hover {
+            color: #c19d2a;
+            text-decoration: underline;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                        url('https://images.pexels.com/photos/403495/pexels-photo-403495.jpeg') center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            animation: zoomIn 1.2s ease-out;
+        }
+
+        @keyframes zoomIn {
+            from {
+                transform: scale(1.1);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .hero-content {
+            max-width: 800px;
+            padding: 2rem;
+            animation: fadeInUp 1s ease-out 0.5s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            background: linear-gradient(to right, var(--accent-gold), var(--accent-teal));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: textGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes textGlow {
+            from {
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            }
+            to {
+                text-shadow: 2px 2px 20px rgba(212, 175, 55, 0.8);
+            }
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            color: var(--text-gray);
+        }
+
+        .cta-button {
+            background: var(--accent-gold);
+            color: var(--primary-dark);
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(212, 175, 55, 0.6);
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        /* Categories Section */
+        .categories {
+            padding: 5rem 0;
+            background-color: var(--secondary-dark);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .categories::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-gold), var(--accent-teal), var(--accent-crimson));
+            animation: gradientShift 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes gradientShift {
+            0% {
+                background: linear-gradient(90deg, var(--accent-gold), var(--accent-teal), var(--accent-crimson));
+            }
+            100% {
+                background: linear-gradient(90deg, var(--accent-crimson), var(--accent-gold), var(--accent-teal));
+            }
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--accent-gold);
+            position: relative;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 3px;
+            background: var(--accent-gold);
+            margin: 1rem auto;
+            border-radius: 2px;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .category-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: slideUpCard 0.6s ease-out forwards;
+        }
+
+        .category-card:nth-child(1) { animation-delay: 0.1s; }
+        .category-card:nth-child(2) { animation-delay: 0.2s; }
+        .category-card:nth-child(3) { animation-delay: 0.3s; }
+        .category-card:nth-child(4) { animation-delay: 0.4s; }
+        .category-card:nth-child(5) { animation-delay: 0.5s; }
+
+        @keyframes slideUpCard {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: 0.5s;
+        }
+
+        .category-card:hover::before {
+            left: 100%;
+        }
+
+        .category-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .category-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--accent-gold);
+            transition: transform 0.3s ease;
+        }
+
+        .category-card:hover .category-icon {
+            transform: scale(1.2) rotate(10deg);
+        }
+
+        .category-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Category Content Sections */
+        .category-content {
+            display: none;
+            padding: 5rem 0;
+            background-color: var(--primary-dark);
+        }
+
+        .category-content.active {
+            display: block;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .back-button {
+            background: var(--accent-gold);
+            color: var(--primary-dark);
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 2rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .back-button:hover {
+            background: #c19d2a;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .content-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.4s ease;
+        }
+
+        .content-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .content-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent-teal);
+        }
+
+        .content-card ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .content-card li {
+            margin-bottom: 0.8rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .content-card li:before {
+            content: "→";
+            color: var(--accent-gold);
+            position: absolute;
+            left: 0;
+        }
+
+        /* Tutorials Section */
+        .tutorials {
+            padding: 5rem 0;
+            position: relative;
+        }
+
+        .tutorials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .tutorial-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.4s ease;
+            opacity: 0;
+            transform: translateX(-30px);
+            animation: slideInLeft 0.6s ease-out forwards;
+        }
+
+        .tutorial-card:nth-child(1) { animation-delay: 0.1s; }
+        .tutorial-card:nth-child(2) { animation-delay: 0.3s; }
+        .tutorial-card:nth-child(3) { animation-delay: 0.5s; }
+
+        @keyframes slideInLeft {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .tutorial-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .tutorial-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent-teal);
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .tutorial-card h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--accent-teal);
+            border-radius: 2px;
+        }
+
+        .tutorial-card ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .tutorial-card li {
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .tutorial-card li:hover {
+            transform: translateX(5px);
+            color: var(--accent-gold);
+        }
+
+        .tutorial-card li:before {
+            content: "•";
+            color: var(--accent-gold);
+            position: absolute;
+            left: 0;
+            font-size: 1.2rem;
+        }
+
+        /* Resources Section */
+        .resources {
+            padding: 5rem 0;
+            background-color: var(--secondary-dark);
+        }
+
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .resource-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.4s ease;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        .resource-card:nth-child(1) { animation-delay: 0.1s; }
+        .resource-card:nth-child(2) { animation-delay: 0.3s; }
+        .resource-card:nth-child(3) { animation-delay: 0.5s; }
+
+        .resource-card:hover {
+            transform: translateY(-10px) rotate(1deg);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .resource-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent-crimson);
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .resource-card h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--accent-crimson);
+            border-radius: 2px;
+        }
+
+        .resource-card ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .resource-card li {
+            margin-bottom: 0.8rem;
+            padding-left: 1.5rem;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .resource-card li:hover {
+            transform: translateX(5px);
+            color: var(--accent-gold);
+        }
+
+        .resource-card li:before {
+            content: "→";
+            color: var(--accent-gold);
+            position: absolute;
+            left: 0;
+        }
+
+        /* Tools Section */
+        .tools {
+            padding: 5rem 0;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .tool-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            opacity: 0;
+            transform: scale(0.8);
+            animation: popIn 0.6s ease-out forwards;
+        }
+
+        .tool-card:nth-child(1) { animation-delay: 0.1s; }
+        .tool-card:nth-child(2) { animation-delay: 0.3s; }
+        .tool-card:nth-child(3) { animation-delay: 0.5s; }
+
+        @keyframes popIn {
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .tool-card:hover {
+            transform: translateY(-15px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .tool-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--accent-teal);
+            transition: all 0.3s ease;
+        }
+
+        .tool-card:hover .tool-icon {
+            transform: rotate(360deg) scale(1.2);
+        }
+
+        .tool-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .tool-card p {
+            margin-bottom: 1rem;
+            color: var(--text-gray);
+        }
+
+        /* Gallery Section */
+        .gallery {
+            padding: 5rem 0;
+            background-color: var(--secondary-dark);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            height: 300px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .gallery-item:nth-child(1) { animation-delay: 0.1s; }
+        .gallery-item:nth-child(2) { animation-delay: 0.3s; }
+        .gallery-item:nth-child(3) { animation-delay: 0.5s; }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.5s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 1rem;
+            transform: translateY(100%);
+            transition: transform 0.4s ease;
+        }
+
+        .gallery-item:hover .gallery-caption {
+            transform: translateY(0);
+        }
+
+        .gallery-caption h4 {
+            color: var(--accent-gold);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #000;
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            text-align: left;
+        }
+
+        .footer-section h3 {
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 30px;
+            height: 2px;
+            background: var(--accent-gold);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: var(--text-gray);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-gold);
+            transform: translateX(5px);
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+            border: 1px solid var(--glass-border);
+            background: var(--glass-bg);
+            color: var(--text-light);
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+        }
+
+        .contact-form button {
+            background: var(--accent-gold);
+            color: var(--primary-dark);
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .contact-form button:hover {
+            background: #c19d2a;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+        }
+
+        .copyright {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--glass-border);
+            color: var(--text-gray);
+        }
+
+        /* Scroll Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.2rem;
+            }
+
+            nav ul {
+                gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .categories-grid,
+            .tutorials-grid,
+            .resources-grid,
+            .tools-grid,
+            .gallery-grid,
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .auth-icon {
+                font-size: 1.3rem;
+            }
+            
+            .category-card h3 {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .hero-content {
+                padding: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .category-card {
+                padding: 1.5rem;
+            }
+            
+            .category-icon {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <a href="#" class="logo">BIG<span>BOYY</span></a>
+            <nav>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#tutorials">Tutorials</a></li>
+                    <li><a href="#resources">Resources</a></li>
+                    <li><a href="#tools">Tools</a></li>
+                    <li><a href="#gallery">Gallery</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="auth-icon" id="authIcon">
+                <i class="fas fa-user-circle"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Login/Signup Modal -->
+    <div id="authModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="loginForm">
+                <h2>Login to BIGBOYY</h2>
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <button class="submit-btn" id="loginSubmit">Login</button>
+                <div class="switch-form">
+                    Don't have an account? <a id="showSignup">Sign Up</a>
+                </div>
+            </div>
+            <div id="signupForm" style="display: none;">
+                <h2>Create Account</h2>
+                <div class="form-group">
+                    <label for="signupName">Full Name</label>
+                    <input type="text" id="signupName" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupEmail">Email</label>
+                    <input type="email" id="signupEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupPassword">Password</label>
+                    <input type="password" id="signupPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupConfirmPassword">Confirm Password</label>
+                    <input type="password" id="signupConfirmPassword" required>
+                </div>
+                <button class="submit-btn" id="signupSubmit">Sign Up</button>
+                <div class="switch-form">
+                    Already have an account? <a id="showLogin">Login</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>BIGBOYY</h1>
+            <p>Learn. Create. Inspire.</p>
+            <p>Your ultimate filmmaking resources hub</p>
+            <a href="#tutorials" class="cta-button">Start Learning</a>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="categories" id="explore-categories">
+        <div class="container">
+            <h2 class="section-title">Explore Categories</h2>
+            <div class="categories-grid">
+                <div class="category-card" data-category="screenwriting">
+                    <div class="category-icon">🎬</div>
+                    <h3>Screenwriting</h3>
+                    <p>Master the art of storytelling</p>
+                </div>
+                <div class="category-card" data-category="cinematography">
+                    <div class="category-icon">🎥</div>
+                    <h3>Cinematography</h3>
+                    <p>Capture stunning visuals</p>
+                </div>
+                <div class="category-card" data-category="sound">
+                    <div class="category-icon">🎧</div>
+                    <h3>Sound Design</h3>
+                    <p>Create immersive audio experiences</p>
+                </div>
+                <div class="category-card" data-category="editing">
+                    <div class="category-icon">🎞️</div>
+                    <h3>Editing</h3>
+                    <p>Bring your story to life</p>
+                </div>
+                <div class="category-card" data-category="directing">
+                    <div class="category-icon">🎭</div>
+                    <h3>Directing</h3>
+                    <p>Lead your creative vision</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Screenwriting Content -->
+    <section class="category-content" id="screenwriting-content">
+        <div class="container">
+            <button class="back-button" onclick="showCategories()">
+                <i class="fas fa-arrow-left"></i> Back to Categories
+            </button>
+            <h2 class="section-title">Screenwriting Tutorials</h2>
+            <div class="content-grid">
+                <div class="content-card">
+                    <h3>Story Structure</h3>
+                    <ul>
+                        <li>Three-act structure fundamentals</li>
+                        <li>Character arc development</li>
+                        <li>Plot point identification</li>
+                        <li>Subplot integration</li>
+                    </ul>
+                </div>
+                <div class="content-card">
+                    <h3>Character Development</h3>
+                    <ul>
+                        <li>Creating compelling protagonists</li>
+                        <li>Developing memorable antagonists</li>
+                        <li>Character motivation techniques</li>
+                        <li>Backstory integration</li>
+                    </ul>
+                </div>
+                <div class="content-card">
+                    <h3>Dialogue Writing</h3>
+                    <ul>
+                        <li>Natural conversation flow</li>
+                        <li>Subtext and meaning</li>
+                        <li>Character voice consistency</li>
+                        <li>Dialogue formatting</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cinematography Content -->
+    <section class="category-content" id="cinematography-content">
+        <div class="container">
+            <button class="back-button" onclick="showCategories()">
+                <i class="fas fa-arrow-left"></i> Back to Categories
+            </button>
+            <h2 class="section-title">Cinematography Tutorials</h2>
+            <div class="content-grid">
+                <div class="content-card">
+                    <h3>Camera Basics</h3>
+                    <ul>
+                        <li>Camera settings and controls</li>
+                        <li>Lens selection guide</li>
+                        <li>Frame rate considerations</li>
+                        <li>Exposure fundamentals</li>
+                    </ul>
+                </div>
+                <div class="content-card">
+                    <h3>Shot Types</h3>
+                    <ul>
+                        <li>Wide shots and establishing shots</li>
+                        <li>Medium shots and close-ups</li>
+                        <li>Dutch angles and creative framing</li>
+                        <li>Tracking and movement shots</li>
+                    </ul>
+                </div>
+                <div class="content-card">
+                    <h3>Lighting Techniques</h3>
+                    <ul>
+                        <li>Three-point lighting setup</li>
+                        <li>Natural vs artificial lighting</li>
+                        <li>Color temperature basics</li>
+                        <li>Shadow and contrast control</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sound Design Content -->
+    <section class="category-content" id="sound-content">
+        <div class="container">
+            <button class="back-button" onclick="showCategories()">
+                <i class="fas fa-arrow-left"></i> Back to Categories
+            </button>
+            <h2 class="section-title">Sound Design Tutorials</h2>
+            <div class="content-grid">
+                <div class="content-card">
+                    <h3>Foley Recording</h3>
+                    <ul>
+                        <li>Creating realistic sound effects</li>
+                        <li>Recording techniques and equipment</li>
+                        <li>Sync and timing precision</li>
+                        <li>Library organization</li>
+                    </ul>
+                </div>
+                <div class="content-card">
+                    <h3>ADR (Automated Dialogue Replacement)</h3>
+                    <ul>
+                        <li>Setting up a home studio</li>
+                        <li>Mic placement and recording</li>
+                        <li>Matching original performance</li>
+                        <li>Integration with final mix</li>
+                    </ul>
+                </div>
+                <div class="content-card">
+                    <h3>Mixing Fundamentals</h3>
+                    <ul>
+                        <li>Balance and levels</li>
+                        <li>Panning and spatial placement</li>
+                        <li>EQ and frequency management</li>
+                        <li>Compression and dynamics</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Editing Content -->
+    <section class="category-content" id="editing-content">
+        <div class="container">
+            <button class="back-button" onclick="showCategories()">
+                <i class="fas fa-arrow-left"></i> Back to Categories
+            </button>
+            <h2 class="section-title">Editing Tutorials</h2>
+            <div class="content-grid">
+                <div class="content-card">
+                    <h3>Cutting Basics</h3>
+                    <ul>
+                        <li>Continuity and flow</li>
+                        <li>Shot selection techniques</li>
+                        <li>Pacing and rhythm</li>
+                        <li>Scene transitions</li>
+                    </ul>
+                </div>
+                <div class="content-card">
+                    <h3>Software Tutorials</h3>
+                    <ul>
+                        <li>DaVinci Resolve workflow</li>
+                        <li>Premiere Pro essentials</li>
+                        <li>Final Cut Pro basics</li>
+                        <li>Export settings and formats</li>
+                    </ul>
+                </div>
+                <div class="content-card">
+                    <h3>Color Grading</h3>
+                    <ul>
+                        <li>Primary color correction</li>
+                        <li>Secondary grading techniques</li>
+                        <li>LUT application</li>
+                        <li>Consistency across scenes</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Directing Content -->
+    <section class="category-content" id="directing-content">
+        <div class="container">
+            <button class="back-button" onclick="showCategories()">
+                <i class="fas fa-arrow-left"></i> Back to Categories
+            </button>
+            <h2 class="section-title">Directing Tutorials</h2>
+            <div class="content-grid">
+                <div class="content-card">
+                    <h3>Working with Actors</h3>
+                    <ul>
+                        <li>Communication techniques</li>
+                        <li>Blocking and staging</li>
+                        <li>Performance coaching</li>
+                        <li>Rehearsal methods</li>
+                    </ul>
+                </div>
+                <div class="content-card">
+                    <h3>Pre-Production Planning</h3>
+                    <ul>
+                        <li>Script breakdown process</li>
+                        <li>Shot list creation</li>
+                        <li>Scheduling and logistics</li>
+                        <li>Location scouting</li>
+                    </ul>
+                </div>
+                <div class="content-card">
+                    <h3>On-Set Management</h3>
+                    <ul>
+                        <li>Department coordination</li>
+                        <li>Time management strategies</li>
+                        <li>Creative problem solving</li>
+                        <li>Maintaining vision under pressure</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tutorials Section -->
+    <section class="tutorials" id="tutorials">
+        <div class="container">
+            <h2 class="section-title">Tutorials</h2>
+            <div class="tutorials-grid">
+                <div class="tutorial-card">
+                    <h3>Screenwriting</h3>
+                    <ul>
+                        <li>Story structure fundamentals</li>
+                        <li>Character development techniques</li>
+                        <li>Dialogue writing mastery</li>
+                        <li>Formatting your script</li>
+                    </ul>
+                </div>
+                <div class="tutorial-card">
+                    <h3>Cinematography</h3>
+                    <ul>
+                        <li>Camera basics & settings</li>
+                        <li>Shot types & compositions</li>
+                        <li>Lighting techniques</li>
+                        <li>Framing & perspective</li>
+                    </ul>
+                </div>
+                <div class="tutorial-card">
+                    <h3>Editing</h3>
+                    <ul>
+                        <li>Cutting basics & pacing</li>
+                        <li>Transitions & effects</li>
+                        <li>Software tutorials (Premiere, DaVinci)</li>
+                        <li>Color grading essentials</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Resources Section -->
+    <section class="resources" id="resources">
+        <div class="container">
+            <h2 class="section-title">Resource Library</h2>
+            <div class="resources-grid">
+                <div class="resource-card">
+                    <h3>Templates</h3>
+                    <ul>
+                        <li>Script template (Fountain/Final Draft)</li>
+                        <li>Shot list template</li>
+                        <li>Storyboard sheets</li>
+                        <li>Production schedule</li>
+                    </ul>
+                </div>
+                <div class="resource-card">
+                    <h3>Free Software</h3>
+                    <ul>
+                        <li>DaVinci Resolve (Editing)</li>
+                        <li>Trelby (Screenwriting)</li>
+                        <li>Audacity (Audio Editing)</li>
+                        <li>Blender (3D Animation)</li>
+                    </ul>
+                </div>
+                <div class="resource-card">
+                    <h3>Royalty-Free Resources</h3>
+                    <ul>
+                        <li>Free music libraries</li>
+                        <li>Sound effects collections</li>
+                        <li>Stock footage sites</li>
+                        <li>Free font resources</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tools Section -->
+    <section class="tools" id="tools">
+        <div class="container">
+            <h2 class="section-title">Filmmaking Tools</h2>
+            <div class="tools-grid">
+                <div class="tool-card">
+                    <div class="tool-icon">💰</div>
+                    <h3>Budget Estimator</h3>
+                    <p>Calculate production costs based on crew size and equipment needs</p>
+                </div>
+                <div class="tool-card">
+                    <div class="tool-icon">📋</div>
+                    <h3>Shot List Generator</h3>
+                    <p>Create professional shot lists for your productions</p>
+                </div>
+                <div class="tool-card">
+                    <div class="tool-icon">📏</div>
+                    <h3>Script Word Counter</h3>
+                    <p>Estimate runtime from your screenplay (1 page ≈ 1 minute)</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="gallery" id="gallery">
+        <div class="container">
+            <h2 class="section-title">Inspiration Gallery</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="https://images.pexels.com/photos/27778745/pexels-photo-27778745.jpeg" alt="Cinematic shot">
+                    <div class="gallery-caption">
+                        <h4>Rule of Thirds</h4>
+                        <p>Classic composition technique for visual balance</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.pexels.com/photos/7523255/pexels-photo-7523255.jpeg" alt="Film set">
+                    <div class="gallery-caption">
+                        <h4>Three-Point Lighting</h4>
+                        <p>Essential lighting setup for professional cinematography</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.pexels.com/photos/8799980/pexels-photo-8799980.jpeg" alt="Director">
+                    <div class="gallery-caption">
+                        <h4>Director's Vision</h4>
+                        <p>The art of visual storytelling through directorial choices</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>About BIGBOYY</h3>
+                    <p>Empowering future filmmakers with comprehensive resources, tutorials, and tools to bring their creative visions to life.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#tutorials">Tutorials</a></li>
+                        <li><a href="#resources">Resources</a></li>
+                        <li><a href="#tools">Tools</a></li>
+                        <li><a href="#gallery">Gallery</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <form class="contact-form">
+                        <input type="text" placeholder="Your Name" required>
+                        <input type="email" placeholder="Your Email" required>
+                        <textarea placeholder="Your Message" rows="4" required></textarea>
+                        <button type="submit">Send Message</button>
+                    </form>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 BIGBOYY - Filmmaking Resources Hub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Modal Functionality
+        const authModal = document.getElementById('authModal');
+        const authIcon = document.getElementById('authIcon');
+        const closeButtons = document.querySelectorAll('.close');
+        const showSignup = document.getElementById('showSignup');
+        const showLogin = document.getElementById('showLogin');
+        const loginForm = document.getElementById('loginForm');
+        const signupForm = document.getElementById('signupForm');
+
+        authIcon.addEventListener('click', () => {
+            authModal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        });
+
+        closeButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                authModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+        });
+
+        showSignup.addEventListener('click', () => {
+            loginForm.style.display = 'none';
+            signupForm.style.display = 'block';
+        });
+
+        showLogin.addEventListener('click', () => {
+            signupForm.style.display = 'none';
+            loginForm.style.display = 'block';
+        });
+
+        window.addEventListener('click', (event) => {
+            if (event.target === authModal) {
+                authModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Form Submission
+        document.getElementById('loginSubmit').addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('Login successful!');
+            authModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        });
+
+        document.getElementById('signupSubmit').addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('Account created successfully!');
+            authModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        });
+
+        const contactForm = document.querySelector('.contact-form');
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for your message! We will get back to you soon.');
+            contactForm.reset();
+        });
+
+        // Smooth Scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Category Navigation
+        const categoryCards = document.querySelectorAll('.category-card');
+        const categoryContents = document.querySelectorAll('.category-content');
+        const categoriesSection = document.querySelector('.categories');
+
+        categoryCards.forEach(card => {
+            card.addEventListener('click', function() {
+                const category = this.getAttribute('data-category');
+                showCategoryContent(category);
+            });
+        });
+
+        function showCategoryContent(category) {
+            // Hide all category contents
+            categoryContents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Hide categories section
+            categoriesSection.style.display = 'none';
+            
+            // Show selected category content
+            document.getElementById(`${category}-content`).classList.add('active');
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showCategories() {
+            // Hide all category contents
+            categoryContents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Show categories section
+            categoriesSection.style.display = 'block';
+            
+            // Scroll to categories section
+            document.querySelector('#explore-categories').scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0) translateX(0) scale(1)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for scroll animations
+        document.querySelectorAll('.category-card, .tutorial-card, .resource-card, .tool-card, .gallery-item').forEach(card => {
+            observer.observe(card);
+        });
+
+        // Add hover effects to all cards
+        document.querySelectorAll('.category-card, .tutorial-card, .resource-card, .tool-card, .content-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+
+        // Add pulse animation to auth icon
+        setInterval(() => {
+            authIcon.style.transform = 'scale(1.1)';
+            setTimeout(() => {
+                authIcon.style.transform = 'scale(1)';
+            }, 300);
+        }, 5000);
+    </script>
+</body>
+</html>

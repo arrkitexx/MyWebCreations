@@ -1,0 +1,1471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARKITEXX - Local Transportation & Shuttle Services</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            margin-right: 10px;
+            color: #4CAF50;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+        }
+
+        nav a:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(30, 60, 114, 0.8), rgba(42, 82, 152, 0.9)), url('https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 5rem 0;
+            margin-bottom: 3rem;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #4CAF50;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn-primary {
+            background: #2196F3;
+        }
+
+        .btn-primary:hover {
+            background: #1976D2;
+        }
+
+        /* Quick Links */
+        .quick-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .quick-link-card {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .quick-link-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .quick-link-card i {
+            font-size: 2.5rem;
+            color: #2196F3;
+            margin-bottom: 1rem;
+        }
+
+        .quick-link-card h3 {
+            margin-bottom: 0.5rem;
+            color: #1e3c72;
+        }
+
+        /* Promo Banners */
+        .promo-section {
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #1e3c72;
+        }
+
+        .promo-banners {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .promo-banner {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .promo-banner img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .promo-content {
+            padding: 1.5rem;
+        }
+
+        .promo-content h3 {
+            color: #1e3c72;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Routes Section */
+        .routes-section {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .filter-section {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-section select, .filter-section input {
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .route-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .route-card {
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: box-shadow 0.3s;
+        }
+
+        .route-card:hover {
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .route-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .route-name {
+            font-weight: 600;
+            color: #1e3c72;
+        }
+
+        .route-price {
+            background: #4CAF50;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .route-details {
+            margin-bottom: 1rem;
+        }
+
+        .route-detail {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Booking Form */
+        .booking-form {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .seat-selection {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .seat {
+            background: #e3f2fd;
+            border: 1px solid #2196F3;
+            border-radius: 5px;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .seat:hover {
+            background: #bbdefb;
+        }
+
+        .seat.selected {
+            background: #2196F3;
+            color: white;
+        }
+
+        .seat.occupied {
+            background: #f44336;
+            color: white;
+            cursor: not-allowed;
+        }
+
+        /* Fleet Section */
+        .fleet-section {
+            margin-bottom: 3rem;
+        }
+
+        .fleet-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .fleet-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .fleet-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .fleet-details {
+            padding: 1.5rem;
+        }
+
+        .fleet-details h3 {
+            color: #1e3c72;
+            margin-bottom: 1rem;
+        }
+
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .feature {
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        /* About Section */
+        .about-section {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .about-text h2 {
+            color: #1e3c72;
+            margin-bottom: 1rem;
+        }
+
+        .about-image {
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .about-image img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .contact-info h3 {
+            color: #1e3c72;
+            margin-bottom: 1rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .contact-item i {
+            width: 40px;
+            height: 40px;
+            background: #2196F3;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+        }
+
+        .map-container {
+            height: 300px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Fare Calculator */
+        .fare-calculator {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .result-section {
+            background: #e8f5e9;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .result-section h3 {
+            color: #2e7d32;
+            margin-bottom: 0.5rem;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .faq-item {
+            border-bottom: 1px solid #eee;
+            padding: 1rem 0;
+        }
+
+        .faq-question {
+            font-weight: 600;
+            color: #1e3c72;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-answer {
+            margin-top: 1rem;
+            line-height: 1.6;
+            display: none;
+        }
+
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+
+        /* Ticket Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .ticket-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #1e3c72;
+        }
+
+        .ticket-details {
+            margin-bottom: 2rem;
+        }
+
+        .ticket-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .ticket-row:last-child {
+            border-bottom: none;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        /* Footer */
+        footer {
+            background: #1e3c72;
+            color: white;
+            padding: 3rem 0 1rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: #4CAF50;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #4CAF50;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s;
+        }
+
+        .social-links a:hover {
+            background: #4CAF50;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav ul {
+                gap: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+                position: absolute;
+                top: 1rem;
+                right: 1rem;
+            }
+
+            nav ul {
+                display: none;
+                flex-direction: column;
+                gap: 0.5rem;
+                width: 100%;
+                text-align: center;
+            }
+
+            nav ul.show {
+                display: flex;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-section {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-bus"></i>
+                ARKITEXX
+            </div>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav>
+                <ul id="navMenu">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#routes">Routes</a></li>
+                    <li><a href="#booking">Book Now</a></li>
+                    <li><a href="#fleet">Fleet</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container hero-content">
+            <h1>Travel Made Easy — Book Your Ride Now</h1>
+            <p>Reliable, comfortable, and affordable transportation services across Negros Oriental & Occidental</p>
+            <a href="#booking" class="btn">Book Your Ride</a>
+        </div>
+    </section>
+
+    <!-- Quick Links -->
+    <div class="container">
+        <div class="quick-links">
+            <div class="quick-link-card">
+                <i class="fas fa-route"></i>
+                <h3>Dumaguete ↔ Bacolod</h3>
+                <p>Regular daily trips connecting Negros provinces</p>
+                <a href="#booking" class="btn btn-primary">Book Now</a>
+            </div>
+            <div class="quick-link-card">
+                <i class="fas fa-route"></i>
+                <h3>Dumaguete ↔ Cebu</h3>
+                <p>Convenient travel to and from Cebu City</p>
+                <a href="#booking" class="btn btn-primary">Book Now</a>
+            </div>
+            <div class="quick-link-card">
+                <i class="fas fa-route"></i>
+                <h3>Dumaguete ↔ Roxas</h3>
+                <p>Direct routes to Roxas City, Capiz</p>
+                <a href="#booking" class="btn btn-primary">Book Now</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Promo Banners -->
+    <div class="container promo-section">
+        <h2 class="section-title">Special Offers & Promos</h2>
+        <div class="promo-banners">
+            <div class="promo-banner">
+                <img src="https://images.unsplash.com/photo-1560717789-0ac7c58ac90a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Student Discount">
+                <div class="promo-content">
+                    <h3>Student Discount</h3>
+                    <p>Get 15% off for all students with valid ID</p>
+                </div>
+            </div>
+            <div class="promo-banner">
+                <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Senior Citizen Discount">
+                <div class="promo-content">
+                    <h3>Senior Citizen Discount</h3>
+                    <p>20% discount for seniors 60 years and above</p>
+                </div>
+            </div>
+            <div class="promo-banner">
+                <img src="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Group Travel">
+                <div class="promo-content">
+                    <h3>Group Travel</h3>
+                    <p>Special rates for groups of 5 or more passengers</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Routes & Schedules -->
+    <div class="container routes-section" id="routes">
+        <h2 class="section-title">Routes & Schedules</h2>
+        <div class="filter-section">
+            <select id="routeFilter">
+                <option value="all">All Routes</option>
+                <option value="dumaguete-bacolod">Dumaguete ↔ Bacolod</option>
+                <option value="dumaguete-cebu">Dumaguete ↔ Cebu</option>
+                <option value="dumaguete-roxas">Dumaguete ↔ Roxas</option>
+                <option value="bais-bacolod">Bais ↔ Bacolod</option>
+                <option value="bayawan-cebu">Bayawan ↔ Cebu</option>
+                <option value="tagbilaran-roxas">Tagbilaran ↔ Roxas</option>
+            </select>
+            <input type="text" placeholder="Search by location...">
+        </div>
+        <div class="route-grid">
+            <div class="route-card">
+                <div class="route-header">
+                    <div class="route-name">Dumaguete → Bacolod</div>
+                    <div class="route-price">₱380</div>
+                </div>
+                <div class="route-details">
+                    <div class="route-detail">
+                        <span>Departure:</span>
+                        <span>5:00 AM, 1:00 PM</span>
+                    </div>
+                    <div class="route-detail">
+                        <span>Arrival:</span>
+                        <span>10:30 AM, 6:30 PM</span>
+                    </div>
+                    <div class="route-detail">
+                        <span>Duration:</span>
+                        <span>5.5 hours</span>
+                    </div>
+                    <div class="route-detail">
+                        <span>Vehicle:</span>
+                        <span>Aircon Bus</span>
+                    </div>
+                </div>
+                <a href="#booking" class="btn btn-primary">Book Now</a>
+            </div>
+            <div class="route-card">
+                <div class="route-header">
+                    <div class="route-name">Bacolod → Dumaguete</div>
+                    <div class="route-price">₱380</div>
+                </div>
+                <div class="route-details">
+                    <div class="route-detail">
+                        <span>Departure:</span>
+                        <span>6:00 AM, 2:00 PM</span>
+                    </div>
+                    <div class="route-detail">
+                        <span>Arrival:</span>
+                        <span>11:30 AM, 7:30 PM</span>
+                    </div>
+                    <div class="route-detail">
+                        <span>Duration:</span>
+                        <span>5.5 hours</span>
+                    </div>
+                    <div class="route-detail">
+                        <span>Vehicle:</span>
+                        <span>Aircon Bus</span>
+                    </div>
+                </div>
+                <a href="#booking" class="btn btn-primary">Book Now</a>
+            </div>
+            <div class="route-card">
+                <div class="route-header">
+                    <div class="route-name">Dumaguete → Cebu</div>
+                    <div class="route-price">₱450</div>
+                </div>
+                <div class="route-details">
+                    <div class="route-detail">
+                        <span>Departure:</span>
+                        <span>6:00 AM, 2:00 PM</span>
+                    </div>
+                    <div class="route-detail">
+                        <span>Arrival:</span>
+                        <span>11:00 AM, 7:00 PM</span>
+                    </div>
+                    <div class="route-detail">
+                        <span>Duration:</span>
+                        <span>5 hours</span>
+                    </div>
+                    <div class="route-detail">
+                        <span>Vehicle:</span>
+                        <span>Aircon Van</span>
+                    </div>
+                </div>
+                <a href="#booking" class="btn btn-primary">Book Now</a>
+            </div>
+            <div class="route-card">
+                <div class="route-header">
+                    <div class="route-name">Dumaguete → Roxas</div>
+                    <div class="route-price">₱320</div>
+                </div>
+                <div class="route-details">
+                    <div class="route-detail">
+                        <span>Departure:</span>
+                        <span>7:00 AM, 3:00 PM</span>
+                    </div>
+                    <div class="route-detail">
+                        <span>Arrival:</span>
+                        <span>11:00 AM, 7:00 PM</span>
+                    </div>
+                    <div class="route-detail">
+                        <span>Duration:</span>
+                        <span>4 hours</span>
+                    </div>
+                    <div class="route-detail">
+                        <span>Vehicle:</span>
+                        <span>Aircon Van</span>
+                    </div>
+                </div>
+                <a href="#booking" class="btn btn-primary">Book Now</a>
+            </div>
+            <div class="route-card">
+                <div class="route-header">
+                    <div class="route-name">Bais → Bacolod</div>
+                    <div class="route-price">₱280</div>
+                </div>
+                <div class="route-details">
+                    <div class="route-detail">
+                        <span>Departure:</span>
+                        <span>8:00 AM, 4:00 PM</span>
+                    </div>
+                    <div class="route-detail">
+                        <span>Arrival:</span>
+                        <span>12:00 PM, 8:00 PM</span>
+                    </div>
+                    <div class="route-detail">
+                        <span>Duration:</span>
+                        <span>4 hours</span>
+                    </div>
+                    <div class="route-detail">
+                        <span>Vehicle:</span>
+                        <span>Aircon Van</span>
+                    </div>
+                </div>
+                <a href="#booking" class="btn btn-primary">Book Now</a>
+            </div>
+            <div class="route-card">
+                <div class="route-header">
+                    <div class="route-name">Bayawan → Cebu</div>
+                    <div class="route-price">₱350</div>
+                </div>
+                <div class="route-details">
+                    <div class="route-detail">
+                        <span>Departure:</span>
+                        <span>9:00 AM, 5:00 PM</span>
+                    </div>
+                    <div class="route-detail">
+                        <span>Arrival:</span>
+                        <span>1:00 PM, 9:00 PM</span>
+                    </div>
+                    <div class="route-detail">
+                        <span>Duration:</span>
+                        <span>4 hours</span>
+                    </div>
+                    <div class="route-detail">
+                        <span>Vehicle:</span>
+                        <span>Aircon Van</span>
+                    </div>
+                </div>
+                <a href="#booking" class="btn btn-primary">Book Now</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Booking Form -->
+    <div class="container booking-form" id="booking">
+        <h2 class="section-title">Book Your Ride</h2>
+        <form id="bookingForm">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="route">Select Route</label>
+                    <select id="route" required>
+                        <option value="">Choose a route</option>
+                        <option value="dumaguete-bacolod">Dumaguete ↔ Bacolod</option>
+                        <option value="dumaguete-cebu">Dumaguete ↔ Cebu</option>
+                        <option value="dumaguete-roxas">Dumaguete ↔ Roxas</option>
+                        <option value="bais-bacolod">Bais ↔ Bacolod</option>
+                        <option value="bayawan-cebu">Bayawan ↔ Cebu</option>
+                        <option value="tagbilaran-roxas">Tagbilaran ↔ Roxas</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="departureDate">Departure Date</label>
+                    <input type="date" id="departureDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="departureTime">Departure Time</label>
+                    <select id="departureTime" required>
+                        <option value="">Select time</option>
+                        <option value="5:00 AM">5:00 AM</option>
+                        <option value="6:00 AM">6:00 AM</option>
+                        <option value="7:00 AM">7:00 AM</option>
+                        <option value="8:00 AM">8:00 AM</option>
+                        <option value="9:00 AM">9:00 AM</option>
+                        <option value="1:00 PM">1:00 PM</option>
+                        <option value="2:00 PM">2:00 PM</option>
+                        <option value="3:00 PM">3:00 PM</option>
+                        <option value="4:00 PM">4:00 PM</option>
+                        <option value="5:00 PM">5:00 PM</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="passengers">Number of Passengers</label>
+                    <input type="number" id="passengers" min="1" max="40" value="1" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="passengerName">Passenger Name</label>
+                <input type="text" id="passengerName" placeholder="Full name" required>
+            </div>
+            <div class="form-group">
+                <label for="contact">Contact Number</label>
+                <input type="tel" id="contact" placeholder="Phone number" required>
+            </div>
+            <div class="form-group">
+                <label>Seat Selection</label>
+                <div class="seat-selection">
+                    <div class="seat" data-seat="1">1</div>
+                    <div class="seat" data-seat="2">2</div>
+                    <div class="seat" data-seat="3">3</div>
+                    <div class="seat" data-seat="4">4</div>
+                    <div class="seat" data-seat="5">5</div>
+                    <div class="seat" data-seat="6">6</div>
+                    <div class="seat" data-seat="7">7</div>
+                    <div class="seat" data-seat="8">8</div>
+                    <div class="seat occupied" data-seat="9">9</div>
+                    <div class="seat" data-seat="10">10</div>
+                    <div class="seat" data-seat="11">11</div>
+                    <div class="seat" data-seat="12">12</div>
+                </div>
+            </div>
+            <button type="submit" class="btn">Confirm Booking</button>
+        </form>
+    </div>
+
+    <!-- Fleet Section -->
+    <div class="container fleet-section" id="fleet">
+        <h2 class="section-title">Our Fleet</h2>
+        <div class="fleet-grid">
+            <div class="fleet-card">
+                <img src="https://images.unsplash.com/photo-1542362567-b07e54358753?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Modern Van">
+                <div class="fleet-details">
+                    <h3>Modern Aircon Van</h3>
+                    <p>Comfortable 12-seater vans with air conditioning</p>
+                    <div class="features">
+                        <span class="feature">Aircon</span>
+                        <span class="feature">WiFi</span>
+                        <span class="feature">12 Seats</span>
+                        <span class="feature">Charging Ports</span>
+                    </div>
+                </div>
+            </div>
+            <div class="fleet-card">
+                <img src="https://images.unsplash.com/photo-1549399542-7e7f8c7a3d7d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Luxury Bus">
+                <div class="fleet-details">
+                    <h3>Luxury Bus</h3>
+                    <p>Spacious buses with extra legroom and comfort</p>
+                    <div class="features">
+                        <span class="feature">Aircon</span>
+                        <span class="feature">Reclining Seats</span>
+                        <span class="feature">40 Seats</span>
+                        <span class="feature">Entertainment</span>
+                    </div>
+                </div>
+            </div>
+            <div class="fleet-card">
+                <img src="https://images.unsplash.com/photo-1561610922-0e0d4c1b6a1a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Economy Van">
+                <div class="fleet-details">
+                    <h3>Economy Van</h3>
+                    <p>Budget-friendly option with reliable service</p>
+                    <div class="features">
+                        <span class="feature">Aircon</span>
+                        <span class="feature">8 Seats</span>
+                        <span class="feature">Affordable</span>
+                        <span class="feature">On-time</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Us -->
+    <div class="container about-section" id="about">
+        <h2 class="section-title">About ARKITEXX</h2>
+        <div class="about-content">
+            <div class="about-text">
+                <p>Founded in 2010, ARKITEXX has been providing reliable transportation services across Negros Oriental and Occidental for over a decade. Our commitment to safety, comfort, and punctuality has made us the preferred choice for travelers.</p>
+                <p>We operate modern, well-maintained vehicles with professional drivers who prioritize your safety and comfort. Our routes cover major destinations including Dumaguete, Bacolod, Cebu, Roxas, and more.</p>
+                <h3>Our Safety Guarantee</h3>
+                <ul>
+                    <li>Regular vehicle maintenance and inspections</li>
+                    <li>Professional, licensed drivers</li>
+                    <li>GPS tracking for all vehicles</li>
+                    <li>24/7 customer support</li>
+                </ul>
+            </div>
+            <div class="about-image">
+                <img src="https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Our Team">
+            </div>
+        </div>
+    </div>
+
+    <!-- Fare Calculator -->
+    <div class="container fare-calculator">
+        <h2 class="section-title">Fare Calculator</h2>
+        <div class="calculator-grid">
+            <div class="form-group">
+                <label for="pickup">Pickup Location</label>
+                <select id="pickup">
+                    <option value="">Select pickup</option>
+                    <option value="dumaguete">Dumaguete</option>
+                    <option value="bacolod">Bacolod</option>
+                    <option value="cebu">Cebu</option>
+                    <option value="roxas">Roxas</option>
+                    <option value="bais">Bais</option>
+                    <option value="bayawan">Bayawan</option>
+                    <option value="tagbilaran">Tagbilaran</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="dropoff">Drop-off Location</label>
+                <select id="dropoff">
+                    <option value="">Select drop-off</option>
+                    <option value="dumaguete">Dumaguete</option>
+                    <option value="bacolod">Bacolod</option>
+                    <option value="cebu">Cebu</option>
+                    <option value="roxas">Roxas</option>
+                    <option value="bais">Bais</option>
+                    <option value="bayawan">Bayawan</option>
+                    <option value="tagbilaran">Tagbilaran</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="passengerCount">Number of Passengers</label>
+                <input type="number" id="passengerCount" min="1" max="40" value="1">
+            </div>
+        </div>
+        <button id="calculateFare" class="btn">Calculate Fare</button>
+        <div class="result-section" id="fareResult" style="display: none;">
+            <h3>Estimated Fare</h3>
+            <p id="fareAmount">₱0.00</p>
+        </div>
+    </div>
+
+    <!-- Contact Section -->
+    <div class="container contact-section" id="contact">
+        <h2 class="section-title">Contact Us</h2>
+        <div class="contact-grid">
+            <div class="contact-info">
+                <h3>Get in Touch</h3>
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <div>
+                        <h4>Booking Hotline</h4>
+                        <p>+63 912 345 6789</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <i class="fab fa-whatsapp"></i>
+                    <div>
+                        <h4>WhatsApp</h4>
+                        <p>+63 912 345 6789</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <i class="fab fa-facebook-messenger"></i>
+                    <div>
+                        <h4>Messenger</h4>
+                        <p>ARKITEXX Transport</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div>
+                        <h4>Main Office</h4>
+                        <p>123 Transportation St, Dumaguete City</p>
+                    </div>
+                </div>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="map-container">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3934.920043044753!2d123.304305!3d9.307899!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33ab6d37e8b7d021%3A0x3d3c7a8d8c8e8a8a!2sDumaguete%20City!5e0!3m2!1sen!2sph!4v1650000000000!5m2!1sen!2sph"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="container faq-section">
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        <div class="faq-item">
+            <div class="faq-question">
+                What is your luggage policy?
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                <p>Each passenger is allowed one medium-sized suitcase (not exceeding 20kg) and one small hand carry. Additional or oversized luggage may incur extra charges.</p>
+            </div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">
+                Can I bring my pet?
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                <p>Small pets in carriers are allowed. Please inform us during booking so we can accommodate your pet properly. Service animals are always welcome.</p>
+            </div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">
+                What is your refund policy?
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                <p>Refunds are available if requested 24 hours before departure. A 15% cancellation fee applies. No refunds for no-shows or late arrivals.</p>
+            </div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">
+                How do I track my trip status?
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                <p>You can check trip status updates through our website or by calling our hotline. We'll also send SMS notifications for any delays or changes.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ticket Modal -->
+    <div class="modal" id="ticketModal">
+        <div class="modal-content">
+            <button class="close-modal">&times;</button>
+            <div class="ticket-header">
+                <h2>ARKITEXX</h2>
+                <p>Boarding Pass</p>
+            </div>
+            <div class="ticket-details">
+                <div class="ticket-row">
+                    <span>Passenger:</span>
+                    <span id="ticketName">-</span>
+                </div>
+                <div class="ticket-row">
+                    <span>Route:</span>
+                    <span id="ticketRoute">-</span>
+                </div>
+                <div class="ticket-row">
+                    <span>Date:</span>
+                    <span id="ticketDate">-</span>
+                </div>
+                <div class="ticket-row">
+                    <span>Time:</span>
+                    <span id="ticketTime">-</span>
+                </div>
+                <div class="ticket-row">
+                    <span>Seat:</span>
+                    <span id="ticketSeat">-</span>
+                </div>
+                <div class="ticket-row">
+                    <span>Fare:</span>
+                    <span id="ticketFare">-</span>
+                </div>
+                <div class="ticket-row">
+                    <span>Booking ID:</span>
+                    <span id="ticketID">ARK123456</span>
+                </div>
+            </div>
+            <button class="btn" id="printTicket">Print Ticket</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>ARKITEXX</h3>
+                    <p>Reliable transportation services across Negros Oriental & Occidental since 2010.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#routes">Routes</a></li>
+                        <li><a href="#booking">Book Now</a></li>
+                        <li><a href="#fleet">Fleet</a></li>
+                        <li><a href="#about">About Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Services</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Shuttle Services</a></li>
+                        <li><a href="#">Airport Transfers</a></li>
+                        <li><a href="#">Group Travel</a></li>
+                        <li><a href="#">Corporate Accounts</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Info</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-phone"></i> +63 912 345 6789</li>
+                        <li><i class="fas fa-envelope"></i> info@arkitexx.com</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Dumaguete City, Philippines</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 ARKITEXX Transport Services. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+            document.getElementById('navMenu').classList.toggle('show');
+        });
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const faqItem = question.parentElement;
+                faqItem.classList.toggle('active');
+            });
+        });
+
+        // Seat Selection
+        document.querySelectorAll('.seat').forEach(seat => {
+            seat.addEventListener('click', function() {
+                if (!this.classList.contains('occupied')) {
+                    this.classList.toggle('selected');
+                }
+            });
+        });
+
+        // Fare Calculator
+        document.getElementById('calculateFare').addEventListener('click', function() {
+            const pickup = document.getElementById('pickup').value;
+            const dropoff = document.getElementById('dropoff').value;
+            const passengers = parseInt(document.getElementById('passengerCount').value) || 1;
+            
+            if (!pickup || !dropoff) {
+                alert('Please select both pickup and drop-off locations');
+                return;
+            }
+            
+            if (pickup === dropoff) {
+                alert('Pickup and drop-off locations cannot be the same');
+                return;
+            }
+            
+            // Fare calculation logic for Negros routes
+            let baseFare = 0;
+            if ((pickup === 'dumaguete' && dropoff === 'bacolod') || 
+                (pickup === 'bacolod' && dropoff === 'dumaguete')) {
+                baseFare = 380;
+            } else if ((pickup === 'dumaguete' && dropoff === 'cebu') || 
+                      (pickup === 'cebu' && dropoff === 'dumaguete')) {
+                baseFare = 450;
+            } else if ((pickup === 'dumaguete' && dropoff === 'roxas') || 
+                      (pickup === 'roxas' && dropoff === 'dumaguete')) {
+                baseFare = 320;
+            } else if ((pickup === 'bais' && dropoff === 'bacolod') || 
+                      (pickup === 'bacolod' && dropoff === 'bais')) {
+                baseFare = 280;
+            } else if ((pickup === 'bayawan' && dropoff === 'cebu') || 
+                      (pickup === 'cebu' && dropoff === 'bayawan')) {
+                baseFare = 350;
+            } else if ((pickup === 'tagbilaran' && dropoff === 'roxas') || 
+                      (pickup === 'roxas' && dropoff === 'tagbilaran')) {
+                baseFare = 250;
+            } else {
+                baseFare = 300; // Default fare
+            }
+            
+            const totalFare = baseFare * passengers;
+            document.getElementById('fareAmount').textContent = `₱${totalFare.toFixed(2)}`;
+            document.getElementById('fareResult').style.display = 'block';
+        });
+
+        // Booking Form Submission
+        document.getElementById('bookingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const route = document.getElementById('route').value;
+            const date = document.getElementById('departureDate').value;
+            const time = document.getElementById('departureTime').value;
+            const passengers = document.getElementById('passengers').value;
+            const name = document.getElementById('passengerName').value;
+            const contact = document.getElementById('contact').value;
+            
+            // Get selected seat
+            const selectedSeat = document.querySelector('.seat.selected');
+            const seatNumber = selectedSeat ? selectedSeat.textContent : 'Not selected';
+            
+            // Validate form
+            if (!route || !date || !time || !name || !contact) {
+                alert('Please fill in all required fields');
+                return;
+            }
+            
+            // Set ticket details
+            document.getElementById('ticketName').textContent = name;
+            document.getElementById('ticketDate').textContent = date;
+            document.getElementById('ticketTime').textContent = time;
+            document.getElementById('ticketSeat').textContent = seatNumber;
+            
+            // Set route name
+            let routeName = '';
+            switch(route) {
+                case 'dumaguete-bacolod':
+                    routeName = 'Dumaguete ↔ Bacolod';
+                    document.getElementById('ticketFare').textContent = '₱380.00';
+                    break;
+                case 'dumaguete-cebu':
+                    routeName = 'Dumaguete ↔ Cebu';
+                    document.getElementById('ticketFare').textContent = '₱450.00';
+                    break;
+                case 'dumaguete-roxas':
+                    routeName = 'Dumaguete ↔ Roxas';
+                    document.getElementById('ticketFare').textContent = '₱320.00';
+                    break;
+                case 'bais-bacolod':
+                    routeName = 'Bais ↔ Bacolod';
+                    document.getElementById('ticketFare').textContent = '₱280.00';
+                    break;
+                case 'bayawan-cebu':
+                    routeName = 'Bayawan ↔ Cebu';
+                    document.getElementById('ticketFare').textContent = '₱350.00';
+                    break;
+                case 'tagbilaran-roxas':
+                    routeName = 'Tagbilaran ↔ Roxas';
+                    document.getElementById('ticketFare').textContent = '₱250.00';
+                    break;
+            }
+            document.getElementById('ticketRoute').textContent = routeName;
+            
+            // Show ticket modal
+            document.getElementById('ticketModal').style.display = 'flex';
+        });
+
+        // Close modal
+        document.querySelector('.close-modal').addEventListener('click', function() {
+            document.getElementById('ticketModal').style.display = 'none';
+        });
+
+        // Print ticket
+        document.getElementById('printTicket').addEventListener('click', function() {
+            window.print();
+        });
+
+        // Close modal when clicking outside
+        window.addEventListener('click', function(event) {
+            const modal = document.getElementById('ticketModal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+        // Set minimum date for departure
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('departureDate').setAttribute('min', today);
+    </script>
+</body>
+</html>

@@ -1,0 +1,1776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What's Open Now - Dumaguete</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1A2B49;
+            --accent: #34D399;
+            --secondary: #FBBF24;
+            --background: #F9FAFB;
+            --text: #374151;
+            --light-text: #6B7280;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --hover-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            animation: slideDown 0.5s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .logo span {
+            color: var(--accent);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            position: relative;
+        }
+
+        nav a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background-color: var(--accent);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        nav a:hover::after {
+            width: 80%;
+        }
+
+        .search-bar {
+            position: relative;
+            margin-top: 1rem;
+            width: 100%;
+            max-width: 400px;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border-radius: 50px;
+            border: none;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-bar input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .search-bar input:focus {
+            background-color: rgba(255, 255, 255, 0.3);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(52, 211, 153, 0.3);
+        }
+
+        .search-bar i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 500px;
+            background: linear-gradient(rgba(26, 43, 73, 0.7), rgba(26, 43, 73, 0.7)), 
+                        url('https://islanddiariesph.com/wp-content/uploads/2024/06/silliman-Hall.jpg') center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 1s ease-out 0.6s both;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(26, 43, 73, 0.8), rgba(26, 43, 73, 0.4));
+            animation: gradientShift 8s infinite alternate;
+        }
+
+        @keyframes gradientShift {
+            0% { background: linear-gradient(45deg, rgba(26, 43, 73, 0.8), rgba(26, 43, 73, 0.4)); }
+            100% { background: linear-gradient(135deg, rgba(26, 43, 73, 0.6), rgba(26, 43, 73, 0.6)); }
+        }
+
+        .hero-content {
+            max-width: 800px;
+            padding: 2rem;
+            position: relative;
+            z-index: 2;
+            animation: fadeInUp 1s ease-out 0.8s both;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background-color: var(--accent);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(52, 211, 153, 0.3);
+        }
+
+        .btn:hover {
+            background-color: #10B981;
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(52, 211, 153, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(-1px) scale(0.98);
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: all 0.6s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        /* Quick Filters */
+        .quick-filters {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+            animation: fadeIn 1s ease-out 1s both;
+        }
+
+        .filter-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: var(--card-shadow);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transform: translateY(0);
+        }
+
+        .filter-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .filter-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), var(--secondary));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        .filter-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .filter-card i {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .filter-card:hover i {
+            transform: scale(1.2) rotate(5deg);
+        }
+
+        .filter-card.dining i { color: #FF6B6B; }
+        .filter-card.fast-food i { color: #4ECDC4; }
+        .filter-card.bars i { color: #9B59B6; }
+        .filter-card.pharmacy i { color: #3498DB; }
+        .filter-card.gas i { color: #F39C12; }
+        .filter-card.essentials i { color: #27AE60; }
+
+        /* Featured List */
+        .section-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--primary);
+            position: relative;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--secondary));
+            border-radius: 2px;
+        }
+
+        .carousel {
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 3rem;
+            padding: 1rem 0;
+            animation: fadeIn 1s ease-out 1.2s both;
+        }
+
+        .carousel-container {
+            display: flex;
+            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .business-card {
+            min-width: 300px;
+            background: white;
+            margin: 0 1rem;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            animation: slideInRight 0.6s ease-out;
+        }
+
+        .business-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .business-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .business-name {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+
+        .status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .status.open {
+            background-color: rgba(52, 211, 153, 0.2);
+            color: var(--accent);
+            animation: pulseGlow 2s infinite;
+        }
+
+        .status.closed {
+            background-color: rgba(239, 68, 68, 0.2);
+            color: #EF4444;
+        }
+
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.4); }
+            70% { box-shadow: 0 0 0 5px rgba(52, 211, 153, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0); }
+        }
+
+        .business-hours {
+            font-size: 0.9rem;
+            color: var(--light-text);
+            margin-bottom: 1rem;
+        }
+
+        /* Category Grid */
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+            animation: fadeIn 1s ease-out 1.4s both;
+        }
+
+        .category-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .category-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .card-image {
+            height: 150px;
+            background-color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            transition: all 0.3s ease;
+        }
+
+        .category-card:hover .card-image {
+            transform: scale(1.05);
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .card-address {
+            color: var(--light-text);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card-hours {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .hours-text {
+            font-size: 0.9rem;
+            color: var(--light-text);
+        }
+
+        .rating {
+            color: var(--secondary);
+        }
+
+        /* Map Section */
+        .map-container {
+            height: 500px;
+            background-color: #E5E7EB;
+            border-radius: 12px;
+            margin-bottom: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--light-text);
+            animation: fadeIn 1s ease-out 1.6s both;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .map-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(26, 43, 73, 0.1), transparent);
+        }
+
+        /* About Section */
+        .about-content {
+            background: white;
+            padding: 3rem;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 3rem;
+            animation: fadeIn 1s ease-out 1.8s both;
+        }
+
+        .about-content h2 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .about-content p {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #D1D5DB;
+            border-radius: 8px;
+            font-family: 'Open Sans', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(52, 211, 153, 0.1);
+        }
+
+        .form-group textarea {
+            height: 150px;
+            resize: vertical;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 0;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            animation: modalSlideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                transform: translateY(-50px) scale(0.9);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem;
+            border-radius: 12px 12px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.2rem;
+            margin: 0;
+        }
+
+        .close {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+            line-height: 1;
+            transition: all 0.3s ease;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: rotate(90deg);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .modal-image {
+            width: 100%;
+            height: 150px;
+            background-color: #E5E7EB;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--light-text);
+            animation: fadeIn 0.5s ease;
+        }
+
+        .modal-status {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .modal-status.open {
+            background-color: rgba(52, 211, 153, 0.2);
+            color: var(--accent);
+        }
+
+        .modal-status.closed {
+            background-color: rgba(239, 68, 68, 0.2);
+            color: #EF4444;
+        }
+
+        .modal-info {
+            margin-bottom: 1rem;
+        }
+
+        .modal-info p {
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            animation: slideInLeft 0.4s ease-out;
+        }
+
+        .modal-info i {
+            color: var(--primary);
+            min-width: 20px;
+            margin-top: 3px;
+        }
+
+        .modal-hours {
+            background-color: #F3F4F6;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            animation: fadeIn 0.5s ease 0.2s both;
+        }
+
+        .modal-hours h4 {
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .hours-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+        }
+
+        .hour-item {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            animation: slideInRight 0.3s ease-out;
+        }
+
+        .hour-item:nth-child(1) { animation-delay: 0.1s; }
+        .hour-item:nth-child(2) { animation-delay: 0.2s; }
+        .hour-item:nth-child(3) { animation-delay: 0.3s; }
+        .hour-item:nth-child(4) { animation-delay: 0.4s; }
+        .hour-item:nth-child(5) { animation-delay: 0.5s; }
+        .hour-item:nth-child(6) { animation-delay: 0.6s; }
+        .hour-item:nth-child(7) { animation-delay: 0.7s; }
+
+        .hour-day {
+            font-weight: 600;
+        }
+
+        .hour-time {
+            color: var(--light-text);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            animation: fadeIn 0.5s ease 0.4s both;
+        }
+
+        .btn-secondary {
+            background-color: var(--light-text);
+        }
+
+        .btn-secondary:hover {
+            background-color: #4B5563;
+        }
+
+        /* Notification Modal */
+        .notification-modal {
+            display: none;
+            position: fixed;
+            z-index: 3000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .notification-content {
+            background-color: white;
+            margin: 15% auto;
+            padding: 1.5rem;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 350px;
+            text-align: center;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            animation: modalSlideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .notification-content i {
+            font-size: 1.5rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        .notification-content h3 {
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        .notification-content p {
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .notification-content h4 {
+            margin: 0.5rem 0;
+            color: var(--primary);
+            font-size: 1rem;
+        }
+
+        .notification-buttons {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .btn-small {
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+        }
+
+        .btn-cancel {
+            background-color: #EF4444;
+        }
+
+        .btn-cancel:hover {
+            background-color: #DC2626;
+        }
+
+        /* Call Modal */
+        .call-modal .notification-content {
+            max-width: 300px;
+            padding: 2rem 1.5rem;
+        }
+
+        .call-modal .notification-content i {
+            font-size: 2rem;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .call-business-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin: 1rem 0;
+        }
+
+        .call-business-phone {
+            font-size: 1rem;
+            color: var(--light-text);
+            margin-bottom: 1.5rem;
+        }
+
+        .call-status {
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            color: var(--light-text);
+            animation: fadeIn 0.5s ease;
+        }
+
+        .btn-hangup {
+            background-color: #EF4444;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+        }
+
+        .btn-hangup:hover {
+            background-color: #DC2626;
+            transform: scale(1.05);
+        }
+
+        /* Call End Modal */
+        .call-end-modal .notification-content {
+            max-width: 300px;
+            padding: 1.5rem;
+        }
+
+        .call-end-modal .notification-content i {
+            font-size: 2rem;
+            color: #EF4444;
+            margin-bottom: 1rem;
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        /* Directions Modal */
+        .directions-modal .modal-content {
+            max-width: 600px;
+        }
+
+        .map-placeholder {
+            width: 100%;
+            height: 200px;
+            background-color: #E5E7EB;
+            border-radius: 8px;
+            margin: 1rem 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--light-text);
+            animation: fadeIn 0.5s ease;
+        }
+
+        .location-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #D1D5DB;
+            border-radius: 8px;
+            margin: 1rem 0;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .location-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(52, 211, 153, 0.1);
+        }
+
+        .location-pin {
+            text-align: center;
+            padding: 1rem;
+            background-color: #F3F4F6;
+            border-radius: 8px;
+            margin: 1rem 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: fadeIn 0.5s ease 0.2s both;
+        }
+
+        .location-pin:hover {
+            background-color: #E5E7EB;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .location-pin i {
+            font-size: 1.5rem;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .location-pin p {
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            animation: fadeIn 1s ease-out 2s both;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav ul {
+                gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .quick-filters {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .category-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-actions {
+                flex-direction: column;
+            }
+
+            .hours-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .notification-buttons {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .quick-filters {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                height: 400px;
+            }
+            
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="#" class="logo">What's Open <span>Now</span></a>
+                <nav>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#categories">Categories</a></li>
+                        <li><a href="#map">Map</a></li>
+                        <li><a href="#about">About</a></li>
+                    </ul>
+                </nav>
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="What are you looking for?">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Find What's Open Now in Dumaguete City</h1>
+            <p>Restaurants, Bars, Pharmacies, Gas Stations, Fast Food & Essentials.</p>
+            <a href="#categories" class="btn">Browse by Category</a>
+        </div>
+    </section>
+
+    <div class="container">
+        <!-- Quick Filters -->
+        <section class="quick-filters">
+            <div class="filter-card dining">
+                <i class="fas fa-utensils"></i>
+                <h3>Restaurants</h3>
+            </div>
+            <div class="filter-card fast-food">
+                <i class="fas fa-hamburger"></i>
+                <h3>Fast Food</h3>
+            </div>
+            <div class="filter-card bars">
+                <i class="fas fa-cocktail"></i>
+                <h3>Bars & Nightlife</h3>
+            </div>
+            <div class="filter-card pharmacy">
+                <i class="fas fa-prescription-bottle"></i>
+                <h3>Pharmacies</h3>
+            </div>
+            <div class="filter-card gas">
+                <i class="fas fa-gas-pump"></i>
+                <h3>Gas Stations</h3>
+            </div>
+            <div class="filter-card essentials">
+                <i class="fas fa-shopping-cart"></i>
+                <h3>Essentials</h3>
+            </div>
+        </section>
+
+        <!-- Featured List -->
+        <section>
+            <h2 class="section-title">Open Now</h2>
+            <div class="carousel">
+                <div class="carousel-container">
+                    <div class="business-card">
+                        <div class="business-header">
+                            <h3 class="business-name">Sans Rival Cakes</h3>
+                            <span class="status open">Open</span>
+                        </div>
+                        <div class="business-hours">9 AM – 8 PM</div>
+                        <p>Rizal Blvd | (035) 225-4440</p>
+                        <button class="btn" style="width: 100%; margin-top: 1rem;" onclick="showBusinessDetails('sansrival')">View Details</button>
+                    </div>
+                    <div class="business-card">
+                        <div class="business-header">
+                            <h3 class="business-name">Cafe Racer</h3>
+                            <span class="status open">Open</span>
+                        </div>
+                        <div class="business-hours">8 AM – 11 PM</div>
+                        <p>Sibulan Hwy | 0917 320 0119</p>
+                        <button class="btn" style="width: 100%; margin-top: 1rem;" onclick="showBusinessDetails('caferacer')">View Details</button>
+                    </div>
+                    <div class="business-card">
+                        <div class="business-header">
+                            <h3 class="business-name">Tom N Toms Coffee</h3>
+                            <span class="status open">Open</span>
+                        </div>
+                        <div class="business-hours">7 AM – 2 AM</div>
+                        <p>Rizal Blvd | 0917 710 8252</p>
+                        <button class="btn" style="width: 100%; margin-top: 1rem;" onclick="showBusinessDetails('tomntoms')">View Details</button>
+                    </div>
+                    <div class="business-card">
+                        <div class="business-header">
+                            <h3 class="business-name">Mercury Drug</h3>
+                            <span class="status open">Open</span>
+                        </div>
+                        <div class="business-hours">7 AM – 10 PM</div>
+                        <p>Perdices St | (035) 422-1992</p>
+                        <button class="btn" style="width: 100%; margin-top: 1rem;" onclick="showBusinessDetails('mercurydrug')">View Details</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Categories Section -->
+        <section id="categories">
+            <h2 class="section-title">Browse Categories</h2>
+            <div class="category-grid">
+                <div class="category-card">
+                    <div class="card-image">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">Restaurants</h3>
+                        <div class="card-address">
+                            <i class="fas fa-map-marker-alt"></i>
+                            KRI Restaurant - Silliman Ave
+                        </div>
+                        <div class="card-hours">
+                            <span class="hours-text">10:30 AM – 9 PM</span>
+                            <span class="status open">Open</span>
+                        </div>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <button class="btn" style="width: 100%; margin-top: 1rem;" onclick="showBusinessDetails('kri')">View Details</button>
+                    </div>
+                </div>
+
+                <div class="category-card">
+                    <div class="card-image">
+                        <i class="fas fa-coffee"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">Coffee Shops</h3>
+                        <div class="card-address">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Bo's Coffee - Robinsons Place
+                        </div>
+                        <div class="card-hours">
+                            <span class="hours-text">9 AM – 9 PM</span>
+                            <span class="status open">Open</span>
+                        </div>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                        <button class="btn" style="width: 100%; margin-top: 1rem;" onclick="showBusinessDetails('boscoffee')">View Details</button>
+                    </div>
+                </div>
+
+                <div class="category-card">
+                    <div class="card-image">
+                        <i class="fas fa-hotel"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">Hotels & Lodging</h3>
+                        <div class="card-address">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Hotel Essencia - San Jose St
+                        </div>
+                        <div class="card-hours">
+                            <span class="hours-text">24/7</span>
+                            <span class="status open">Open</span>
+                        </div>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <button class="btn" style="width: 100%; margin-top: 1rem;" onclick="showBusinessDetails('esse')">View Details</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Map Section -->
+        <section id="map">
+            <h2 class="section-title">Interactive Map</h2>
+            <div class="map-container">
+                <div>
+                    <i class="fas fa-map-marked-alt"></i>
+                    <p>Interactive Dumaguete Map<br>Click on pins to see business details</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about">
+            <h2 class="section-title">About This Website</h2>
+            <div class="about-content">
+                <h2>What's Open Now - Dumaguete</h2>
+                <p>This website helps residents and visitors of Dumaguete City quickly find establishments that are currently open. Whether you need a late-night meal, emergency supplies, or just want to explore the city's offerings, we've got you covered.</p>
+                <p>Our real-time status updates ensure you won't waste time traveling to closed establishments. All information is regularly updated, but we recommend confirming hours before visiting.</p>
+                <p><strong>Disclaimer:</strong> Hours may change without notice. Please confirm with establishments directly before visiting.</p>
+                
+                <h3 style="margin-top: 2rem; margin-bottom: 1rem;">Contact Us</h3>
+                <form>
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" placeholder="Your Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" placeholder="Your Email">
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" placeholder="Your Message"></textarea>
+                    </div>
+                    <button type="submit" class="btn">Send Message</button>
+                </form>
+            </div>
+        </section>
+    </div>
+
+    <!-- Business Details Modal -->
+    <div id="businessModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle">Business Name</h2>
+                <button class="close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-image" id="modalImage">
+                    <i class="fas fa-store"></i>
+                </div>
+                <span class="modal-status open" id="modalStatus">Open Now</span>
+                <div class="modal-info">
+                    <p><i class="fas fa-map-marker-alt"></i> <span id="modalAddress">Address</span></p>
+                    <p><i class="fas fa-phone"></i> <span id="modalPhone">Phone</span></p>
+                    <p><i class="fas fa-globe"></i> <span id="modalWebsite">Website</span></p>
+                </div>
+                <div class="modal-hours">
+                    <h4>Opening Hours</h4>
+                    <div class="hours-grid" id="modalHours">
+                        
+                        <!-- Hours will be populated here -->
+                        
+                    </div>
+                </div>
+                <p id="modalDescription">Description of the business goes here. This can include special notes, services offered, and other relevant information.</p>
+                <div class="modal-actions">
+                    <button class="btn" onclick="showCallNotification()"><i class="fas fa-phone"></i> Call Now</button>
+                    <button class="btn btn-secondary" onclick="showDirectionsModal()"><i class="fas fa-directions"></i> Get Directions</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <!-- Call Notification Modal -->
+    <div id="callModal" class="notification-modal">
+        <div class="notification-content">
+            <i class="fas fa-phone"></i>
+            <h3>Make a Call</h3>
+            <p>You are about to call:</p>
+            <h4 id="callBusinessName">Business Name</h4>
+            <p id="callBusinessPhone">Phone Number</p>
+            <div class="notification-buttons">
+                <button class="btn btn-small" onclick="initiateCall()"><i class="fas fa-phone"></i> Call</button>
+                <button class="btn btn-small btn-cancel" onclick="closeCallModal()"><i class="fas fa-times"></i> Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Call Progress Modal -->
+    <div id="callProgressModal" class="notification-modal call-modal">
+        <div class="notification-content">
+            <i class="fas fa-phone"></i>
+            <div class="call-business-name" id="callProgressName">Business Name</div>
+            <div class="call-business-phone" id="callProgressPhone">Phone Number</div>
+            <div class="call-status" id="callStatus">Connecting...</div>
+            <button class="btn btn-hangup" onclick="endCall()"><i class="fas fa-phone-slash"></i> Disconnect</button>
+        </div>
+    </div>
+
+    <!-- Call End Modal -->
+    <div id="callEndModal" class="notification-modal call-end-modal">
+        <div class="notification-content">
+            <i class="fas fa-phone-slash"></i>
+            <h3>Call Ended</h3>
+            <p>Call with <span id="endedCallName">Business Name</span> has been disconnected.</p>
+            <button class="btn btn-small" onclick="closeCallEndModal()">Close</button>
+        </div>
+    </div>
+
+    <!-- Directions Modal -->
+    <div id="directionsModal" class="modal directions-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Get Directions</h2>
+                <button class="close" onclick="closeDirectionsModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <h3 id="directionsBusinessName">Business Name</h3>
+                <div class="map-placeholder">
+                    <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <div class="location-pin">
+                    <i class="fas fa-map-pin"></i>
+                    <p>Destination: <span id="destinationAddress">Business Address</span></p>
+                </div>
+                <label for="currentLocation">Your Current Location:</label>
+                <input type="text" id="currentLocation" class="location-input" placeholder="Enter your current location or click the pin below">
+                <div class="location-pin" onclick="useCurrentLocation()">
+                    <i class="fas fa-location-arrow"></i>
+                    <p>Use Current Location</p>
+                </div>
+                <button class="btn" style="width: 100%;" onclick="showRoute()"><i class="fas fa-route"></i> Show Route</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Route Notification Modal -->
+    <div id="routeModal" class="notification-modal">
+        <div class="notification-content">
+            <i class="fas fa-route"></i>
+            <h3>Route Calculated</h3>
+            <p>From: <span id="routeFrom">Your Location</span></p>
+            <p>To: <span id="routeTo">Business Location</span></p>
+            <p>Estimated Travel Time: 15-20 minutes</p>
+            <div class="notification-buttons">
+                <button class="btn btn-small" onclick="openMaps()"><i class="fas fa-map"></i> Open in Maps</button>
+                <button class="btn btn-small btn-cancel" onclick="closeRouteModal()"><i class="fas fa-times"></i> Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 What's Open Now - Dumaguete. All rights reserved.</p>
+            <p>Helping you find what's open, when you need it most.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Business data
+        const businesses = {
+            'sansrival': {
+                name: 'Sans Rival Cakes & Pastries',
+                status: 'open',
+                address: 'Rizal Blvd, Dumaguete City',
+                phone: '(035) 225-4440',
+                website: 'facebook.com/sansrival',
+                hours: [
+                    {day: 'Monday', time: '9 AM – 8 PM'},
+                    {day: 'Tuesday', time: '9 AM – 8 PM'},
+                    {day: 'Wednesday', time: '9 AM – 8 PM'},
+                    {day: 'Thursday', time: '9 AM – 8 PM'},
+                    {day: 'Friday', time: '9 AM – 8 PM'},
+                    {day: 'Saturday', time: '9 AM – 8 PM'},
+                    {day: 'Sunday', time: '9 AM – 8 PM'}
+                ],
+                description: 'Famous for their delicious Sans Rival cakes and pastries. A local favorite for special occasions and everyday treats.'
+            },
+            'caferacer': {
+                name: 'Cafe Racer Dumaguete',
+                status: 'open',
+                address: 'Sibulan Hwy, Dumaguete City',
+                phone: '0917 320 0119',
+                website: 'facebook.com/caferacerdumaguete',
+                hours: [
+                    {day: 'Monday', time: '8 AM – 11 PM'},
+                    {day: 'Tuesday', time: '8 AM – 11 PM'},
+                    {day: 'Wednesday', time: '8 AM – 11 PM'},
+                    {day: 'Thursday', time: '8 AM – 11 PM'},
+                    {day: 'Friday', time: '8 AM – 11 PM'},
+                    {day: 'Saturday', time: '8 AM – 11 PM'},
+                    {day: 'Sunday', time: '8 AM – 11 PM'}
+                ],
+                description: 'Popular coffee shop with a motorcycle theme. Great atmosphere for work or casual meetings. Known for their specialty coffee and hearty meals.'
+            },
+            'tomntoms': {
+                name: 'Tom N Toms Coffee',
+                status: 'open',
+                address: 'Rizal Blvd, Dumaguete City',
+                phone: '0917 710 8252',
+                website: 'facebook.com/tomntoms',
+                hours: [
+                    {day: 'Monday', time: '7 AM – 2 AM'},
+                    {day: 'Tuesday', time: '7 AM – 2 AM'},
+                    {day: 'Wednesday', time: '7 AM – 2 AM'},
+                    {day: 'Thursday', time: '7 AM – 2 AM'},
+                    {day: 'Friday', time: '7 AM – 2 AM'},
+                    {day: 'Saturday', time: '7 AM – 2 AM'},
+                    {day: 'Sunday', time: '7 AM – 2 AM'}
+                ],
+                description: 'Korean coffee chain offering a wide variety of coffee drinks and light meals. Open 24/7 for your coffee needs at any time.'
+            },
+            'mercurydrug': {
+                name: 'Mercury Drug',
+                status: 'open',
+                address: 'Perdices St, Dumaguete City',
+                phone: '(035) 422-1992',
+                website: 'facebook.com/mercurydrug',
+                hours: [
+                    {day: 'Monday', time: '7 AM – 10 PM'},
+                    {day: 'Tuesday', time: '7 AM – 10 PM'},
+                    {day: 'Wednesday', time: '7 AM – 10 PM'},
+                    {day: 'Thursday', time: '7 AM – 10 PM'},
+                    {day: 'Friday', time: '7 AM – 10 PM'},
+                    {day: 'Saturday', time: '7 AM – 10 PM'},
+                    {day: 'Sunday', time: '7 AM – 10 PM'}
+                ],
+                description: 'Your trusted neighborhood drugstore for medicines, health products, and everyday essentials. Friendly staff and competitive prices.'
+            },
+            'kri': {
+                name: 'KRI Restaurant',
+                status: 'open',
+                address: 'Silliman Ave, Dumaguete City',
+                phone: '(035) 422-2058',
+                website: 'facebook.com/krirestaurant',
+                hours: [
+                    {day: 'Monday', time: '10:30 AM – 9 PM'},
+                    {day: 'Tuesday', time: '10:30 AM – 9 PM'},
+                    {day: 'Wednesday', time: '10:30 AM – 9 PM'},
+                    {day: 'Thursday', time: '10:30 AM – 9 PM'},
+                    {day: 'Friday', time: '10:30 AM – 9 PM'},
+                    {day: 'Saturday', time: '10:30 AM – 9 PM'},
+                    {day: 'Sunday', time: '10:30 AM – 9 PM'}
+                ],
+                description: 'Local favorite restaurant serving authentic Filipino cuisine. Known for their hearty portions and homey atmosphere.'
+            },
+            'boscoffee': {
+                name: 'Bo\'s Coffee',
+                status: 'open',
+                address: 'Robinsons Place, Dumaguete City',
+                phone: '(035) 421-1495',
+                website: 'facebook.com/boscoffee',
+                hours: [
+                    {day: 'Monday', time: '9 AM – 9 PM'},
+                    {day: 'Tuesday', time: '9 AM – 9 PM'},
+                    {day: 'Wednesday', time: '9 AM – 9 PM'},
+                    {day: 'Thursday', time: '9 AM – 9 PM'},
+                    {day: 'Friday', time: '9 AM – 9 PM'},
+                    {day: 'Saturday', time: '9 AM – 9 PM'},
+                    {day: 'Sunday', time: '9 AM – 9 PM'}
+                ],
+                description: 'Premium coffee experience with a variety of blends and brewing methods. Perfect spot for coffee lovers and casual meetings.'
+            },
+            'esse': {
+                name: 'Hotel Essencia',
+                status: 'open',
+                address: 'San Jose St, Dumaguete City',
+                phone: '(035) 422-1133',
+                website: 'facebook.com/hotelessencia',
+                hours: [
+                    {day: 'Monday', time: '24/7'},
+                    {day: 'Tuesday', time: '24/7'},
+                    {day: 'Wednesday', time: '24/7'},
+                    {day: 'Thursday', time: '24/7'},
+                    {day: 'Friday', time: '24/7'},
+                    {day: 'Saturday', time: '24/7'},
+                    {day: 'Sunday', time: '24/7'}
+                ],
+                description: 'Comfortable and affordable hotel in the heart of Dumaguete. Close to Silliman University and other city attractions.'
+            }
+        };
+
+        // Current business being viewed
+        let currentBusiness = null;
+        let callTimer = null;
+
+        // Simple carousel functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const carousel = document.querySelector('.carousel-container');
+            const cards = document.querySelectorAll('.business-card');
+            let currentIndex = 0;
+            
+            function moveCarousel() {
+                currentIndex = (currentIndex + 1) % (cards.length - 2);
+                carousel.style.transform = `translateX(-${currentIndex * 320}px)`;
+            }
+            
+            setInterval(moveCarousel, 3000);
+            
+            // Quick filter click handlers
+            document.querySelectorAll('.filter-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    const category = this.querySelector('h3').textContent;
+                    alert(`Showing ${category} establishments`);
+                });
+            });
+            
+            // Smooth scrolling for navigation
+            document.querySelectorAll('nav a').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+
+        // Modal functions
+        function showBusinessDetails(businessId) {
+            const business = businesses[businessId];
+            if (!business) return;
+
+            currentBusiness = business;
+            document.getElementById('modalTitle').textContent = business.name;
+            document.getElementById('modalStatus').textContent = business.status === 'open' ? 'Open Now' : 'Closed';
+            document.getElementById('modalStatus').className = 'modal-status ' + business.status;
+            document.getElementById('modalAddress').textContent = business.address;
+            document.getElementById('modalPhone').textContent = business.phone;
+            document.getElementById('modalWebsite').textContent = business.website;
+            document.getElementById('modalDescription').textContent = business.description;
+
+            // Populate hours
+            const hoursContainer = document.getElementById('modalHours');
+            hoursContainer.innerHTML = '';
+            business.hours.forEach(hour => {
+                const hourElement = document.createElement('div');
+                hourElement.className = 'hour-item';
+                hourElement.innerHTML = `<span class="hour-day">${hour.day}:</span> <span class="hour-time">${hour.time}</span>`;
+                hoursContainer.appendChild(hourElement);
+            });
+
+            // Show modal
+            document.getElementById('businessModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('businessModal').style.display = 'none';
+        }
+
+        // Call Notification Modal
+        function showCallNotification() {
+            if (!currentBusiness) return;
+            
+            document.getElementById('callBusinessName').textContent = currentBusiness.name;
+            document.getElementById('callBusinessPhone').textContent = currentBusiness.phone;
+            document.getElementById('callModal').style.display = 'block';
+        }
+
+        function closeCallModal() {
+            document.getElementById('callModal').style.display = 'none';
+        }
+
+        // Call Progress Modal
+        function initiateCall() {
+            if (!currentBusiness) return;
+            
+            closeCallModal();
+            
+            document.getElementById('callProgressName').textContent = currentBusiness.name;
+            document.getElementById('callProgressPhone').textContent = currentBusiness.phone;
+            document.getElementById('callStatus').textContent = 'Connecting...';
+            document.getElementById('callProgressModal').style.display = 'block';
+            
+            // Simulate call connection
+            setTimeout(() => {
+                document.getElementById('callStatus').textContent = 'Connected';
+                document.getElementById('callStatus').innerHTML = 'Connected <i class="fas fa-circle" style="color: #34D399; font-size: 0.5rem; margin-left: 5px;"></i>';
+                
+                // Start call timer
+                let seconds = 0;
+                callTimer = setInterval(() => {
+                    seconds++;
+                    const minutes = Math.floor(seconds / 60);
+                    const secs = seconds % 60;
+                    document.getElementById('callStatus').innerHTML = 
+                        `Connected ${minutes}:${secs < 10 ? '0' + secs : secs} <i class="fas fa-circle" style="color: #34D399; font-size: 0.5rem; margin-left: 5px;"></i>`;
+                }, 1000);
+            }, 2000);
+        }
+
+        function endCall() {
+            if (callTimer) {
+                clearInterval(callTimer);
+                callTimer = null;
+            }
+            
+            document.getElementById('callProgressModal').style.display = 'none';
+            
+            // Show call end modal
+            document.getElementById('endedCallName').textContent = currentBusiness ? currentBusiness.name : 'Business';
+            document.getElementById('callEndModal').style.display = 'block';
+        }
+
+        function closeCallEndModal() {
+            document.getElementById('callEndModal').style.display = 'none';
+        }
+
+        // Directions Modal
+        function showDirectionsModal() {
+            if (!currentBusiness) return;
+            
+            document.getElementById('directionsBusinessName').textContent = currentBusiness.name;
+            document.getElementById('destinationAddress').textContent = currentBusiness.address;
+            document.getElementById('directionsModal').style.display = 'block';
+        }
+
+        function closeDirectionsModal() {
+            document.getElementById('directionsModal').style.display = 'none';
+        }
+
+        function useCurrentLocation() {
+            document.getElementById('currentLocation').value = 'Dumaguete City Center';
+            alert('Current location detected: Dumaguete City Center');
+        }
+
+        function showRoute() {
+            const currentLocation = document.getElementById('currentLocation').value;
+            if (!currentLocation) {
+                alert('Please enter your current location');
+                return;
+            }
+            
+            if (!currentBusiness) return;
+            
+            document.getElementById('routeFrom').textContent = currentLocation;
+            document.getElementById('routeTo').textContent = currentBusiness.address;
+            document.getElementById('routeModal').style.display = 'block';
+        }
+
+        function closeRouteModal() {
+            document.getElementById('routeModal').style.display = 'none';
+        }
+
+        function openMaps() {
+            alert('Opening directions in your default maps application...');
+            closeRouteModal();
+            closeDirectionsModal();
+        }
+
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            const businessModal = document.getElementById('businessModal');
+            const callModal = document.getElementById('callModal');
+            const callProgressModal = document.getElementById('callProgressModal');
+            const callEndModal = document.getElementById('callEndModal');
+            const directionsModal = document.getElementById('directionsModal');
+            const routeModal = document.getElementById('routeModal');
+            
+            if (event.target == businessModal) {
+                closeModal();
+            } else if (event.target == callModal) {
+                closeCallModal();
+            } else if (event.target == callProgressModal) {
+                endCall();
+            } else if (event.target == callEndModal) {
+                closeCallEndModal();
+            } else if (event.target == directionsModal) {
+                closeDirectionsModal();
+            } else if (event.target == routeModal) {
+                closeRouteModal();
+            }
+        }
+
+        // Close modals with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeModal();
+                closeCallModal();
+                endCall();
+                closeCallEndModal();
+                closeDirectionsModal();
+                closeRouteModal();
+            }
+        });
+    </script>
+</body>
+</html>

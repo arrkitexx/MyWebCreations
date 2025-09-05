@@ -1,0 +1,1965 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tenaniko - Dumaguete City Service Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&family=Trebuchet+MS:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --blue-accent: #00AEEF;
+            --green-accent: #22C55E;
+            --amber-status: #F59E0B;
+            --red-status: #EF4444;
+            --deep-blue: #0f172a;
+            --soft-teal: #06b6d4;
+            --glass-white: rgba(255, 255, 255, 0.25);
+            --glass-light: rgba(255, 255, 255, 0.15);
+        }
+
+        body {
+            font-family: 'Trebuchet MS', sans-serif;
+            background: linear-gradient(135deg, var(--deep-blue), var(--soft-teal));
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Lexend', sans-serif;
+            font-weight: 600;
+        }
+
+        /* Glassmorphism Effect */
+        .glass-card {
+            background: var(--glass-white);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .glass-card-light {
+            background: var(--glass-light);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            transition: all 0.3s ease;
+        }
+
+        /* Floating Orbs */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            z-index: -1;
+            animation: float 15s infinite ease-in-out;
+        }
+
+        .orb-1 {
+            width: 300px;
+            height: 300px;
+            background: var(--blue-accent);
+            top: 10%;
+            left: 5%;
+            animation-duration: 15s;
+        }
+
+        .orb-2 {
+            width: 250px;
+            height: 250px;
+            background: var(--green-accent);
+            bottom: 15%;
+            right: 10%;
+            animation-duration: 12s;
+            animation-direction: reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(20px, 20px) scale(1.05); }
+            50% { transform: translate(-20px, 20px) scale(0.95); }
+            75% { transform: translate(-20px, -20px) scale(1.02); }
+        }
+
+        /* Pulse Animation */
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 174, 239, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(0, 174, 239, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 174, 239, 0); }
+        }
+
+        /* Fade In Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        .fade-in-delay-1 {
+            animation: fadeIn 0.6s ease-out 0.1s forwards;
+            opacity: 0;
+        }
+
+        .fade-in-delay-2 {
+            animation: fadeIn 0.6s ease-out 0.2s forwards;
+            opacity: 0;
+        }
+
+        .fade-in-delay-3 {
+            animation: fadeIn 0.6s ease-out 0.3s forwards;
+            opacity: 0;
+        }
+
+        /* Bounce Animation */
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        /* Spin Animation */
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Slide In Animation */
+        @keyframes slideIn {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Call Button Animation */
+        @keyframes callPulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(34, 197, 94, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+        }
+
+        /* Header */
+        header {
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 10;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .logo {
+            font-family: 'Lexend', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--blue-accent), var(--green-accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: fadeIn 1s ease-out;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+        }
+
+        nav a:hover {
+            color: var(--blue-accent);
+            text-shadow: 0 0 10px rgba(0, 174, 239, 0.5);
+            transform: translateY(-2px);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--blue-accent);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateX(-50%);
+        }
+
+        nav a:hover::after {
+            width: 80%;
+        }
+
+        /* Main Content */
+        main {
+            padding: 2rem;
+            position: relative;
+            z-index: 5;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 4rem 2rem;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 3rem;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            background: linear-gradient(45deg, var(--blue-accent), var(--green-accent));
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 20px rgba(0, 174, 239, 0.3);
+            position: relative;
+            overflow: hidden;
+            animation: bounce 2s infinite;
+            margin-bottom: 1rem;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 174, 239, 0.5);
+            animation: none;
+        }
+
+        .cta-button:active {
+            transform: translateY(-1px) scale(0.98);
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .call-button {
+            background: linear-gradient(45deg, var(--green-accent), #10B981);
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 20px rgba(34, 197, 94, 0.3);
+            position: relative;
+            overflow: hidden;
+            animation: callPulse 2s infinite;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .call-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(34, 197, 94, 0.5);
+            animation: none;
+        }
+
+        .call-button:active {
+            transform: translateY(-1px) scale(0.98);
+        }
+
+        .search-bar {
+            display: flex;
+            max-width: 500px;
+            margin: 2rem auto;
+            background: var(--glass-white);
+            backdrop-filter: blur(12px);
+            border-radius: 50px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1s ease-out 0.3s forwards;
+            opacity: 0;
+        }
+
+        .search-bar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .search-bar input {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-bar input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .search-bar input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .search-bar button {
+            padding: 1rem 1.5rem;
+            background: transparent;
+            border: none;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .search-bar button:hover {
+            color: var(--blue-accent);
+            transform: scale(1.1);
+        }
+
+        /* Categories */
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .category-card {
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 0.6s ease-out;
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .category-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            background: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .category-card i {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            display: block;
+            transition: all 0.3s ease;
+        }
+
+        .category-card:hover i {
+            transform: scale(1.2) rotate(5deg);
+            color: var(--blue-accent);
+        }
+
+        /* Form Pages */
+        .form-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input, 
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            font-family: 'Trebuchet MS', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--blue-accent);
+            box-shadow: 0 0 0 3px rgba(0, 174, 239, 0.3);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .form-group select {
+            background-color: #f0f0f0;
+            color: #333;
+            cursor: pointer;
+        }
+
+        .form-group select option {
+            background-color: white;
+            color: #333;
+        }
+
+        .location-options {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .location-option {
+            flex: 1;
+            padding: 1rem;
+            text-align: center;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .location-option:hover {
+            background: rgba(0, 174, 239, 0.2);
+            transform: translateY(-3px);
+        }
+
+        .location-option.active {
+            background: rgba(0, 174, 239, 0.3);
+            border: 1px solid var(--blue-accent);
+            box-shadow: 0 0 15px rgba(0, 174, 239, 0.3);
+        }
+
+        .location-option i {
+            transition: all 0.3s ease;
+        }
+
+        .location-option:hover i {
+            transform: scale(1.2);
+        }
+
+        .map-container {
+            height: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .map-placeholder {
+            height: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .map-placeholder:hover {
+            background: rgba(0, 174, 239, 0.15);
+            transform: scale(1.02);
+        }
+
+        .map-placeholder::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+            transform: translateX(-100%);
+            transition: 0.6s;
+        }
+
+        .map-placeholder:hover::before {
+            transform: translateX(100%);
+        }
+
+        .drag-drop-zone {
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            min-height: 150px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .drag-drop-zone:hover {
+            border-color: var(--blue-accent);
+            background: rgba(0, 174, 239, 0.1);
+            transform: translateY(-3px);
+        }
+
+        .drag-drop-zone.drag-over {
+            border-color: var(--blue-accent);
+            background: rgba(0, 174, 239, 0.2);
+            transform: scale(1.02);
+            box-shadow: 0 0 20px rgba(0, 174, 239, 0.3);
+        }
+
+        .drag-drop-zone i {
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+        }
+
+        .drag-drop-zone:hover i {
+            transform: scale(1.2) rotate(10deg);
+            color: var(--blue-accent);
+        }
+
+        .uploaded-files {
+            margin-top: 1rem;
+            text-align: left;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s ease;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .file-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(5px);
+        }
+
+        .file-item i {
+            margin-right: 0.5rem;
+            color: var(--blue-accent);
+        }
+
+        /* Tracking Page */
+        .tracking-result {
+            margin-top: 2rem;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .progress-tracker {
+            display: flex;
+            justify-content: space-between;
+            margin: 2rem 0;
+            position: relative;
+        }
+
+        .progress-tracker::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            z-index: 1;
+            transition: all 0.5s ease;
+        }
+
+        .progress-step {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .step-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-weight: bold;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            z-index: 3;
+        }
+
+        .step-circle.active {
+            background: var(--blue-accent);
+            box-shadow: 0 0 15px rgba(0, 174, 239, 0.5);
+            animation: pulse 2s infinite;
+        }
+
+        .step-circle.completed {
+            background: var(--green-accent);
+            box-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
+        }
+
+        .step-circle:not(.completed):not(.active) {
+            transform: scale(0.9);
+        }
+
+        .timeline {
+            margin-top: 2rem;
+        }
+
+        .timeline-item {
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-left: 3px solid var(--blue-accent);
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 0 8px 8px 0;
+            transition: all 0.3s ease;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .timeline-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
+        }
+
+        /* Community Dashboard */
+        .dashboard-filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-select {
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .filter-select:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .reports-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .report-card {
+            padding: 1.5rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .report-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .status-tag {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .status-tag:hover {
+            transform: scale(1.1);
+        }
+
+        .status-pending {
+            background: rgba(245, 158, 11, 0.2);
+            color: white;
+            font-weight: 800;
+            border: 1px solid var(--amber-status);
+        }
+
+        .status-progress {
+            background: rgba(0, 174, 239, 0.2);
+            color: var(--blue-accent);
+            font-weight: 800;
+            border: 1px solid var(--blue-accent);
+        }
+
+        .status-resolved {
+            background: rgba(34, 197, 94, 0.2);
+            color: white;
+            font-weight: 800;
+            border: 1px solid var(--green-accent);
+        }
+
+        .status-declined {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--red-status);
+            border: 1px solid var(--red-status);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .modal-content {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            color: #333;
+            transform: scale(0.7);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .modal.show .modal-content {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            color: var(--deep-blue);
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+            transition: all 0.3s ease;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-modal:hover {
+            background: #f0f0f0;
+            color: #333;
+            transform: rotate(90deg);
+        }
+
+        .modal-body {
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-footer {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+
+        .modal-button {
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .modal-button-primary {
+            background: linear-gradient(45deg, var(--blue-accent), var(--green-accent));
+            color: white;
+        }
+
+        .modal-button-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .modal-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-button:active {
+            transform: translateY(0);
+        }
+
+        /* Call Modal */
+        .call-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .call-modal-content {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            color: #333;
+            text-align: center;
+        }
+
+        .call-status {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .call-duration {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 1rem 0;
+            color: var(--blue-accent);
+        }
+
+        .hangup-button {
+            background: linear-gradient(45deg, var(--red-status), #DC2626);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 20px rgba(239, 68, 68, 0.3);
+            margin-top: 1rem;
+        }
+
+        .hangup-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(239, 68, 68, 0.5);
+        }
+
+        /* Hidden by default */
+        .page {
+            display: none;
+        }
+
+        .active-page {
+            display: block;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            nav ul {
+                gap: 1rem;
+            }
+            
+            .categories {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .reports-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .location-options {
+                flex-direction: column;
+            }
+            
+            header {
+                padding: 1rem;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--blue-accent);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        /* Bounce Animation */
+        .bounce {
+            animation: bounce 1s;
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Orbs -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <!-- Header -->
+    <header>
+        <div class="logo">TENANIKO</div>
+        <nav>
+            <ul>
+                <li><a href="#" onclick="showPage('home')">Home</a></li>
+                <li><a href="#" onclick="showPage('submit')">Submit</a></li>
+                <li><a href="#" onclick="showPage('track')">Track</a></li>
+                <li><a href="#" onclick="showPage('dashboard')">Dashboard</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Home Page -->
+        <section id="home" class="page active-page">
+            <div class="hero">
+                <div class="glass-card hero-content">
+                    <h1>Dumaguete City Service Hub</h1>
+                    <p>Report concerns, track progress, and engage with your community to make Dumaguete a better place.</p>
+                    <button class="cta-button" onclick="showPage('submit')">
+                        <i class="fas fa-plus-circle"></i> Report a Concern
+                    </button>
+                    <br>
+                    <button class="call-button" onclick="makeCall()">
+                        <i class="fas fa-phone"></i> Call LGU Hotline
+                    </button>
+                </div>
+                
+                <div class="search-bar">
+                    <input type="text" placeholder="🔍 Track concern using ID..." id="track-input">
+                    <button onclick="trackConcern()"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+
+            <div class="categories">
+                <div class="glass-card category-card fade-in-delay-1" onclick="selectCategory('Infrastructure')">
+                    <i class="fas fa-tools"></i>
+                    <div>Infrastructure</div>
+                </div>
+                <div class="glass-card category-card fade-in-delay-1" onclick="selectCategory('Waste Management')">
+                    <i class="fas fa-trash-alt"></i>
+                    <div>Waste Management</div>
+                </div>
+                <div class="glass-card category-card fade-in-delay-2" onclick="selectCategory('Traffic & Transport')">
+                    <i class="fas fa-traffic-light"></i>
+                    <div>Traffic & Transport</div>
+                </div>
+                <div class="glass-card category-card fade-in-delay-2" onclick="selectCategory('Health & Sanitation')">
+                    <i class="fas fa-hospital"></i>
+                    <div>Health & Sanitation</div>
+                </div>
+                <div class="glass-card category-card fade-in-delay-3" onclick="selectCategory('Utilities')">
+                    <i class="fas fa-bolt"></i>
+                    <div>Utilities</div>
+                </div>
+                <div class="glass-card category-card fade-in-delay-3" onclick="selectCategory('LGU Services')">
+                    <i class="fas fa-building"></i>
+                    <div>LGU Services</div>
+                </div>
+                <div class="glass-card category-card fade-in-delay-3" onclick="selectCategory('Others')">
+                    <i class="fas fa-ellipsis-h"></i>
+                    <div>Others</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Submit Concern Page -->
+        <section id="submit" class="page">
+            <div class="glass-card form-container">
+                <h2>Submit a Concern</h2>
+                <p>Help us improve Dumaguete by reporting issues in your community.</p>
+                
+                <div class="form-group">
+                    <label>Location</label>
+                    <div class="location-options">
+                        <div class="location-option active" onclick="setLocationMode('manual')">
+                            <i class="fas fa-edit"></i>
+                            <div>Manual Input</div>
+                        </div>
+                        <div class="location-option" onclick="setLocationMode('map')">
+                            <i class="fas fa-map-marked-alt"></i>
+                            <div>Select on Map</div>
+                        </div>
+                    </div>
+                    
+                    <div id="manual-location">
+                        <select id="barangay-select" style="margin-bottom: 1rem;">
+                            <option value="">Select Barangay</option>
+                            <option value="Bagacay">Bagacay</option>
+                            <option value="Bajumpandan">Bajumpandan</option>
+                            <option value="Balugo">Balugo</option>
+                            <option value="Banilad">Banilad</option>
+                            <option value="Bantayan">Bantayan</option>
+                            <option value="Batinguel">Batinguel</option>
+                            <option value="Buñao">Buñao</option>
+                            <option value="Cadawinonan">Cadawinonan</option>
+                            <option value="Calindagan">Calindagan</option>
+                            <option value="Camanjac">Camanjac</option>
+                            <option value="Candau-ay">Candau-ay</option>
+                            <option value="Cantil-e">Cantil-e</option>
+                            <option value="Daro">Daro</option>
+                            <option value="Junob">Junob</option>
+                            <option value="Looc">Looc</option>
+                            <option value="Mangnao-Canal">Mangnao-Canal</option>
+                            <option value="Motong">Motong</option>
+                            <option value="Piapi">Piapi</option>
+                            <option value="Poblacion 1">Poblacion 1 (Barangay 1 or Tinago)</option>
+                            <option value="Poblacion 2">Poblacion 2 (Barangay 2 or Upper Luke Wright)</option>
+                            <option value="Poblacion 3">Poblacion 3 (Barangay 3 or Colon Ext.)</option>
+                            <option value="Poblacion 4">Poblacion 4 (Barangay 4 or Rizal Boulevard)</option>
+                            <option value="Poblacion 5">Poblacion 5 (Barangay 5 or Silliman Area)</option>
+                            <option value="Poblacion 6">Poblacion 6 (Barangay 6 or Cambagroy)</option>
+                            <option value="Poblacion 7">Poblacion 7 (Barangay 7 or Mangga)</option>
+                            <option value="Poblacion 8">Poblacion 8 (Barangay 8 or Cervantes Extension)</option>
+                            <option value="Pulantubig">Pulantubig</option>
+                            <option value="Tabuc-tubig">Tabuc-tubig</option>
+                            <option value="Taclobo">Taclobo</option>
+                            <option value="Talay">Talay</option>
+                        </select>
+                        <input type="text" id="specific-location" placeholder="Specific location details (street, landmark, etc.)">
+                    </div>
+                    
+                    <div id="map-location" style="display: none;">
+                        <div class="map-placeholder" onclick="showMapModal()">
+                            <i class="fas fa-map-marked-alt fa-2x"></i>
+                            <span style="margin-left: 1rem;">Click to select location on map</span>
+                        </div>
+                        <input type="text" id="selected-coordinates" placeholder="Selected coordinates will appear here" readonly>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <select id="category">
+                        <option value="">Select a category</option>
+                        <option value="Infrastructure">Infrastructure</option>
+                        <option value="Waste Management">Waste Management</option>
+                        <option value="Traffic & Transport">Traffic & Transport</option>
+                        <option value="Health & Sanitation">Health & Sanitation</option>
+                        <option value="Utilities">Utilities</option>
+                        <option value="LGU Services">LGU Services</option>
+                        <option value="Others">Others</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="media">Upload Media</label>
+                    <div class="drag-drop-zone" id="drop-zone">
+                        <i class="fas fa-cloud-upload-alt fa-2x"></i>
+                        <p>Drag & drop files here or click to browse</p>
+                        <p style="font-size: 0.9rem; opacity: 0.7;">Supports images and documents</p>
+                    </div>
+                    <div class="uploaded-files" id="uploaded-files"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" rows="4" placeholder="Describe the issue in detail..."></textarea>
+                </div>
+                
+                <button class="cta-button" style="width: 100%;" onclick="submitConcern()">
+                    Submit Concern
+                </button>
+            </div>
+        </section>
+
+        <!-- Track Concern Page -->
+        <section id="track" class="page">
+            <div class="glass-card form-container">
+                <h2>Track Your Concern</h2>
+                <div class="search-bar">
+                    <input type="text" placeholder="Enter Concern ID..." id="track-id">
+                    <button onclick="simulateTracking()"><i class="fas fa-search"></i></button>
+                </div>
+                
+                <div id="tracking-result" class="tracking-result" style="display: none;">
+                    <div class="glass-card" style="padding: 2rem;">
+                        <h3 id="tracking-number">Concern #TN-123456AB</h3>
+                        <p><strong>Category:</strong> <span id="tracking-category">Infrastructure</span></p>
+                        <p><strong>Location:</strong> <span id="tracking-location">Bantayan</span></p>
+                        <p><strong>Description:</strong> <span id="tracking-description">Pothole on main road causing traffic issues</span></p>
+                        
+                        <div class="progress-tracker">
+                            <div class="progress-step">
+                                <div class="step-circle completed">1</div>
+                                <div>Received</div>
+                            </div>
+                            <div class="progress-step">
+                                <div class="step-circle completed">2</div>
+                                <div>Under Review</div>
+                            </div>
+                            <div class="progress-step">
+                                <div class="step-circle active">3</div>
+                                <div>In Progress</div>
+                            </div>
+                            <div class="progress-step">
+                                <div class="step-circle">4</div>
+                                <div>Resolved</div>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline">
+                            <h4>Progress Timeline</h4>
+                            <div class="timeline-item">
+                                <strong id="received-time">Just now</strong>
+                                <p id="received-message">Concern received and assigned to the designated department</p>
+                            </div>
+                            <div class="timeline-item">
+                                <strong id="review-time">30 seconds ago</strong>
+                                <p id="review-message">Inspection completed. Work order issued.</p>
+                            </div>
+                            <div class="timeline-item">
+                                <strong id="progress-time">2 minutes ago</strong>
+                                <p id="progress-message">Crew dispatched to location. Work in progress.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Community Dashboard -->
+        <section id="dashboard" class="page">
+            <div class="glass-card" style="padding: 2rem; margin-bottom: 2rem;">
+                <h2>Community Dashboard</h2>
+                <p>View all reported concerns in Dumaguete City</p>
+                
+                <div class="dashboard-filters">
+                    <select class="filter-select" id="category-filter" onchange="filterReports()">
+                        <option value="">All Categories</option>
+                        <option value="Infrastructure">Infrastructure</option>
+                        <option value="Waste Management">Waste Management</option>
+                        <option value="Traffic & Transport">Traffic & Transport</option>
+                        <option value="Health & Sanitation">Health & Sanitation</option>
+                        <option value="Utilities">Utilities</option>
+                        <option value="LGU Services">LGU Services</option>
+                        <option value="Others">Others</option>
+                    </select>
+                    <select class="filter-select" id="barangay-filter" onchange="filterReports()">
+                        <option value="">All Barangays</option>
+                        <option value="Bagacay">Bagacay</option>
+                        <option value="Bajumpandan">Bajumpandan</option>
+                        <option value="Balugo">Balugo</option>
+                        <option value="Banilad">Banilad</option>
+                        <option value="Bantayan">Bantayan</option>
+                        <option value="Batinguel">Batinguel</option>
+                        <option value="Buñao">Buñao</option>
+                        <option value="Cadawinonan">Cadawinonan</option>
+                        <option value="Calindagan">Calindagan</option>
+                        <option value="Camanjac">Camanjac</option>
+                        <option value="Candau-ay">Candau-ay</option>
+                        <option value="Cantil-e">Cantil-e</option>
+                        <option value="Daro">Daro</option>
+                        <option value="Junob">Junob</option>
+                        <option value="Looc">Looc</option>
+                        <option value="Mangnao-Canal">Mangnao-Canal</option>
+                        <option value="Motong">Motong</option>
+                        <option value="Piapi">Piapi</option>
+                        <option value="Poblacion 1">Poblacion 1</option>
+                        <option value="Poblacion 2">Poblacion 2</option>
+                        <option value="Poblacion 3">Poblacion 3</option>
+                        <option value="Poblacion 4">Poblacion 4</option>
+                        <option value="Poblacion 5">Poblacion 5</option>
+                        <option value="Poblacion 6">Poblacion 6</option>
+                        <option value="Poblacion 7">Poblacion 7</option>
+                        <option value="Poblacion 8">Poblacion 8</option>
+                        <option value="Pulantubig">Pulantubig</option>
+                        <option value="Tabuc-tubig">Tabuc-tubig</option>
+                        <option value="Taclobo">Taclobo</option>
+                        <option value="Talay">Talay</option>
+                    </select>
+                </div>
+                
+                <div class="reports-grid" id="reports-grid">
+                    <!-- Reports will be dynamically added here -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Map Modal -->
+    <div class="modal" id="map-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Select Location on Map</h3>
+                <button class="close-modal" onclick="closeMapModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="map-container">
+                    <div style="width: 100%; height: 100%; background: linear-gradient(45deg, #4facfe, #00f2fe); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">
+                        Interactive Map Placeholder
+                    </div>
+                </div>
+                <p>Click anywhere on the map to select your location</p>
+                <input type="text" id="modal-coordinates" placeholder="Selected coordinates" readonly style="width: 100%; margin-top: 1rem;">
+            </div>
+            <div class="modal-footer">
+                <button class="modal-button modal-button-secondary" onclick="closeMapModal()">Cancel</button>
+                <button class="modal-button modal-button-primary" onclick="confirmLocation()">Confirm Location</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Modal -->
+    <div class="modal" id="notification-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">Notification</h3>
+                <button class="close-modal" onclick="closeNotificationModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="modal-message">This is a notification message.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-button modal-button-primary" onclick="closeNotificationModal()">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Call Modal -->
+    <div class="call-modal" id="call-modal">
+        <div class="call-modal-content">
+            <h3>LGU Hotline</h3>
+            <div class="call-status" id="call-status">Calling...</div>
+            <div class="call-duration" id="call-duration">00:00</div>
+            <button class="hangup-button" onclick="endCall()">
+                <i class="fas fa-phone-slash"></i> End Call
+            </button>
+        </div>
+    </div>
+
+    <!-- Audio Elements -->
+    <audio id="outgoing-tone" src="CALL.mp3" preload="auto"></audio>
+    <audio id="disconnect-tone" src="END.mp3" preload="auto"></audio>
+    <audio id="voice-message" src="CONVOR.wav" preload="auto"></audio>
+
+    <script>
+        // Sample reports data
+        const sampleReports = [
+            {
+                id: "TN-123456AB",
+                title: "Pothole Repair",
+                description: "Large pothole causing traffic issues",
+                category: "Infrastructure",
+                location: "Bantayan",
+                status: "In Progress",
+                date: "2023-10-15"
+            },
+            {
+                id: "TN-789012CD",
+                title: "Street Light Outage",
+                description: "Broken street light on Rizal Street",
+                category: "Utilities",
+                location: "Poblacion 4",
+                status: "Pending",
+                date: "2023-10-16"
+            },
+            {
+                id: "TN-345678EF",
+                title: "Garbage Collection",
+                description: "Missed garbage collection for 3 days",
+                category: "Waste Management",
+                location: "Bantayan",
+                status: "Resolved",
+                date: "2023-10-14"
+            },
+            {
+                id: "TN-901234GH",
+                title: "Drainage Blockage",
+                description: "Blocked drainage causing flooding",
+                category: "Infrastructure",
+                location: "Calindagan",
+                status: "In Progress",
+                date: "2023-10-16"
+            },
+            {
+                id: "TN-567890IJ",
+                title: "Traffic Light Malfunction",
+                description: "Traffic light not working at intersection",
+                category: "Traffic & Transport",
+                location: "Poblacion 5",
+                status: "Pending",
+                date: "2023-10-17"
+            },
+            {
+                id: "TN-234567KL",
+                title: "Water Supply Issue",
+                description: "Low water pressure in the area",
+                category: "Utilities",
+                location: "Looc",
+                status: "Resolved",
+                date: "2023-10-13"
+            }
+        ];
+
+        // Call simulation variables
+        let callInterval;
+        let callStartTime;
+        let callState = "idle"; // idle, calling, connected, disconnected
+        let outgoingTone;
+        let disconnectTone;
+        let voiceMessage;
+
+        // Page Navigation with animation
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active-page');
+            });
+            
+            // Show requested page with animation
+            setTimeout(() => {
+                document.getElementById(pageId).classList.add('active-page');
+            }, 10);
+            
+            // If showing dashboard, render reports
+            if (pageId === 'dashboard') {
+                renderReports();
+            }
+        }
+
+        // Category selection from home page
+        function selectCategory(category) {
+            showPage('submit');
+            document.getElementById('category').value = category;
+            
+            // Add bounce animation to the selected category card
+            event.target.classList.add('bounce');
+            setTimeout(() => {
+                event.target.classList.remove('bounce');
+            }, 1000);
+        }
+
+        // Location Mode Toggle
+        function setLocationMode(mode) {
+            const manualOption = document.querySelector('.location-option:nth-child(1)');
+            const mapOption = document.querySelector('.location-option:nth-child(2)');
+            const manualLocation = document.getElementById('manual-location');
+            const mapLocation = document.getElementById('map-location');
+            
+            if (mode === 'manual') {
+                manualOption.classList.add('active');
+                mapOption.classList.remove('active');
+                manualLocation.style.display = 'block';
+                mapLocation.style.display = 'none';
+            } else {
+                mapOption.classList.add('active');
+                manualOption.classList.remove('active');
+                mapLocation.style.display = 'block';
+                manualLocation.style.display = 'none';
+            }
+        }
+
+        // Map Modal Functions
+        function showMapModal() {
+            const modal = document.getElementById('map-modal');
+            modal.style.display = 'flex';
+            setTimeout(() => {
+                modal.classList.add('show');
+            }, 10);
+        }
+
+        function closeMapModal() {
+            const modal = document.getElementById('map-modal');
+            modal.classList.remove('show');
+            setTimeout(() => {
+                modal.style.display = 'none';
+            }, 400);
+        }
+
+        function confirmLocation() {
+            document.getElementById('selected-coordinates').value = "123.456, 78.901 (Sample Coordinates)";
+            closeMapModal();
+        }
+
+        // Drag and Drop Functionality
+        const dropZone = document.getElementById('drop-zone');
+        const uploadedFiles = document.getElementById('uploaded-files');
+        let files = [];
+
+        dropZone.addEventListener('click', () => {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.multiple = true;
+            input.accept = 'image/*,.pdf,.doc,.docx';
+            input.onchange = (e) => handleFiles(e.target.files);
+            input.click();
+        });
+
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, highlight, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, unhighlight, false);
+        });
+
+        function highlight() {
+            dropZone.classList.add('drag-over');
+        }
+
+        function unhighlight() {
+            dropZone.classList.remove('drag-over');
+        }
+
+        dropZone.addEventListener('drop', handleDrop, false);
+
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const droppedFiles = dt.files;
+            handleFiles(droppedFiles);
+        }
+
+        function handleFiles(fileList) {
+            [...fileList].forEach(file => {
+                files.push(file);
+                displayFile(file);
+            });
+        }
+
+        function displayFile(file) {
+            const fileItem = document.createElement('div');
+            fileItem.className = 'file-item';
+            fileItem.innerHTML = `
+                <i class="fas fa-file"></i>
+                <div>
+                    <div>${file.name}</div>
+                    <small>${(file.size / 1024 / 1024).toFixed(2)} MB</small>
+                </div>
+            `;
+            uploadedFiles.appendChild(fileItem);
+        }
+
+        // Notification Modal
+        function showNotification(title, message) {
+            document.getElementById('modal-title').textContent = title;
+            document.getElementById('modal-message').textContent = message;
+            const modal = document.getElementById('notification-modal');
+            modal.style.display = 'flex';
+            setTimeout(() => {
+                modal.classList.add('show');
+            }, 10);
+        }
+
+        function closeNotificationModal() {
+            const modal = document.getElementById('notification-modal');
+            modal.classList.remove('show');
+            setTimeout(() => {
+                modal.style.display = 'none';
+            }, 400);
+        }
+
+        // Department mapping
+        const departmentMapping = {
+            "Infrastructure": "Department of Public Works",
+            "Waste Management": "Sanitation Department",
+            "Traffic & Transport": "Traffic Management Office",
+            "Health & Sanitation": "Health Department",
+            "Utilities": "Public Utilities Office",
+            "LGU Services": "Local Government Unit",
+            "Others": "General Services Office"
+        };
+
+        // Generate random 6-digit number with 2 letters
+        function generateTrackingNumber() {
+            const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            const letter1 = letters.charAt(Math.floor(Math.random() * letters.length));
+            const letter2 = letters.charAt(Math.floor(Math.random() * letters.length));
+            const number = Math.floor(100000 + Math.random() * 900000);
+            return `TN-${number}${letter1}${letter2}`;
+        }
+
+        // Track Concern
+        function trackConcern() {
+            const trackInput = document.getElementById('track-input').value;
+            if (trackInput.trim() !== '') {
+                showPage('track');
+                document.getElementById('track-id').value = trackInput;
+                simulateTracking();
+            }
+        }
+
+        // Simulate Tracking with Real-time Updates
+        let trackingInterval;
+        let startTime;
+        let currentTrackingData = {};
+        let progressStage = 0; // 0: Received, 1: Under Review, 2: In Progress, 3: Resolved
+
+        function submitConcern() {
+            const barangay = document.getElementById('barangay-select').value;
+            const specificLocation = document.getElementById('specific-location').value;
+            const category = document.getElementById('category').value;
+            const description = document.getElementById('description').value;
+            
+            if (!category) {
+                showNotification('Error', 'Please select a category');
+                return;
+            }
+            
+            if ((!barangay && !document.getElementById('selected-coordinates').value) || 
+                (barangay && !specificLocation)) {
+                showNotification('Error', 'Please provide location details');
+                return;
+            }
+            
+            if (!description.trim()) {
+                showNotification('Error', 'Please provide a description');
+                return;
+            }
+            
+            // Store submitted data for tracking
+            currentTrackingData = {
+                trackingNumber: generateTrackingNumber(),
+                category: category,
+                location: barangay || "Selected on Map",
+                description: description
+            };
+            
+            showNotification('Success', `Concern submitted successfully! Your tracking ID is: ${currentTrackingData.trackingNumber}`);
+            showPage('track');
+            document.getElementById('track-id').value = currentTrackingData.trackingNumber;
+            simulateTracking();
+        }
+
+        function simulateTracking() {
+            const trackId = document.getElementById('track-id').value;
+            
+            // Reset progress stage
+            progressStage = 0;
+            
+            // If tracking a submitted concern, use stored data
+            if (trackId === currentTrackingData.trackingNumber) {
+                document.getElementById('tracking-number').textContent = `Concern #${currentTrackingData.trackingNumber}`;
+                document.getElementById('tracking-category').textContent = currentTrackingData.category;
+                document.getElementById('tracking-location').textContent = currentTrackingData.location;
+                document.getElementById('tracking-description').textContent = currentTrackingData.description;
+                
+                // Update department assignment based on category
+                const department = departmentMapping[currentTrackingData.category] || "General Services Office";
+                document.getElementById('received-message').textContent = `Concern received and assigned to ${department}`;
+            } else {
+                // For demo purposes, use sample data
+                document.getElementById('tracking-number').textContent = `Concern #${trackId}`;
+                document.getElementById('tracking-category').textContent = "Infrastructure";
+                document.getElementById('tracking-location').textContent = "Bantayan";
+                document.getElementById('tracking-description').textContent = "Pothole on main road causing traffic issues";
+                
+                // Update department assignment
+                document.getElementById('received-message').textContent = "Concern received and assigned to Department of Public Works";
+            }
+            
+            document.getElementById('tracking-result').style.display = 'block';
+            
+            // Clear any existing interval
+            if (trackingInterval) {
+                clearInterval(trackingInterval);
+            }
+            
+            // Reset progress tracker with animation
+            document.querySelectorAll('.step-circle').forEach((circle, index) => {
+                circle.classList.remove('completed', 'active');
+                if (index === 0) {
+                    circle.classList.add('completed');
+                }
+                circle.style.transform = 'scale(0.9)';
+            });
+            
+            // Animate first circle
+            setTimeout(() => {
+                document.querySelector('.step-circle.completed').style.transform = 'scale(1)';
+            }, 100);
+            
+            // Set start time to now
+            startTime = new Date();
+            updateTimelineTimes();
+            
+            // Update timeline with accurate timing
+            trackingInterval = setInterval(() => {
+                const elapsed = (new Date() - startTime) / 1000; // seconds
+                
+                // Progress through stages at specific intervals
+                if (elapsed >= 90 && progressStage === 0) {
+                    // Move to Under Review after 90 seconds
+                    progressStage = 1;
+                    updateProgressTracker(1);
+                } else if (elapsed >= 210 && progressStage === 1) {
+                    // Move to In Progress after 210 seconds (3.5 minutes)
+                    progressStage = 2;
+                    updateProgressTracker(2);
+                } else if (elapsed >= 600 && progressStage === 2) {
+                    // Move to Resolved after 600 seconds (10 minutes)
+                    progressStage = 3;
+                    updateProgressTracker(3);
+                    clearInterval(trackingInterval);
+                }
+                
+                updateTimelineTimes();
+            }, 1000);
+        }
+
+        function updateProgressTracker(stage) {
+            // Reset all circles
+            document.querySelectorAll('.step-circle').forEach(circle => {
+                circle.classList.remove('active');
+            });
+            
+            // Update circles based on stage with animation
+            for (let i = 0; i <= stage; i++) {
+                const circle = document.querySelector(`.progress-step:nth-child(${i+1}) .step-circle`);
+                if (circle) {
+                    if (i < stage) {
+                        circle.classList.add('completed');
+                        circle.classList.remove('active');
+                        setTimeout(() => {
+                            circle.style.transform = 'scale(1)';
+                        }, 100);
+                    } else if (i === stage) {
+                        circle.classList.add('active');
+                        circle.classList.remove('completed');
+                        setTimeout(() => {
+                            circle.style.transform = 'scale(1)';
+                        }, 100);
+                    }
+                }
+            }
+        }
+
+        function updateTimelineTimes() {
+            const now = new Date();
+            const elapsed = (now - startTime) / 1000; // seconds
+            
+            // Update Received time (always shows relative time)
+            const receivedElement = document.getElementById('received-time');
+            if (elapsed < 60) {
+                receivedElement.textContent = "Just now";
+            } else if (elapsed < 120) {
+                receivedElement.textContent = "1 minute ago";
+            } else {
+                const minutes = Math.floor(elapsed / 60);
+                receivedElement.textContent = `${minutes} minutes ago`;
+            }
+            
+            // Update Review time (shows when elapsed > 90 seconds)
+            const reviewElement = document.getElementById('review-time');
+            if (elapsed < 90) {
+                const seconds = Math.floor(90 - elapsed);
+                reviewElement.textContent = `${seconds} seconds remaining`;
+            } else if (elapsed < 150) {
+                reviewElement.textContent = "Just now";
+            } else if (elapsed < 210) {
+                const minutes = Math.floor((elapsed - 90) / 60);
+                reviewElement.textContent = `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+            } else {
+                const minutes = Math.floor((elapsed - 90) / 60);
+                reviewElement.textContent = `${minutes} minutes ago`;
+            }
+            
+            // Update Progress time (shows when elapsed > 210 seconds)
+            const progressElement = document.getElementById('progress-time');
+            if (elapsed < 210) {
+                const seconds = Math.floor(210 - elapsed);
+                progressElement.textContent = `${seconds} seconds remaining`;
+            } else if (elapsed < 270) {
+                progressElement.textContent = "Just now";
+            } else if (elapsed < 600) {
+                const minutes = Math.floor((elapsed - 210) / 60);
+                progressElement.textContent = `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+            } else {
+                const minutes = Math.floor((elapsed - 210) / 60);
+                progressElement.textContent = `${minutes} minutes ago`;
+            }
+        }
+
+        // Render reports for dashboard
+        function renderReports(reports = sampleReports) {
+            const reportsGrid = document.getElementById('reports-grid');
+            reportsGrid.innerHTML = '';
+            
+            reports.forEach((report, index) => {
+                const reportCard = document.createElement('div');
+                reportCard.className = 'glass-card report-card';
+                reportCard.style.animationDelay = `${index * 0.1}s`;
+                reportCard.innerHTML = `
+                    <h4>${report.title}</h4>
+                    <p>${report.description}</p>
+                    <p><strong>Location:</strong> ${report.location}</p>
+                    <p><strong>Date:</strong> ${report.date}</p>
+                    <p class="status-tag status-${report.status.toLowerCase().replace(' ', '-')}">${report.status}</p>
+                `;
+                reportsGrid.appendChild(reportCard);
+            });
+        }
+
+        // Filter reports
+        function filterReports() {
+            const categoryFilter = document.getElementById('category-filter').value;
+            const barangayFilter = document.getElementById('barangay-filter').value;
+            
+            let filteredReports = sampleReports;
+            
+            if (categoryFilter) {
+                filteredReports = filteredReports.filter(report => report.category === categoryFilter);
+            }
+            
+            if (barangayFilter) {
+                filteredReports = filteredReports.filter(report => report.location === barangayFilter);
+            }
+            
+            renderReports(filteredReports);
+        }
+
+        // Call Simulation Functions
+        function makeCall() {
+            if (callState !== "idle") return;
+            
+            callState = "calling";
+            const callModal = document.getElementById('call-modal');
+            const callStatus = document.getElementById('call-status');
+            const callDuration = document.getElementById('call-duration');
+            
+            callModal.style.display = 'flex';
+            callStatus.textContent = "Calling...";
+            callDuration.textContent = "00:00";
+            
+            // Play outgoing call tone
+            outgoingTone = document.getElementById('outgoing-tone');
+            outgoingTone.loop = true;
+            outgoingTone.play().catch(e => console.log("Audio play failed:", e));
+            
+            // Simulate call connection after 3 seconds
+            setTimeout(() => {
+                if (callState === "calling") {
+                    connectCall();
+                }
+            }, 8000);
+        }
+
+        function connectCall() {
+            callState = "connected";
+            const callStatus = document.getElementById('call-status');
+            callStatus.textContent = "Connected";
+            
+            // Stop outgoing tone
+            if (outgoingTone) {
+                outgoingTone.pause();
+                outgoingTone.currentTime = 0;
+            }
+            
+            // Play voice message
+            voiceMessage = document.getElementById('voice-message');
+            voiceMessage.play().catch(e => console.log("Voice message play failed:", e));
+            
+            // Start call duration timer
+            callStartTime = new Date();
+            updateCallDuration();
+            
+            callInterval = setInterval(updateCallDuration, 1000);
+        }
+
+        function endCall() {
+            if (callState === "idle") return;
+            
+            callState = "disconnected";
+            const callStatus = document.getElementById('call-status');
+            callStatus.textContent = "Call Ended";
+            
+            // Stop any playing sounds
+            if (outgoingTone) {
+                outgoingTone.pause();
+                outgoingTone.currentTime = 0;
+            }
+            if (voiceMessage) {
+                voiceMessage.pause();
+                voiceMessage.currentTime = 0;
+            }
+            
+            // Play disconnect tone
+            disconnectTone = document.getElementById('disconnect-tone');
+            disconnectTone.play().catch(e => console.log("Disconnect tone play failed:", e));
+            
+            // Clear call interval
+            if (callInterval) {
+                clearInterval(callInterval);
+            }
+            
+            // Hide modal after 2 seconds
+            setTimeout(() => {
+                document.getElementById('call-modal').style.display = 'none';
+                callState = "idle";
+            }, 2000);
+        }
+
+        function updateCallDuration() {
+            if (callState !== "connected") return;
+            
+            const now = new Date();
+            const elapsed = Math.floor((now - callStartTime) / 1000);
+            const minutes = Math.floor(elapsed / 60).toString().padStart(2, '0');
+            const seconds = (elapsed % 60).toString().padStart(2, '0');
+            document.getElementById('call-duration').textContent = `${minutes}:${seconds}`;
+        }
+
+        // Add bounce animation to elements
+        function addBounceAnimation() {
+            const elements = document.querySelectorAll('.category-card, .report-card, .status-tag');
+            elements.forEach(element => {
+                element.addEventListener('mouseenter', () => {
+                    element.classList.add('bounce');
+                    setTimeout(() => {
+                        element.classList.remove('bounce');
+                    }, 1000);
+                });
+            });
+        }
+
+        // Initialize animations when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            addBounceAnimation();
+            
+            // Add fade-in animation to header elements
+            const headerElements = document.querySelectorAll('header *');
+            headerElements.forEach((element, index) => {
+                element.style.animation = `fadeIn 0.5s ease-out ${index * 0.1}s forwards`;
+                element.style.opacity = '0';
+            });
+        });
+
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            const mapModal = document.getElementById('map-modal');
+            const notificationModal = document.getElementById('notification-modal');
+            const callModal = document.getElementById('call-modal');
+            
+            if (event.target === mapModal) {
+                closeMapModal();
+            }
+            
+            if (event.target === notificationModal) {
+                closeNotificationModal();
+            }
+            
+            if (event.target === callModal && callState !== "connected") {
+                endCall();
+            }
+        }
+    </script>
+</body>
+</html>

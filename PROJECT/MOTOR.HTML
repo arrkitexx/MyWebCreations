@@ -1,0 +1,1536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARKITEXX - Premium Motorcycle Dealership</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #0a192f;
+            --secondary: #64ffda;
+            --accent: #00b4d8;
+            --dark: #020c1b;
+            --light: #ccd6f6;
+            --gray: #8892b0;
+            --card-bg: rgba(23, 39, 67, 0.7);
+            --success: #64ffda;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--dark), #0a192f);
+            color: var(--light);
+            overflow-x: hidden;
+            background-attachment: fixed;
+        }
+
+        /* Header Styles */
+        header {
+            background: rgba(10, 25, 47, 0.95);
+            backdrop-filter: blur(15px);
+            padding: 1rem 5%;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid rgba(100, 255, 218, 0.2);
+            animation: slideDown 0.8s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, var(--secondary), #00f5d4);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.8; }
+            50% { opacity: 1; }
+            100% { opacity: 0.8; }
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        nav a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(100, 255, 218, 0.2), transparent);
+            transition: all 0.6s;
+        }
+
+        nav a:hover::before {
+            left: 100%;
+        }
+
+        nav a:hover {
+            color: var(--secondary);
+            transform: translateY(-3px);
+            text-shadow: 0 0 10px rgba(100, 255, 218, 0.5);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background: var(--secondary);
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        nav a:hover::after {
+            width: 70%;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            padding: 0 5%;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(0, 180, 216, 0.1) 0%, rgba(10, 25, 47, 0.9) 70%);
+            z-index: -1;
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 800px;
+            z-index: 2;
+            animation: fadeInUp 1.2s ease-out;
+        }
+
+        .hero h1 {
+            font-size: 4.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, var(--secondary), #00f5d4);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: textGlow 3s infinite alternate;
+        }
+
+        @keyframes textGlow {
+            0% { text-shadow: 0 0 10px rgba(100, 255, 218, 0.3); }
+            100% { text-shadow: 0 0 20px rgba(100, 255, 218, 0.6), 0 0 30px rgba(100, 255, 218, 0.4); }
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2.5rem;
+            color: var(--gray);
+            animation: fadeInUp 1.2s ease 0.3s both;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(45deg, var(--accent), #00f5d4);
+            color: var(--dark);
+            padding: 1.2rem 2.5rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 10px 25px rgba(0, 180, 216, 0.4);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: fadeInUp 1.2s ease 0.6s both;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: all 0.6s;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 15px 35px rgba(0, 180, 216, 0.6);
+            letter-spacing: 3px;
+        }
+
+        /* Brands Section */
+        .brands {
+            padding: 6rem 5%;
+            text-align: center;
+            position: relative;
+        }
+
+        .brands::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent 30%, rgba(0, 180, 216, 0.05) 50%, transparent 70%);
+            animation: gradientMove 8s infinite linear;
+        }
+
+        @keyframes gradientMove {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .section-title {
+            font-size: 2.8rem;
+            margin-bottom: 3.5rem;
+            position: relative;
+            display: inline-block;
+            animation: slideInLeft 1s ease-out;
+        }
+
+        @keyframes slideInLeft {
+            from {
+                transform: translateX(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 4px;
+            background: linear-gradient(to right, var(--accent), var(--secondary));
+            border-radius: 2px;
+            animation: widthPulse 2s infinite alternate;
+        }
+
+        @keyframes widthPulse {
+            0% { width: 80px; }
+            100% { width: 140px; }
+        }
+
+        .brand-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+
+        .brand-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 2.5rem;
+            text-align: center;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(100, 255, 218, 0.1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .brand-card:nth-child(2) { animation-delay: 0.2s; }
+        .brand-card:nth-child(3) { animation-delay: 0.4s; }
+        .brand-card:nth-child(4) { animation-delay: 0.6s; }
+        .brand-card:nth-child(5) { animation-delay: 0.8s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .brand-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(100, 255, 218, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .brand-card:hover::before {
+            opacity: 1;
+        }
+
+        .brand-card:hover {
+            transform: translateY(-15px) scale(1.05);
+            background: rgba(30, 50, 85, 0.8);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(100, 255, 218, 0.2);
+        }
+
+        .brand-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--secondary);
+            transition: all 0.3s ease;
+        }
+
+        .brand-card:hover .brand-icon {
+            transform: scale(1.2) rotate(10deg);
+            text-shadow: 0 0 20px rgba(100, 255, 218, 0.6);
+        }
+
+        .brand-card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 0.8rem;
+            color: var(--secondary);
+        }
+
+        .brand-card p {
+            color: var(--gray);
+            font-size: 1.1rem;
+        }
+
+        /* Products Section */
+        .products {
+            padding: 6rem 5%;
+            background: rgba(10, 25, 47, 0.6);
+            position: relative;
+        }
+
+        .products::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(0, 180, 216, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 80% 70%, rgba(100, 255, 218, 0.05) 0%, transparent 20%);
+            animation: backgroundPulse 4s infinite alternate;
+        }
+
+        @keyframes backgroundPulse {
+            0% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .filters {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            margin-bottom: 3.5rem;
+            animation: slideInRight 1s ease-out;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .filter-btn {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(100, 255, 218, 0.3);
+            color: var(--light);
+            padding: 0.9rem 1.8rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .filter-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(100, 255, 218, 0.3), transparent);
+            transition: all 0.6s;
+        }
+
+        .filter-btn:hover::before {
+            left: 100%;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: linear-gradient(45deg, var(--accent), #00f5d4);
+            color: var(--dark);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(0, 180, 216, 0.4);
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .product-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(100, 255, 218, 0.1);
+            animation: cardAppear 0.6s ease-out;
+            animation-fill-mode: backwards;
+        }
+
+        .product-card:nth-child(1) { animation-delay: 0.1s; }
+        .product-card:nth-child(2) { animation-delay: 0.2s; }
+        .product-card:nth-child(3) { animation-delay: 0.3s; }
+        .product-card:nth-child(4) { animation-delay: 0.4s; }
+        .product-card:nth-child(5) { animation-delay: 0.5s; }
+        .product-card:nth-child(6) { animation-delay: 0.6s; }
+
+        @keyframes cardAppear {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .product-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(100, 255, 218, 0.2);
+            background: rgba(30, 50, 85, 0.8);
+        }
+
+        .product-image {
+            height: 220px;
+            background: linear-gradient(45deg, #0a192f, #0077b6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-image .placeholder-icon {
+            font-size: 4.5rem;
+            color: rgba(255, 255, 255, 0.1);
+        }
+
+        .product-image::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(100, 255, 218, 0.1), transparent);
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: rotate(45deg) translateX(-100%); }
+            100% { transform: rotate(45deg) translateX(100%); }
+        }
+
+        .product-info {
+            padding: 2rem;
+        }
+
+        .product-brand {
+            color: var(--secondary);
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+        }
+
+        .product-name {
+            font-size: 1.5rem;
+            margin-bottom: 1.2rem;
+            color: var(--light);
+        }
+
+        .product-price {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 1.2rem;
+            text-shadow: 0 0 10px rgba(100, 255, 218, 0.3);
+        }
+
+        .installment {
+            background: rgba(100, 255, 218, 0.1);
+            padding: 0.8rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+            border-left: 3px solid var(--secondary);
+        }
+
+        .view-details {
+            display: block;
+            width: 100%;
+            background: linear-gradient(45deg, var(--accent), #0077b6);
+            color: white;
+            border: none;
+            padding: 1.2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-weight: 600;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .view-details::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: all 0.6s;
+        }
+
+        .view-details:hover::before {
+            left: 100%;
+        }
+
+        .view-details:hover {
+            background: linear-gradient(45deg, var(--secondary), #00f5d4);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            letter-spacing: 1.5px;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #0a192f, #112240);
+            border-radius: 15px;
+            width: 90%;
+            max-width: 450px;
+            padding: 1.5rem;
+            position: relative;
+            animation: modalAppear 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(100, 255, 218, 0.3);
+            box-shadow: 0 0 40px rgba(0, 180, 216, 0.2);
+        }
+
+        @keyframes modalAppear {
+            from {
+                opacity: 0;
+                transform: scale(0.7) translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: var(--secondary);
+            background: none;
+            border: none;
+            transition: all 0.3s ease;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-modal:hover {
+            background: rgba(100, 255, 218, 0.1);
+            transform: rotate(90deg);
+        }
+
+        .modal-image {
+            height: 140px;
+            background: linear-gradient(45deg, #0a192f, #0077b6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            margin-bottom: 1.2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .modal-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .modal-image .placeholder-icon {
+            font-size: 2.8rem;
+            color: rgba(255, 255, 255, 0.1);
+        }
+
+        .modal-image::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(100, 255, 218, 0.2), transparent);
+            transform: rotate(45deg);
+            animation: shine 2s infinite;
+        }
+
+        .modal-price {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--secondary);
+            margin: 0.8rem 0;
+            text-shadow: 0 0 12px rgba(100, 255, 218, 0.4);
+        }
+
+        .payment-options {
+            margin: 0.8rem 0;
+        }
+
+        .payment-options h3 {
+            color: var(--secondary);
+            margin-bottom: 0.7rem;
+            font-size: 1rem;
+            text-align: center;
+        }
+
+        .payment-option {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.5rem;
+            border-radius: 5px;
+            margin-bottom: 0.5rem;
+            font-size: 0.8rem;
+            border-left: 2px solid var(--accent);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .payment-option:hover {
+            background: rgba(100, 255, 218, 0.1);
+            transform: translateX(3px);
+        }
+
+        .payment-option strong {
+            color: var(--secondary);
+        }
+
+        /* Inquiry Form Modal */
+        .inquiry-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 3000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .inquiry-modal-content {
+            background: linear-gradient(135deg, #0a192f, #112240);
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            padding: 1.8rem;
+            position: relative;
+            animation: modalAppear 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(100, 255, 218, 0.3);
+            box-shadow: 0 0 40px rgba(0, 180, 216, 0.2);
+        }
+
+        .close-inquiry-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: var(--secondary);
+            background: none;
+            border: none;
+            transition: all 0.3s ease;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-inquiry-modal:hover {
+            background: rgba(100, 255, 218, 0.1);
+            transform: rotate(90deg);
+        }
+
+        .inquiry-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .inquiry-header h2 {
+            color: var(--secondary);
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .selected-option {
+            background: rgba(100, 255, 218, 0.1);
+            padding: 0.8rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            border: 1px solid var(--secondary);
+        }
+
+        .selected-option strong {
+            color: var(--secondary);
+        }
+
+        /* Inquiry Form */
+        .inquiry-form {
+            margin-top: 0.8rem;
+            animation: fadeIn 0.8s ease 0.3s both;
+        }
+
+        .inquiry-form h3 {
+            color: var(--secondary);
+            margin-bottom: 0.7rem;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 0.7rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.3rem;
+            font-weight: 500;
+            color: var(--light);
+            font-size: 0.85rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.7rem;
+            border: 1px solid rgba(100, 255, 218, 0.3);
+            border-radius: 5px;
+            font-size: 0.85rem;
+            background: rgba(23, 39, 67, 0.5);
+            color: var(--light);
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 10px rgba(100, 255, 218, 0.3);
+            background: rgba(30, 50, 85, 0.7);
+        }
+
+        .form-group textarea {
+            height: 70px;
+            resize: vertical;
+        }
+
+        .inquire-button {
+            background: linear-gradient(45deg, #0a192f, #112240);
+            color: var(--secondary);
+            border: 2px solid var(--secondary);
+            padding: 0.7rem 1.2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 700;
+            width: 100%;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .inquire-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(100, 255, 218, 0.3), transparent);
+            transition: all 0.6s;
+        }
+
+        .inquire-button:hover::before {
+            left: 100%;
+        }
+
+        .inquire-button:hover {
+            background: linear-gradient(45deg, var(--secondary), #00f5d4);
+            color: var(--dark);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 180, 216, 0.4);
+            letter-spacing: 1.2px;
+        }
+
+        .success-message {
+            background: rgba(100, 255, 218, 0.1);
+            color: var(--success);
+            padding: 0.8rem;
+            border-radius: 5px;
+            margin-top: 0.8rem;
+            display: none;
+            text-align: center;
+            border: 1px solid rgba(100, 255, 218, 0.3);
+            font-size: 0.8rem;
+            animation: bounceIn 0.6s ease;
+        }
+
+        @keyframes bounceIn {
+            0%, 20%, 40%, 60%, 80%, 100% {animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);}
+            0% {opacity: 0; transform: scale3d(.3, .3, .3);}
+            20% {transform: scale3d(1.1, 1.1, 1.1);}
+            40% {transform: scale3d(.9, .9, .9);}
+            60% {opacity: 1; transform: scale3d(1.03, 1.03, 1.03);}
+            80% {transform: scale3d(.97, .97, .97);}
+            100% {opacity: 1; transform: scale3d(1, 1, 1);}
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            padding: 4rem 5%;
+            text-align: center;
+            border-top: 1px solid rgba(100, 255, 218, 0.2);
+            position: relative;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 30% 40%, rgba(0, 180, 216, 0.03) 0%, transparent 30%),
+                radial-gradient(circle at 70% 60%, rgba(100, 255, 218, 0.03) 0%, transparent 30%);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 3rem;
+            text-align: left;
+            position: relative;
+            z-index: 2;
+        }
+
+        .footer-section h3 {
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+
+        .footer-section p, .footer-section li {
+            color: var(--gray);
+            margin-bottom: 0.8rem;
+            list-style: none;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-icons a {
+            color: var(--light);
+            font-size: 1.8rem;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .social-icons a:hover {
+            color: var(--secondary);
+            background: rgba(100, 255, 218, 0.1);
+            transform: translateY(-5px) rotate(10deg);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .copyright {
+            margin-top: 3rem;
+            padding-top: 2.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--gray);
+            font-size: 1.1rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+            
+            nav ul {
+                gap: 1rem;
+            }
+            
+            .section-title {
+                font-size: 2.2rem;
+            }
+            
+            .brand-grid {
+                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero {
+                padding-top: 80px;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .modal-content {
+                padding: 1.2rem;
+                margin: 0 1rem;
+            }
+            
+            .modal-image {
+                height: 120px;
+            }
+        }
+
+        /* Scroll animations */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo">ARKITEXX</div>
+            <nav>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#brands">Brands</a></li>
+                    <li><a href="#products">Scooters</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Premium Scooter Dealership</h1>
+            <p>Discover the latest models from top brands with flexible payment options. Quality scooters for your everyday journey.</p>
+            <a href="#products" class="cta-button">Explore Collection</a>
+        </div>
+    </section>
+
+    <!-- Brands Section -->
+    <section class="brands" id="brands">
+        <h2 class="section-title">Our Premium Brands</h2>
+        <div class="brand-grid">
+            <div class="brand-card animate-on-scroll">
+                <div class="brand-icon">
+                    <i class="fas fa-motorcycle"></i>
+                </div>
+                <h3>Yamaha</h3>
+                <p>Japanese Excellence</p>
+            </div>
+            <div class="brand-card animate-on-scroll">
+                <div class="brand-icon">
+                    <i class="fas fa-motorcycle"></i>
+                </div>
+                <h3>Honda</h3>
+                <p>Reliability & Innovation</p>
+            </div>
+            <div class="brand-card animate-on-scroll">
+                <div class="brand-icon">
+                    <i class="fas fa-motorcycle"></i>
+                </div>
+                <h3>Suzuki</h3>
+                <p>Performance & Style</p>
+            </div>
+            <div class="brand-card animate-on-scroll">
+                <div class="brand-icon">
+                    <i class="fas fa-motorcycle"></i>
+                </div>
+                <h3>Kawasaki</h3>
+                <p>Power & Precision</p>
+            </div>
+            <div class="brand-card animate-on-scroll">
+                <div class="brand-icon">
+                    <i class="fas fa-motorcycle"></i>
+                </div>
+                <h3>SYM</h3>
+                <p>Taiwanese Quality</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products" id="products">
+        <h2 class="section-title">Latest Scooter Models</h2>
+        
+        <div class="filters">
+            <button class="filter-btn active" data-brand="all">All Brands</button>
+            <button class="filter-btn" data-brand="yamaha">Yamaha</button>
+            <button class="filter-btn" data-brand="honda">Honda</button>
+            <button class="filter-btn" data-brand="suzuki">Suzuki</button>
+            <button class="filter-btn" data-brand="kawasaki">Kawasaki</button>
+            <button class="filter-btn" data-brand="sym">SYM</button>
+        </div>
+        
+        <div class="product-grid" id="productGrid">
+            <!-- Products will be dynamically inserted here -->
+        </div>
+    </section>
+
+    <!-- Modal for Product Details -->
+    <div class="modal" id="productModal">
+        <div class="modal-content">
+            <button class="close-modal">&times;</button>
+            <div class="modal-image" id="modalImage">
+                <i class="fas fa-motorcycle placeholder-icon"></i>
+            </div>
+            <h2 id="modalName">Scooter Model</h2>
+            <p id="modalBrand" class="product-brand">Brand Name</p>
+            <div class="modal-price" id="modalPrice">₱0.00</div>
+            
+            <div class="payment-options">
+                <h3>Payment Options</h3>
+                <div class="payment-option" data-option="cash">
+                    <strong>Cash Price:</strong> <span id="cashPrice">₱0.00</span>
+                </div>
+                <div class="payment-option" data-option="6">
+                    <strong>6 Months:</strong> <span id="months6">₱0.00</span> per month
+                </div>
+                <div class="payment-option" data-option="12">
+                    <strong>12 Months:</strong> <span id="months12">₱0.00</span> per month
+                </div>
+                <div class="payment-option" data-option="24">
+                    <strong>24 Months:</strong> <span id="months24">₱0.00</span> per month
+                </div>
+                <div class="payment-option" data-option="36">
+                    <strong>36 Months:</strong> <span id="months36">₱0.00</span> per month
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Inquiry Form Modal -->
+    <div class="inquiry-modal" id="inquiryModal">
+        <div class="inquiry-modal-content">
+            <button class="close-inquiry-modal">&times;</button>
+            <div class="inquiry-header">
+                <h2>Send Inquiry</h2>
+                <div class="selected-option" id="selectedOptionDisplay">
+                    Selected: <strong id="selectedOptionText">Cash Price</strong>
+                </div>
+            </div>
+            
+            <div class="inquiry-form">
+                <div class="form-group">
+                    <label for="customerName">Full Name</label>
+                    <input type="text" id="customerName" placeholder="Enter your full name">
+                </div>
+                <div class="form-group">
+                    <label for="customerEmail">Email</label>
+                    <input type="email" id="customerEmail" placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="customerPhone">Phone Number</label>
+                    <input type="tel" id="customerPhone" placeholder="Enter your phone number">
+                </div>
+                <div class="form-group">
+                    <label for="inquiryMessage">Message</label>
+                    <textarea id="inquiryMessage" placeholder="Tell us about your inquiry..."></textarea>
+                </div>
+                <button class="inquire-button" id="submitInquiry">Submit Inquiry</button>
+                <div class="success-message" id="successMessage">
+                    <i class="fas fa-check-circle"></i> Thank you! Your inquiry has been submitted successfully. We'll contact you soon.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>ARKITEXX</h3>
+                <p>Your trusted partner for premium scooters in the Philippines. We offer the latest models with flexible payment options.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p><i class="fas fa-map-marker-alt"></i> Manila, Philippines</p>
+                <p><i class="fas fa-phone"></i> +63 912 345 6789</p>
+                <p><i class="fas fa-envelope"></i> info@arkitexx.com</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Business Hours</h3>
+                <p>Monday - Saturday: 9:00 AM - 7:00 PM</p>
+                <p>Sunday: 10:00 AM - 5:00 PM</p>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            <p>&copy; 2023 ARKITEXX. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Sample scooter data with images
+        const scooters = [
+            // Yamaha Scooters
+            { id: 1, brand: 'yamaha', name: 'NMAX 155', price: 125000, image: 'https://d1hv7ee95zft1i.cloudfront.net/custom/motorcycle-model-photo/original/2025-yamaha-nmax-tech-max-67d9694f162e7.jpeg' },
+            { id: 2, brand: 'yamaha', name: 'Aerox 155', price: 118000, image: 'https://d29c80i09kxy2a.cloudfront.net/custom/motorcycle-model-photo/mobile/gallery/yamaha-mio-aerox-677cb048284a8.png' },
+            { id: 3, brand: 'yamaha', name: 'Mio M7', price: 72000, image: 'https://d29c80i09kxy2a.cloudfront.net/custom/motorcycle-model-photo/mobile/gallery/yamaha-mio-gravis-125-66569ce82c57b.jpg' },
+            { id: 4, brand: 'yamaha', name: 'Mio Soul i Plus', price: 75000, image: 'https://d29c80i09kxy2a.cloudfront.net/custom/motorcycle-model-photo/mobile/gallery/5e1fa464e41a9.jpg' },
+            { id: 5, brand: 'yamaha', name: 'Freego', price: 105000, image: 'https://fejosekawan.com/wp-content/uploads/2021/11/FreeGO-125-STD-Blue.png' },
+            { id: 6, brand: 'yamaha', name: 'NMAX Tech MAX', price: 135000, image: 'https://d1hv7ee95zft1i.cloudfront.net/custom/motorcycle-model-variant-photo/original/yamaha-nmax-tech-max-2025-present-67d96a1b2767e.jpeg' },
+            { id: 7, brand: 'yamaha', name: 'Aerox 155 V2', price: 122000, image: 'https://premiumbikes.ph/wp-content/uploads/2024/01/Yamaha-Mio-Aerox-1.png' },
+            { id: 8, brand: 'yamaha', name: 'Mio G1', price: 68000, image: 'https://motorlandia.com.ph/wp-content/uploads/2022/09/MIO-I-125-S-2.png' },
+            { id: 9, brand: 'yamaha', name: 'Fazzio', price: 110000, image: 'https://motortrade.com.ph/wp-content/uploads/2025/02/MIO-FAZZIO-3.jpg' },
+            { id: 10, brand: 'yamaha', name: 'Grand Filano Hybrid', price: 145000, image: 'https://thai.webike.net/news/wp-content/uploads/2022/11/19-New-Grand-Filano-Hybrid-Connected-STD.jpg' },
+            
+            // Honda Scooters
+            { id: 11, brand: 'honda', name: 'ADV 150', price: 145000, image: 'https://placehold.co/400x300/0a192f/64ffda?text=Honda+ADV+150' },
+            { id: 12, brand: 'honda', name: 'PCX 160', price: 135000, image: 'https://placehold.co/400x300/0a192f/64ffda?text=Honda+PCX+160' },
+            { id: 13, brand: 'honda', name: 'Click 125i', price: 72000, image: 'https://placehold.co/400x300/0a192f/64ffda?text=Honda+Click+125i' },
+            { id: 14, brand: 'honda', name: 'Scoopy', price: 110000, image: 'https://placehold.co/400x300/0a192f/64ffda?text=Honda+Scoopy' },
+            { id: 15, brand: 'honda', name: 'Beat eSP', price: 75000, image: 'https://placehold.co/400x300/0a192f/64ffda?text=Honda+Beat+eSP' },
+            { id: 16, brand: 'honda', name: 'Forza 300', price: 220000, image: 'https://placehold.co/400x300/0a192f/64ffda?text=Honda+Forza+300' },
+            { id: 17, brand: 'honda', name: 'Dio', price: 68000, image: 'https://placehold.co/400x300/0a192f/64ffda?text=Honda+Dio' },
+            { id: 18, brand: 'honda', name: 'PCX Hybrid', price: 155000, image: 'https://placehold.co/400x300/0a192f/64ffda?text=Honda+PCX+Hybrid' },
+            { id: 19, brand: 'honda', name: 'ADV 350', price: 245000, image: 'https://placehold.co/400x300/0a192f/64ffda?text=Honda+ADV+350' },
+            { id: 20, brand: 'honda', name: 'Click 125i Fi', price: 78000, image: 'https://placehold.co/400x300/0a192f/64ffda?text=Honda+Click+Fi' },
+            
+            // Suzuki Scooters
+            { id: 21, brand: 'suzuki', name: 'Address 110 Fi', price: 75000, image: 'https://placehold.co/400x300/0a192f/64ffda?text=Suzuki+Address+Fi' },
+            { id: 22, brand: 'suzuki', name: 'Burgman Street 125', price: 105000, image: 'https://placehold.co/400x300/0a192f/64ffda?text=Suzuki+Burgman+125' },
+            { id: 23, brand: 'suzuki', name: 'Access 125 Fi', price: 72000, image: 'https://placehold.co/400x300/0a192f/64ffda?text=Suzuki+Access+Fi' },
+            { id: 24, brand: 'suzuki', name: 'Burgman 200', price: 145000, image: 'https://placehold.co/400x300/0a192f/64ffda?text=Suzuki+Burgman+200' },
+            { id: 25, brand: 'suzuki', name: 'Let\'s 110', price: 68000, image: 'https://placehold.co/400x300/0a192f/64ffda?text=Suzuki+Let\'s+110' },
+            { id: 26, brand: 'suzuki', name: 'Burgman 400', price: 265000, image: 'https://placehold.co/400x300/0a192f/64ffda?text=Suzuki+Burgman+400' },
+            { id: 27, brand: 'suzuki', name: 'Avenis 125', price: 115000, image: 'https://placehold.co/400x300/0a192f/64ffda?text=Suzuki+Avenis+125' },
+            { id: 28, brand: 'suzuki', name: 'Address 110', price: 70000, image: 'https://placehold.co/400x300/0a192f/64ffda?text=Suzuki+Address+110' },
+            { id: 29, brand: 'suzuki', name: 'Burgman Street 125 Fi', price: 110000, image: 'https://placehold.co/400x300/0a192f/64ffda?text=Suzuki+Burgman+Fi' },
+            { id: 30, brand: 'suzuki', name: 'Access 125', price: 69000, image: 'https://placehold.co/400x300/0a192f/64ffda?text=Suzuki+Access+125' },
+            
+            // Kawasaki Scooters
+            { id: 31, brand: 'kawasaki', name: 'J125', price: 135000, image: 'https://placehold.co/400x300/0a192f/64ffda?text=Kawasaki+J125' },
+            { id: 32, brand: 'kawasaki', name: 'J300', price: 185000, image: 'https://placehold.co/400x300/0a192f/64ffda?text=Kawasaki+J300' },
+            { id: 33, brand: 'kawasaki', name: 'Z125 Pro', price: 155000, image: 'https://placehold.co/400x300/0a192f/64ffda?text=Kawasaki+Z125+Pro' },
+            { id: 34, brand: 'kawasaki', name: 'Z300', price: 225000, image: 'https://placehold.co/400x300/0a192f/64ffda?text=Kawasaki+Z300' },
+            { id: 35, brand: 'kawasaki', name: 'Ninja 125', price: 165000, image: 'https://placehold.co/400x300/0a192f/64ffda?text=Kawasaki+Ninja+125' },
+            { id: 36, brand: 'kawasaki', name: 'Versys-X 300', price: 285000, image: 'https://placehold.co/400x300/0a192f/64ffda?text=Kawasaki+Versys-X' },
+            { id: 37, brand: 'kawasaki', name: 'W175', price: 125000, image: 'https://placehold.co/400x300/0a192f/64ffda?text=Kawasaki+W175' },
+            { id: 38, brand: 'kawasaki', name: 'W250', price: 175000, image: 'https://placehold.co/400x300/0a192f/64ffda?text=Kawasaki+W250' },
+            { id: 39, brand: 'kawasaki', name: 'Z1400', price: 325000, image: 'https://placehold.co/400x300/0a192f/64ffda?text=Kawasaki+Z1400' },
+            { id: 40, brand: 'kawasaki', name: 'Ninja 400', price: 265000, image: 'https://placehold.co/400x300/0a192f/64ffda?text=Kawasaki+Ninja+400' },
+            
+            // SYM Scooters
+            { id: 41, brand: 'sym', name: 'CITYCOM 300i', price: 185000, image: 'https://dafra.m3racing.com.br/arquivos/1604664519ddit_produto.png' },
+            { id: 42, brand: 'sym', name: 'HD125', price: 75000, image: 'https://placehold.co/400x300/0a192f/64ffda?text=SYM+HD125' },
+            { id: 43, brand: 'sym', name: 'VS125', price: 85000, image: 'https://placehold.co/400x300/0a192f/64ffda?text=SYM+VS125' },
+            { id: 44, brand: 'sym', name: 'GTS250i', price: 165000, image: 'https://placehold.co/400x300/0a192f/64ffda?text=SYM+GTS250i' },
+            { id: 45, brand: 'sym', name: 'MAXXER 125', price: 78000, image: 'https://placehold.co/400x300/0a192f/64ffda?text=SYM+MAXXER+125' },
+            { id: 46, brand: 'sym', name: 'FIDDLE III', price: 72000, image: 'https://placehold.co/400x300/0a192f/64ffda?text=SYM+FIDDLE+III' },
+            { id: 47, brand: 'sym', name: 'CUBFURY 110', price: 65000, image: 'https://placehold.co/400x300/0a192f/64ffda?text=SYM+CUBFURY+110' },
+            { id: 48, brand: 'sym', name: 'JET 4 125', price: 95000, image: 'https://placehold.co/400x300/0a192f/64ffda?text=SYM+JET+4+125' },
+            { id: 49, brand: 'sym', name: 'ORBIT 125', price: 88000, image: 'https://placehold.co/400x300/0a192f/64ffda?text=SYM+ORBIT+125' },
+            { id: 50, brand: 'sym', name: 'CYGNUS-X 125', price: 82000, image: 'https://placehold.co/400x300/0a192f/64ffda?text=SYM+CYGNUS-X+125' }
+        ];
+
+        // DOM Elements
+        const productGrid = document.getElementById('productGrid');
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const productModal = document.getElementById('productModal');
+        const inquiryModal = document.getElementById('inquiryModal');
+        const closeModal = document.querySelector('.close-modal');
+        const closeInquiryModal = document.querySelector('.close-inquiry-modal');
+        const submitInquiry = document.getElementById('submitInquiry');
+        const successMessage = document.getElementById('successMessage');
+        const paymentOptions = document.querySelectorAll('.payment-option');
+        const selectedOptionText = document.getElementById('selectedOptionText');
+        const selectedOptionDisplay = document.getElementById('selectedOptionDisplay');
+
+        let selectedPaymentOption = '';
+        let selectedScooter = null;
+
+        // Display products
+        function displayProducts(products) {
+            productGrid.innerHTML = '';
+            products.forEach((scooter, index) => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card animate-on-scroll';
+                productCard.style.animationDelay = `${index * 0.1}s`;
+                productCard.innerHTML = `
+                    <div class="product-image">
+                        <img src="${scooter.image}" alt="${scooter.name}">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-brand">${scooter.brand.charAt(0).toUpperCase() + scooter.brand.slice(1)}</div>
+                        <div class="product-name">${scooter.name}</div>
+                        <div class="product-price">₱${scooter.price.toLocaleString()}</div>
+                        <div class="installment">As low as ₱${Math.round((scooter.price * 0.015) * 1.1).toLocaleString()} / month</div>
+                        <button class="view-details" data-id="${scooter.id}">View Details</button>
+                    </div>
+                `;
+                productGrid.appendChild(productCard);
+            });
+
+            // Add event listeners to view details buttons
+            document.querySelectorAll('.view-details').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const scooterId = parseInt(e.target.getAttribute('data-id'));
+                    showProductDetails(scooterId);
+                });
+            });
+
+            // Initialize scroll animations
+            initScrollAnimations();
+        }
+
+        // Filter products by brand
+        function filterProducts(brand) {
+            if (brand === 'all') {
+                displayProducts(scooters);
+            } else {
+                const filtered = scooters.filter(scooter => scooter.brand === brand);
+                displayProducts(filtered);
+            }
+        }
+
+        // Show product details in modal
+        function showProductDetails(id) {
+            const scooter = scooters.find(s => s.id === id);
+            if (!scooter) return;
+
+            selectedScooter = scooter;
+
+            // Update modal content
+            const modalImage = document.getElementById('modalImage');
+            modalImage.innerHTML = `<img src="${scooter.image}" alt="${scooter.name}">`;
+            
+            document.getElementById('modalName').textContent = scooter.name;
+            document.getElementById('modalBrand').textContent = scooter.brand.charAt(0).toUpperCase() + scooter.brand.slice(1);
+            document.getElementById('modalPrice').textContent = `₱${scooter.price.toLocaleString()}`;
+            document.getElementById('cashPrice').textContent = `₱${scooter.price.toLocaleString()}`;
+            
+            // Calculate installment options (with 10% interest)
+            const interestRate = 0.10;
+            document.getElementById('months6').textContent = `₱${Math.round((scooter.price * (1 + interestRate)) / 6).toLocaleString()}`;
+            document.getElementById('months12').textContent = `₱${Math.round((scooter.price * (1 + interestRate)) / 12).toLocaleString()}`;
+            document.getElementById('months24').textContent = `₱${Math.round((scooter.price * (1 + interestRate)) / 24).toLocaleString()}`;
+            document.getElementById('months36').textContent = `₱${Math.round((scooter.price * (1 + interestRate)) / 36).toLocaleString()}`;
+
+            productModal.style.display = 'flex';
+        }
+
+        // Add event listeners to payment options
+        paymentOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                const optionType = option.getAttribute('data-option');
+                selectedPaymentOption = optionType;
+                
+                // Set the display text based on selected option
+                let optionText = '';
+                if (optionType === 'cash') {
+                    optionText = 'Cash Price';
+                } else {
+                    optionText = `${optionType} Months`;
+                }
+                
+                selectedOptionText.textContent = optionText;
+                selectedOptionDisplay.style.display = 'block';
+                
+                // Close product modal and open inquiry modal
+                productModal.style.display = 'none';
+                inquiryModal.style.display = 'flex';
+            });
+        });
+
+        // Close modals
+        closeModal.addEventListener('click', () => {
+            productModal.style.display = 'none';
+        });
+
+        closeInquiryModal.addEventListener('click', () => {
+            inquiryModal.style.display = 'none';
+        });
+
+        // Close modals when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target === productModal) {
+                productModal.style.display = 'none';
+            }
+            if (e.target === inquiryModal) {
+                inquiryModal.style.display = 'none';
+            }
+        });
+
+        // Handle inquiry submission
+        submitInquiry.addEventListener('click', () => {
+            const name = document.getElementById('customerName').value;
+            const email = document.getElementById('customerEmail').value;
+            const phone = document.getElementById('customerPhone').value;
+            const message = document.getElementById('inquiryMessage').value;
+            
+            // Simple validation
+            if (name && email && phone) {
+                // In a real application, you would send this data to a server
+                // For now, we'll just show a success message
+                successMessage.style.display = 'block';
+                
+                // Reset form after 3 seconds
+                setTimeout(() => {
+                    document.getElementById('customerName').value = '';
+                    document.getElementById('customerEmail').value = '';
+                    document.getElementById('customerPhone').value = '';
+                    document.getElementById('inquiryMessage').value = '';
+                    successMessage.style.display = 'none';
+                    inquiryModal.style.display = 'none';
+                }, 3000);
+            } else {
+                alert('Please fill in all required fields');
+            }
+        });
+
+        // Filter button event listeners
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                // Add active class to clicked button
+                button.classList.add('active');
+                // Filter products
+                const brand = button.getAttribute('data-brand');
+                filterProducts(brand);
+            });
+        });
+
+        // Scroll animation function
+        function initScrollAnimations() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.animate-on-scroll').forEach(el => {
+                observer.observe(el);
+            });
+        }
+
+        // Initialize the page
+        displayProducts(scooters);
+        initScrollAnimations();
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Add parallax effect to hero section
+        window.addEventListener('scroll', () => {
+            const scrollPosition = window.pageYOffset;
+            const hero = document.querySelector('.hero');
+            hero.style.backgroundPositionY = `${scrollPosition * 0.5}px`;
+        });
+    </script>
+</body>
+</html>
