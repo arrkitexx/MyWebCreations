@@ -1,0 +1,2810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tenaniko - Simple Loan & Installment Tracker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        :root {
+            --primary: #0a3d62;
+            --primary-dark: #072d4a;
+            --secondary: #2e86de;
+            --accent: #00d2d3;
+            --success: #26de81;
+            --warning: #feca57;
+            --danger: #ff6b6b;
+            --light: #f8f9fa;
+            --dark: #2d3436;
+            --gray: #636e72;
+            --light-gray: #dfe6e9;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        .header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-icon {
+            font-size: 2rem;
+            color: var(--accent);
+        }
+
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .tagline {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin-top: 5px;
+        }
+
+        /* Navigation */
+        .nav {
+            background: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-success {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            opacity: 0.9;
+        }
+
+        .btn-warning {
+            background-color: var(--warning);
+            color: white;
+        }
+
+        .btn-warning:hover {
+            opacity: 0.9;
+        }
+
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            opacity: 0.9;
+        }
+
+        .btn-sm {
+            padding: 0.25rem 0.75rem;
+            font-size: 0.9rem;
+            margin: 0.125rem;
+        }
+
+        .btn-archive {
+            background-color: var(--gray);
+            color: white;
+        }
+
+        .btn-archive:hover {
+            background-color: #4a4a4a;
+        }
+
+        .btn-trash {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .btn-trash:hover {
+            background-color: #5a6268;
+        }
+
+        /* Dashboard Cards */
+        .dashboard {
+            padding: 2rem 0;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            color: var(--gray);
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .icon-blue {
+            background-color: rgba(46, 134, 222, 0.1);
+            color: var(--secondary);
+        }
+
+        .icon-green {
+            background-color: rgba(38, 222, 129, 0.1);
+            color: var(--success);
+        }
+
+        .icon-orange {
+            background-color: rgba(254, 202, 87, 0.1);
+            color: var(--warning);
+        }
+
+        .icon-red {
+            background-color: rgba(255, 107, 107, 0.1);
+            color: var(--danger);
+        }
+
+        .card-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-footer {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        /* Table Styles */
+        .section-title {
+            margin: 2rem 0 1rem;
+            color: var(--primary);
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            overflow-x: auto;
+            margin-bottom: 2rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        th {
+            background-color: rgba(10, 61, 98, 0.05);
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        tr:hover {
+            background-color: rgba(46, 134, 222, 0.05);
+        }
+
+        .status {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .status-paid {
+            background-color: rgba(38, 222, 129, 0.1);
+            color: var(--success);
+        }
+
+        .status-pending {
+            background-color: rgba(254, 202, 87, 0.1);
+            color: var(--warning);
+        }
+
+        .status-overdue {
+            background-color: rgba(255, 107, 107, 0.1);
+            color: var(--danger);
+        }
+
+        .status-due-soon {
+            background-color: rgba(254, 202, 87, 0.2);
+            color: #e67e22;
+        }
+
+        .status-active {
+            background-color: rgba(38, 222, 129, 0.1);
+            color: var(--success);
+        }
+
+        .status-inactive {
+            background-color: rgba(128, 128, 128, 0.1);
+            color: var(--gray);
+        }
+
+        /* Form Styles */
+        .form-container {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            margin: 2rem 0;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid var(--light-gray);
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--secondary);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--light-gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .modal-footer {
+            padding: 1.5rem;
+            border-top: 1px solid var(--light-gray);
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+
+        /* Custom Modal Cards */
+        .notification-modal {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .notification-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .notification-success .notification-icon {
+            color: var(--success);
+        }
+
+        .notification-warning .notification-icon {
+            color: var(--warning);
+        }
+
+        .notification-error .notification-icon {
+            color: var(--danger);
+        }
+
+        .notification-info .notification-icon {
+            color: var(--secondary);
+        }
+
+        .notification-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .notification-message {
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+        }
+
+        /* Chart Container */
+        .chart-container {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            margin: 2rem 0;
+        }
+
+        /* Fee Badge */
+        .fee-badge {
+            background-color: var(--danger);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            margin-left: 0.5rem;
+        }
+
+        /* Loan Agreement Template */
+        .loan-agreement-template {
+            display: none;
+        }
+
+        .agreement-content {
+            font-family: 'Times New Roman', Times, serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: white;
+            border: 1px solid #ccc;
+        }
+
+        .agreement-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .agreement-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .agreement-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .agreement-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .agreement-section-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            text-decoration: underline;
+        }
+
+        .agreement-paragraph {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .agreement-signature {
+            margin-top: 2rem;
+        }
+
+        .signature-line {
+            border-top: 1px solid #000;
+            width: 200px;
+            margin: 1rem 0;
+        }
+
+        .signature-section {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 3rem;
+        }
+
+        .signature-box {
+            width: 45%;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            .nav-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .user-actions {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container header-content">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-hand-holding-usd"></i>
+                </div>
+                <div>
+                    <div class="logo-text">TENANIKO</div>
+                    <div class="tagline">Track loans. Simplify repayments. Stay organized.</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="container nav-content">
+            <div class="nav-links">
+                <a href="#" class="nav-link active" onclick="showSection('dashboard')">
+                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                </a>
+                <a href="#" class="nav-link" onclick="showSection('loans')">
+                    <i class="fas fa-file-invoice-dollar"></i> Loans
+                </a>
+                <a href="#" class="nav-link" onclick="showSection('reports')">
+                    <i class="fas fa-chart-bar"></i> Reports
+                </a>
+                <a href="#" class="nav-link" onclick="showSection('borrowers')">
+                    <i class="fas fa-users"></i> Borrowers
+                </a>
+                <a href="#" class="nav-link" onclick="showSection('archive')">
+                    <i class="fas fa-archive"></i> Archive
+                </a>
+                <a href="#" class="nav-link" onclick="showSection('trash')">
+                    <i class="fas fa-trash"></i> Trash
+                </a>
+            </div>
+            <div class="user-actions">
+                <button class="btn btn-outline" onclick="showNotifications()">
+                    <i class="fas fa-bell"></i> <span id="notificationCount">0</span>
+                </button>
+                <button class="btn btn-primary" onclick="openModal('loanModal')">
+                    <i class="fas fa-plus"></i> New Loan
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="dashboard fade-in">
+            <h2 class="section-title">Dashboard Overview</h2>
+            
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Active Loans</div>
+                        <div class="card-icon icon-blue">
+                            <i class="fas fa-file-contract"></i>
+                        </div>
+                    </div>
+                    <div class="card-value" id="activeLoansCount">12</div>
+                    <div class="card-footer">+2 from last month</div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Total Amount Lent</div>
+                        <div class="card-icon icon-green">
+                            <i class="fas fa-money-bill-wave"></i>
+                        </div>
+                    </div>
+                    <div class="card-value" id="totalLent">₱245,680</div>
+                    <div class="card-footer">₱180,000 principal</div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Amount Repaid</div>
+                        <div class="card-icon icon-orange">
+                            <i class="fas fa-hand-holding-usd"></i>
+                        </div>
+                    </div>
+                    <div class="card-value" id="amountRepaid">₱156,720</div>
+                    <div class="card-footer">64% of total lent</div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Overdue Loans</div>
+                        <div class="card-icon icon-red">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                    </div>
+                    <div class="card-value" id="overdueLoans">3</div>
+                    <div class="card-footer">Requires immediate attention</div>
+                </div>
+            </div>
+
+            <h3 class="section-title">Recent Loans</h3>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Borrower</th>
+                            <th>Loan Amount</th>
+                            <th>Status</th>
+                            <th>Next Due</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recentLoansTable">
+                        <!-- Recent loans will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 class="section-title">Payment Analytics</h3>
+            <div class="chart-container">
+                <canvas id="paymentChart" height="300"></canvas>
+            </div>
+        </section>
+
+        <!-- Loans Section -->
+        <section id="loans" class="dashboard" style="display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                <h2 class="section-title">Loan Management</h2>
+                <button class="btn btn-trash" onclick="moveAllToTrash('loans')">
+                    <i class="fas fa-trash"></i> Move All to Trash
+                </button>
+            </div>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Borrower</th>
+                            <th>Loan Amount</th>
+                            <th>Interest Rate</th>
+                            <th>Term</th>
+                            <th>Status</th>
+                            <th>Next Due</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="loansTableBody">
+                        <!-- Loans will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Reports Section -->
+        <section id="reports" class="dashboard" style="display: none;">
+            <h2 class="section-title">Financial Reports</h2>
+            
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Monthly Revenue</div>
+                        <div class="card-icon icon-green">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                    </div>
+                    <div class="card-value">₱12,450</div>
+                    <div class="card-footer">From interest payments</div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Top Borrower</div>
+                        <div class="card-icon icon-blue">
+                            <i class="fas fa-crown"></i>
+                        </div>
+                    </div>
+                    <div class="card-value">Juan Dela Cruz</div>
+                    <div class="card-footer">₱85,000 total borrowed</div>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <h3>Loan Performance</h3>
+                <canvas id="loanChart" height="300"></canvas>
+            </div>
+
+            <div class="table-container">
+                <h3>Recent Payments</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Borrower</th>
+                            <th>Amount</th>
+                            <th>Payment Type</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Dec 15, 2023</td>
+                            <td>Juan Dela Cruz</td>
+                            <td>₱2,500</td>
+                            <td>Monthly Installment</td>
+                            <td><span class="status status-paid">Completed</span></td>
+                        </tr>
+                        <tr>
+                            <td>Dec 12, 2023</td>
+                            <td>Maria Santos</td>
+                            <td>₱3,200</td>
+                            <td>Monthly Installment</td>
+                            <td><span class="status status-paid">Completed</span></td>
+                        </tr>
+                        <tr>
+                            <td>Dec 10, 2023</td>
+                            <td>Pedro Reyes</td>
+                            <td>₱1,950</td>
+                            <td>Partial Payment + Fee</td>
+                            <td><span class="status status-overdue">Overdue <span class="fee-badge">Fee: ₱150</span></span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Borrowers Section -->
+        <section id="borrowers" class="dashboard" style="display: none;">
+            <h2 class="section-title">Borrowers Management</h2>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Contact</th>
+                            <th>Address</th>
+                            <th>Total Loans</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="borrowersTableBody">
+                        <!-- Borrowers will be populated here dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Archive Section -->
+        <section id="archive" class="dashboard" style="display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                <h2 class="section-title">Archived Loans</h2>
+                <button class="btn btn-trash" onclick="moveAllToTrash('archive')">
+                    <i class="fas fa-trash"></i> Move All to Trash
+                </button>
+            </div>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Borrower</th>
+                            <th>Loan Amount</th>
+                            <th>Interest Rate</th>
+                            <th>Term</th>
+                            <th>Status</th>
+                            <th>Completed Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="archiveTableBody">
+                        <!-- Archived loans will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Trash Section -->
+        <section id="trash" class="dashboard" style="display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                <h2 class="section-title">Trash</h2>
+                <button class="btn btn-danger" onclick="emptyTrash()">
+                    <i class="fas fa-trash"></i> Empty Trash
+                </button>
+            </div>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Borrower</th>
+                            <th>Loan Amount</th>
+                            <th>Type</th>
+                            <th>Deleted Date</th>
+                            <th>Delete Permanently</th>
+                            <th>Restore</th>
+                        </tr>
+                    </thead>
+                    <tbody id="trashTableBody">
+                        <!-- Trash items will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <!-- New Loan Modal -->
+    <div id="loanModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Add New Loan</h3>
+                <button class="close-modal" onclick="closeModal('loanModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-container" style="padding: 0; box-shadow: none;">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">Borrower Name</label>
+                            <input type="text" class="form-input" id="borrowerName" placeholder="Enter full name">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Contact Number</label>
+                            <input type="text" class="form-input" id="contactNumber" placeholder="09XXXXXXXXX">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Address</label>
+                            <input type="text" class="form-input" id="address" placeholder="Complete address">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Co-Maker Name</label>
+                            <input type="text" class="form-input" id="coMakerName" placeholder="Enter co-maker name">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Co-Maker Contact Number</label>
+                            <input type="text" class="form-input" id="coMakerContact" placeholder="09XXXXXXXXX">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Co-Maker Address</label>
+                            <input type="text" class="form-input" id="coMakerAddress" placeholder="Complete address">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Loan Amount (₱)</label>
+                            <input type="number" class="form-input" id="loanAmount" placeholder="0.00" value="1500">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Interest Rate (%)</label>
+                            <input type="number" class="form-input" id="interestRate" placeholder="0.00" value="12">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Loan Term</label>
+                            <select class="form-input" id="loanTerm">
+                                <option>6 months</option>
+                                <option selected>12 months</option>
+                                <option>18 months</option>
+                                <option>24 months</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Start Date</label>
+                            <input type="date" class="form-input" id="startDate">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Overdue Fee (₱)</label>
+                            <input type="number" class="form-input" id="overdueFee" placeholder="150" value="150">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Due Date Reminder (days)</label>
+                            <input type="number" class="form-input" id="reminderDays" placeholder="3" value="3">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Collateral (Optional)</label>
+                            <input type="text" class="form-input" id="collateral" placeholder="Describe collateral">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeModal('loanModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="createLoan()">Create Loan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loan Details Modal -->
+    <div id="loanDetailsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Loan Details</h3>
+                <button class="close-modal" onclick="closeModal('loanDetailsModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-container" style="padding: 0; box-shadow: none;">
+                    <div id="loanDetailsContent">
+                        <!-- Loan details will be populated here -->
+                    </div>
+                    
+                    <h4 style="margin: 1.5rem 0 1rem;">Repayment Schedule</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Due Date</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="repaymentSchedule">
+                            <!-- Repayment schedule will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="generateReceipt()">Generate Receipt</button>
+                <button class="btn btn-primary" onclick="generateLoanAgreement()">Generate Agreement</button>
+                <button class="btn btn-primary" onclick="editLoan()">Edit Loan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Confirmation Modal -->
+    <div id="paymentModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Confirm Payment</h3>
+                <button class="close-modal" onclick="closeModal('paymentModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to mark this installment as paid?</p>
+                <div id="paymentDetails">
+                    <!-- Payment details will be populated here -->
+                </div>
+                <div id="overdueFeeInfo" style="margin-top: 1rem; padding: 1rem; background-color: rgba(255, 107, 107, 0.1); border-radius: 5px; display: none;">
+                    <strong>Overdue Fee:</strong> <span id="overdueFeeAmount">₱0</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeModal('paymentModal')">Cancel</button>
+                <button class="btn btn-success" onclick="confirmPayment()">Confirm Payment</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Borrower Details Modal -->
+    <div id="borrowerDetailsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Borrower Details</h3>
+                <button class="close-modal" onclick="closeModal('borrowerDetailsModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-container" style="padding: 0; box-shadow: none;">
+                    <div id="borrowerDetailsContent">
+                        <!-- Borrower details will be populated here -->
+                    </div>
+                    
+                    <h4 style="margin: 1.5rem 0 1rem;">Loan History</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Loan ID</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="borrowerLoanHistory">
+                            <!-- Loan history will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" onclick="closeModal('borrowerDetailsModal')">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Archive Confirmation Modal -->
+    <div id="archiveModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Archive Loan</h3>
+                <button class="close-modal" onclick="closeModal('archiveModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to archive this loan? This will move it to the archive history.</p>
+                <div id="archiveDetails">
+                    <!-- Archive details will be populated here -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeModal('archiveModal')">Cancel</button>
+                <button class="btn btn-archive" onclick="confirmArchive()">Archive Loan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Move to Trash Confirmation Modal -->
+    <div id="moveToTrashModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Move to Trash</h3>
+                <button class="close-modal" onclick="closeModal('moveToTrashModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to move this item to trash? It will be permanently deleted after 15 days.</p>
+                <div id="trashDetails">
+                    <!-- Trash details will be populated here -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeModal('moveToTrashModal')">Cancel</button>
+                <button class="btn btn-trash" onclick="confirmMoveToTrash()">Move to Trash</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Empty Trash Confirmation Modal -->
+    <div id="emptyTrashModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Empty Trash</h3>
+                <button class="close-modal" onclick="closeModal('emptyTrashModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to permanently delete all items in the trash? This action cannot be undone.</p>
+                <p><strong>Items to be deleted:</strong> <span id="trashItemCount">0</span></p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeModal('emptyTrashModal')">Cancel</button>
+                <button class="btn btn-danger" onclick="confirmEmptyTrash()">Delete Permanently</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Notification Modals -->
+    <div id="successModal" class="modal">
+        <div class="notification-modal notification-success">
+            <div class="notification-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h3 class="notification-title">Success!</h3>
+            <p class="notification-message" id="successMessage">Operation completed successfully.</p>
+            <button class="btn btn-primary" onclick="closeModal('successModal')">OK</button>
+        </div>
+    </div>
+
+    <div id="warningModal" class="modal">
+        <div class="notification-modal notification-warning">
+            <div class="notification-icon">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <h3 class="notification-title">Warning</h3>
+            <p class="notification-message" id="warningMessage">Please check your input.</p>
+            <button class="btn btn-warning" onclick="closeModal('warningModal')">OK</button>
+        </div>
+    </div>
+
+    <div id="errorModal" class="modal">
+        <div class="notification-modal notification-error">
+            <div class="notification-icon">
+                <i class="fas fa-times-circle"></i>
+            </div>
+            <h3 class="notification-title">Error</h3>
+            <p class="notification-message" id="errorMessage">An error occurred.</p>
+            <button class="btn btn-danger" onclick="closeModal('errorModal')">OK</button>
+        </div>
+    </div>
+
+    <div id="infoModal" class="modal">
+        <div class="notification-modal notification-info">
+            <div class="notification-icon">
+                <i class="fas fa-info-circle"></i>
+            </div>
+            <h3 class="notification-title">Information</h3>
+            <p class="notification-message" id="infoMessage">Here's some information.</p>
+            <button class="btn btn-primary" onclick="closeModal('infoModal')">OK</button>
+        </div>
+    </div>
+
+    <!-- Notifications Modal -->
+    <div id="notificationsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Notifications</h3>
+                <button class="close-modal" onclick="closeModal('notificationsModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="notificationsList">
+                    <!-- Notifications will be populated here -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="markAllAsDone()">Done</button>
+                <button class="btn btn-primary" onclick="closeModal('notificationsModal')">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overdue Alert Modal -->
+    <div id="overdueAlertModal" class="modal">
+        <div class="notification-modal notification-error">
+            <div class="notification-icon">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <h3 class="notification-title">Overdue Payment!</h3>
+            <p class="notification-message" id="overdueAlertMessage">You have overdue payments that require immediate attention.</p>
+            <button class="btn btn-danger" onclick="closeModal('overdueAlertModal')">Acknowledge</button>
+        </div>
+    </div>
+
+    <!-- Due Soon Alert Modal -->
+    <div id="dueSoonAlertModal" class="modal">
+        <div class="notification-modal notification-warning">
+            <div class="notification-icon">
+                <i class="fas fa-clock"></i>
+            </div>
+            <h3 class="notification-title">Payment Due Soon!</h3>
+            <p class="notification-message" id="dueSoonAlertMessage">You have payments due in the next few days.</p>
+            <button class="btn btn-warning" onclick="closeModal('dueSoonAlertModal')">Acknowledge</button>
+        </div>
+    </div>
+
+    <!-- Loan Agreement Template (Hidden) -->
+    <div id="loanAgreementTemplate" class="loan-agreement-template">
+        <div class="agreement-content" id="agreementContent">
+            <div class="agreement-header">
+                <div class="agreement-title">LOAN AGREEMENT</div>
+                <div class="agreement-subtitle">This Agreement is made on <span id="agreementDate"></span></div>
+            </div>
+
+            <div class="agreement-section">
+                <div class="agreement-section-title">PARTIES INVOLVED</div>
+                <div class="agreement-paragraph">
+                    <strong>Lender:</strong> TENANIKO LENDING SERVICES<br>
+                    Address: 123 Financial Center, Manila, Philippines<br>
+                    Contact: (02) 1234-5678
+                </div>
+                <div class="agreement-paragraph">
+                    <strong>Borrower:</strong> <span id="borrowerFullName"></span><br>
+                    Contact Number: <span id="borrowerPhone"></span><br>
+                    Address: <span id="borrowerAddress"></span>
+                </div>
+                <div class="agreement-paragraph">
+                    <strong>Co-Maker:</strong> <span id="coMakerFullName"></span><br>
+                    Contact Number: <span id="coMakerPhone"></span><br>
+                    Address: <span id="coMakerAddress"></span>
+                </div>
+            </div>
+
+            <div class="agreement-section">
+                <div class="agreement-section-title">LOAN TERMS</div>
+                <div class="agreement-paragraph">
+                    The Lender agrees to lend to the Borrower the principal amount of <strong>₱<span id="loanAmountDisplay"></span></strong> 
+                    (the "Loan"), subject to the terms and conditions set forth in this Agreement.
+                </div>
+                <div class="agreement-paragraph">
+                    <strong>Interest Rate:</strong> <span id="interestRateDisplay"></span>% per annum<br>
+                    <strong>Loan Term:</strong> <span id="loanTermDisplay"></span><br>
+                    <strong>Start Date:</strong> <span id="startDateDisplay"></span><br>
+                    <strong>Collateral:</strong> <span id="collateralDisplay"></span>
+                </div>
+            </div>
+
+            <div class="agreement-section">
+                <div class="agreement-section-title">REPAYMENT TERMS</div>
+                <div class="agreement-paragraph">
+                    The Borrower agrees to repay the Loan in accordance with the following repayment schedule:
+                </div>
+                <div class="agreement-paragraph">
+                    <strong>Monthly Payment:</strong> ₱<span id="monthlyPaymentDisplay"></span><br>
+                    <strong>Number of Payments:</strong> <span id="numberOfPaymentsDisplay"></span><br>
+                    <strong>First Payment Due:</strong> <span id="firstPaymentDateDisplay"></span>
+                </div>
+                <div class="agreement-paragraph">
+                    All payments shall be made on or before the due date. Payments received after the due date 
+                    will be subject to an overdue fee of ₱<span id="overdueFeeDisplay"></span>.
+                </div>
+            </div>
+
+            <div class="agreement-section">
+                <div class="agreement-section-title">CO-MAKER RESPONSIBILITIES</div>
+                <div class="agreement-paragraph">
+                    The Co-Maker agrees to be jointly and severally liable for the repayment of the Loan and 
+                    agrees to fulfill all obligations of the Borrower in the event of default.
+                </div>
+            </div>
+
+            <div class="agreement-section">
+                <div class="agreement-section-title">DEFAULT</div>
+                <div class="agreement-paragraph">
+                    The Borrower shall be in default under this Agreement if:
+                </div>
+                <div class="agreement-paragraph">
+                    1. The Borrower fails to make any payment when due;<br>
+                    2. The Borrower fails to comply with any other term of this Agreement;<br>
+                    3. The Borrower becomes insolvent or bankrupt.
+                </div>
+                <div class="agreement-paragraph">
+                    Upon default, the Lender may declare the entire unpaid balance immediately due and payable.
+                </div>
+            </div>
+
+            <div class="agreement-section">
+                <div class="agreement-section-title">GOVERNING LAW</div>
+                <div class="agreement-paragraph">
+                    This Agreement shall be governed by and construed in accordance with the laws of the Republic of the Philippines.
+                </div>
+            </div>
+
+            <div class="agreement-signature">
+                <div class="agreement-paragraph">
+                    IN WITNESS WHEREOF, the parties have executed this Loan Agreement as of the date first above written.
+                </div>
+
+                <div class="signature-section">
+                    <div class="signature-box">
+                        <div><strong>LENDER:</strong></div>
+                        <div>TENANIKO LENDING SERVICES</div>
+                        <div class="signature-line"></div>
+                        <div>Authorized Representative</div>
+                    </div>
+                    <div class="signature-box">
+                        <div><strong>BORROWER:</strong></div>
+                        <div id="borrowerSignatureName"></div>
+                        <div class="signature-line"></div>
+                        <div>Signature</div>
+                    </div>
+                </div>
+
+                <div class="signature-section">
+                    <div class="signature-box">
+                        <div><strong>CO-MAKER:</strong></div>
+                        <div id="coMakerSignatureName"></div>
+                        <div class="signature-line"></div>
+                        <div>Signature</div>
+                    </div>
+                    <div class="signature-box">
+                        <div><strong>WITNESS:</strong></div>
+                        <div>_______________________________</div>
+                        <div class="signature-line"></div>
+                        <div>Signature</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize jsPDF
+        const { jsPDF } = window.jspdf;
+
+        // Sample data
+        let loans = [
+            {
+                id: 'loan1',
+                borrower: 'Juan Dela Cruz',
+                amount: 25000,
+                interestRate: 12,
+                term: '12 months',
+                startDate: '2023-01-01',
+                status: 'Completed',
+                nextDue: 'Dec 15, 2023',
+                collateral: 'Motorcycle',
+                contact: '09123456789',
+                address: '123 Main St, Manila',
+                coMaker: 'Maria Dela Cruz',
+                coMakerContact: '09187654321',
+                coMakerAddress: '123 Main St, Manila',
+                overdueFee: 150,
+                reminderDays: 3,
+                installments: [
+                    { date: '2023-02-01', amount: 2350, status: 'Paid', originalAmount: 2350 },
+                    { date: '2023-03-01', amount: 2350, status: 'Paid', originalAmount: 2350 },
+                    { date: '2023-12-15', amount: 2350, status: 'Paid', originalAmount: 2350 }
+                ]
+            },
+            {
+                id: 'loan2',
+                borrower: 'Maria Santos',
+                amount: 18500,
+                interestRate: 10,
+                term: '6 months',
+                startDate: '2023-07-01',
+                status: 'Active',
+                nextDue: 'Dec 20, 2023',
+                collateral: 'Jewelry',
+                contact: '09187654321',
+                address: '456 Oak Ave, Quezon City',
+                coMaker: 'Pedro Santos',
+                coMakerContact: '09234567890',
+                coMakerAddress: '456 Oak Ave, Quezon City',
+                overdueFee: 150,
+                reminderDays: 3,
+                installments: [
+                    { date: '2023-08-01', amount: 3242, status: 'Paid', originalAmount: 3242 },
+                    { date: '2023-09-01', amount: 3242, status: 'Paid', originalAmount: 3242 },
+                    { date: '2023-12-20', amount: 3242, status: 'Pending', originalAmount: 3242 }
+                ]
+            },
+            {
+                id: 'loan3',
+                borrower: 'Pedro Reyes',
+                amount: 32000,
+                interestRate: 15,
+                term: '18 months',
+                startDate: '2023-05-01',
+                status: 'Overdue',
+                nextDue: 'Dec 10, 2023',
+                collateral: 'Land Title',
+                contact: '09234567890',
+                address: '789 Pine Rd, Makati',
+                coMaker: 'Ana Reyes',
+                coMakerContact: '09345678901',
+                coMakerAddress: '789 Pine Rd, Makati',
+                overdueFee: 150,
+                reminderDays: 3,
+                installments: [
+                    { date: '2023-06-01', amount: 2222, status: 'Paid', originalAmount: 2222 },
+                    { date: '2023-07-01', amount: 2222, status: 'Paid', originalAmount: 2222 },
+                    { date: '2023-12-10', amount: 2372, status: 'Overdue', originalAmount: 2222, feeAdded: true }
+                ]
+            },
+            {
+                id: 'loan4',
+                borrower: 'Ana Gomez',
+                amount: 15000,
+                interestRate: 8,
+                term: '12 months',
+                startDate: '2023-12-01',
+                status: 'Active',
+                nextDue: 'Jan 5, 2024',
+                collateral: 'Savings Account',
+                contact: '09345678901',
+                address: '321 Elm St, Pasig',
+                coMaker: 'Carlos Gomez',
+                coMakerContact: '09456789012',
+                coMakerAddress: '321 Elm St, Pasig',
+                overdueFee: 150,
+                reminderDays: 3,
+                installments: [
+                    { date: '2024-01-05', amount: 1350, status: 'Pending', originalAmount: 1350 },
+                    { date: '2024-02-05', amount: 1350, status: 'Pending', originalAmount: 1350 }
+                ]
+            }
+        ];
+
+        let archivedLoans = [
+            {
+                id: 'loan5',
+                borrower: 'Carlos Ramirez',
+                amount: 20000,
+                interestRate: 10,
+                term: '12 months',
+                startDate: '2022-01-01',
+                status: 'Completed',
+                completedDate: 'Dec 15, 2023',
+                collateral: 'Car',
+                contact: '09111111111',
+                address: '111 First St, Manila',
+                coMaker: 'Luisa Ramirez',
+                coMakerContact: '09222222222',
+                coMakerAddress: '111 First St, Manila'
+            }
+        ];
+
+        let trashItems = [
+            {
+                id: 'trash1',
+                borrower: 'Deleted Borrower',
+                amount: 10000,
+                type: 'Loan',
+                deletedDate: '2023-11-01',
+                deleteDate: new Date('2023-11-16') // 15 days from deletedDate
+            }
+        ];
+
+        let borrowers = [
+            {
+                id: 'borrower1',
+                name: 'Juan Dela Cruz',
+                contact: '09123456789',
+                address: '123 Main St, Manila',
+                status: 'Active',
+                totalLoans: 85000
+            },
+            {
+                id: 'borrower2',
+                name: 'Maria Santos',
+                contact: '09187654321',
+                address: '456 Oak Ave, Quezon City',
+                status: 'Active',
+                totalLoans: 18500
+            },
+            {
+                id: 'borrower3',
+                name: 'Pedro Reyes',
+                contact: '09234567890',
+                address: '789 Pine Rd, Makati',
+                status: 'Active',
+                totalLoans: 32000
+            },
+            {
+                id: 'borrower4',
+                name: 'Ana Gomez',
+                contact: '09345678901',
+                address: '321 Elm St, Pasig',
+                status: 'Inactive',
+                totalLoans: 0
+            }
+        ];
+
+        let currentLoanId = null;
+        let currentInstallmentIndex = null;
+        let currentBorrowerId = null;
+        let currentTrashItem = null;
+        let notifications = [];
+
+        // Utility functions for date handling
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            });
+        }
+
+        function formatMonthYear(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short'
+            });
+        }
+
+        function addMonths(date, months) {
+            const result = new Date(date);
+            result.setMonth(result.getMonth() + months);
+            return result;
+        }
+
+        function calculateNextDueDate(startDate, termMonths) {
+            const nextDue = addMonths(new Date(startDate), 1);
+            return formatDate(nextDue);
+        }
+
+        function calculateInstallments(loanAmount, term, startDate, interestRate) {
+            const termMonths = parseInt(term);
+            const monthlyRate = interestRate / 100 / 12;
+            const monthlyPayment = (loanAmount * monthlyRate) / (1 - Math.pow(1 + monthlyRate, -termMonths));
+            
+            const installments = [];
+            let currentDate = new Date(startDate);
+            
+            for (let i = 0; i < termMonths; i++) {
+                currentDate = addMonths(currentDate, 1);
+                installments.push({
+                    date: currentDate.toISOString().split('T')[0],
+                    amount: Math.round(monthlyPayment * 100) / 100,
+                    status: 'Pending',
+                    originalAmount: Math.round(monthlyPayment * 100) / 100
+                });
+            }
+            
+            return installments;
+        }
+
+        // Check for overdue and due soon payments
+        function checkPayments() {
+            const today = new Date();
+            let overdueCount = 0;
+            let dueSoonCount = 0;
+            notifications = [];
+
+            loans.forEach(loan => {
+                loan.installments.forEach(installment => {
+                    const dueDate = new Date(installment.date);
+                    const timeDiff = dueDate.getTime() - today.getTime();
+                    const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+                    // Check for overdue payments (only add fee if not already added)
+                    if (installment.status === 'Pending' && dueDate < today && !installment.feeAdded) {
+                        installment.amount += loan.overdueFee;
+                        installment.feeAdded = true;
+                        installment.originalAmount = installment.amount - loan.overdueFee;
+                        loan.status = 'Overdue';
+                        overdueCount++;
+                        
+                        notifications.push({
+                            type: 'overdue',
+                            borrower: loan.borrower,
+                            amount: installment.amount,
+                            dueDate: dueDate.toLocaleDateString(),
+                            fee: loan.overdueFee
+                        });
+                    }
+
+                    // Check for due soon payments (do not add fee yet)
+                    if (installment.status === 'Pending' && daysDiff >= 0 && daysDiff <= loan.reminderDays && dueDate >= today) {
+                        if (loan.status !== 'Overdue') {
+                            loan.status = 'Due Soon';
+                        }
+                        dueSoonCount++;
+                        
+                        notifications.push({
+                            type: 'due-soon',
+                            borrower: loan.borrower,
+                            amount: installment.amount,
+                            dueDate: dueDate.toLocaleDateString(),
+                            days: daysDiff
+                        });
+                    }
+                });
+                
+                // Update next due date
+                const pendingInstallments = loan.installments.filter(inst => inst.status === 'Pending');
+                if (pendingInstallments.length > 0) {
+                    loan.nextDue = formatDate(pendingInstallments[0].date);
+                }
+            });
+
+            // Update notification count
+            const notificationCount = overdueCount + dueSoonCount;
+            document.getElementById('notificationCount').textContent = notificationCount;
+
+            // Show alerts if there are overdue or due soon payments
+            if (overdueCount > 0) {
+                document.getElementById('overdueAlertMessage').textContent = 
+                    `You have ${overdueCount} overdue payment(s) that require immediate attention.`;
+                openModal('overdueAlertModal');
+            } else if (dueSoonCount > 0) {
+                document.getElementById('dueSoonAlertMessage').textContent = 
+                    `You have ${dueSoonCount} payment(s) due in the next few days.`;
+                openModal('dueSoonAlertModal');
+            }
+
+            // Update dashboard counters
+            updateDashboardCounters();
+            populateRecentLoansTable();
+        }
+
+        // Section Navigation
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('section').forEach(section => {
+                section.style.display = 'none';
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).style.display = 'block';
+            
+            // Update active nav link
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            // Find and activate the clicked link
+            const links = document.querySelectorAll('.nav-link');
+            for (let link of links) {
+                if (link.getAttribute('onclick').includes(sectionId)) {
+                    link.classList.add('active');
+                    break;
+                }
+            }
+            
+            // If showing borrowers section, refresh the table
+            if (sectionId === 'borrowers') {
+                populateBorrowersTable();
+            }
+            
+            // If showing dashboard section, refresh recent loans
+            if (sectionId === 'dashboard') {
+                populateRecentLoansTable();
+            }
+            
+            // If showing archive section, refresh the table
+            if (sectionId === 'archive') {
+                populateArchiveTable();
+            }
+            
+            // If showing loans section, refresh the table
+            if (sectionId === 'loans') {
+                populateLoansTable();
+            }
+            
+            // If showing trash section, refresh the table
+            if (sectionId === 'trash') {
+                populateTrashTable();
+            }
+        }
+
+        // Populate recent loans table
+        function populateRecentLoansTable() {
+            const tableBody = document.getElementById('recentLoansTable');
+            tableBody.innerHTML = '';
+            
+            // Get recent loans (first 3 for example)
+            const recentLoans = loans.slice(0, 3);
+            
+            recentLoans.forEach(loan => {
+                // Determine the overall loan status
+                let displayStatus = loan.status;
+                let statusClass = '';
+                
+                if (loan.status === 'Completed') {
+                    statusClass = 'status-paid';
+                } else if (loan.status === 'Active') {
+                    statusClass = 'status-pending';
+                } else if (loan.status === 'Due Soon') {
+                    statusClass = 'status-due-soon';
+                } else if (loan.status === 'Overdue') {
+                    statusClass = 'status-overdue';
+                }
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${loan.borrower}</td>
+                    <td>₱${loan.amount.toLocaleString()}</td>
+                    <td><span class="status ${statusClass}">${displayStatus}</span></td>
+                    <td>${loan.nextDue}</td>
+                    <td>
+                        <button class="btn btn-outline btn-sm" onclick="viewLoanDetails('${loan.id}')">
+                            <i class="fas fa-eye"></i> View
+                        </button>
+                        ${loan.status === 'Completed' ? 
+                            `<button class="btn btn-archive btn-sm" onclick="archiveLoan('${loan.id}')">
+                                <i class="fas fa-archive"></i> Archive
+                            </button>` : ''
+                        }
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Populate loans table
+        function populateLoansTable() {
+            const tableBody = document.getElementById('loansTableBody');
+            tableBody.innerHTML = '';
+            
+            loans.forEach(loan => {
+                // Determine the overall loan status
+                let displayStatus = loan.status;
+                let statusClass = '';
+                
+                if (loan.status === 'Completed') {
+                    statusClass = 'status-paid';
+                } else if (loan.status === 'Active') {
+                    statusClass = 'status-pending';
+                } else if (loan.status === 'Due Soon') {
+                    statusClass = 'status-due-soon';
+                } else if (loan.status === 'Overdue') {
+                    statusClass = 'status-overdue';
+                }
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${loan.borrower}</td>
+                    <td>₱${loan.amount.toLocaleString()}</td>
+                    <td>${loan.interestRate}%</td>
+                    <td>${loan.term}</td>
+                    <td><span class="status ${statusClass}">${displayStatus}</span></td>
+                    <td>${loan.nextDue}</td>
+                    <td>
+                        <button class="btn btn-outline btn-sm" onclick="viewLoanDetails('${loan.id}')">
+                            <i class="fas fa-eye"></i> View
+                        </button>
+                        ${loan.status === 'Completed' ? 
+                            `<button class="btn btn-archive btn-sm" onclick="archiveLoan('${loan.id}')">
+                                <i class="fas fa-archive"></i> Archive
+                            </button>` : ''
+                        }
+                        <button class="btn btn-trash btn-sm" onclick="moveToTrash('${loan.id}', 'loan')">
+                            <i class="fas fa-trash"></i> Trash
+                        </button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Populate archive table
+        function populateArchiveTable() {
+            const tableBody = document.getElementById('archiveTableBody');
+            tableBody.innerHTML = '';
+            
+            archivedLoans.forEach(loan => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${loan.borrower}</td>
+                    <td>₱${loan.amount.toLocaleString()}</td>
+                    <td>${loan.interestRate}%</td>
+                    <td>${loan.term}</td>
+                    <td><span class="status status-paid">${loan.status}</span></td>
+                    <td>${loan.completedDate}</td>
+                    <td>
+                        <button class="btn btn-outline btn-sm" onclick="viewArchivedLoan('${loan.id}')">
+                            <i class="fas fa-eye"></i> View
+                        </button>
+                        <button class="btn btn-trash btn-sm" onclick="moveToTrash('${loan.id}', 'archive')">
+                            <i class="fas fa-trash"></i> Trash
+                        </button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Populate trash table
+        function populateTrashTable() {
+            const tableBody = document.getElementById('trashTableBody');
+            tableBody.innerHTML = '';
+            
+            trashItems.forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${item.borrower}</td>
+                    <td>₱${item.amount.toLocaleString()}</td>
+                    <td>${item.type}</td>
+                    <td>${item.deletedDate}</td>
+                    <td>
+                        <button class="btn btn-danger btn-sm" onclick="deletePermanently('${item.id}')">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    </td>
+                    <td>
+                        <button class="btn btn-success btn-sm" onclick="restoreFromTrash('${item.id}')">
+                            <i class="fas fa-undo"></i> Restore
+                        </button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Populate borrowers table
+        function populateBorrowersTable() {
+            const tableBody = document.getElementById('borrowersTableBody');
+            tableBody.innerHTML = '';
+            
+            borrowers.forEach(borrower => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${borrower.name}</td>
+                    <td>${borrower.contact}</td>
+                    <td>${borrower.address}</td>
+                    <td>₱${borrower.totalLoans.toLocaleString()}</td>
+                    <td><span class="status ${borrower.status === 'Active' ? 'status-active' : 'status-inactive'}">${borrower.status}</span></td>
+                    <td>
+                        <button class="btn btn-outline btn-sm" onclick="viewBorrowerDetails('${borrower.id}')">
+                            <i class="fas fa-eye"></i> View
+                        </button>
+                        ${borrower.status === 'Active' ? 
+                            `<button class="btn btn-warning btn-sm" onclick="deactivateBorrower('${borrower.id}')">
+                                <i class="fas fa-user-slash"></i> Deactivate
+                            </button>` : 
+                            `<button class="btn btn-success btn-sm" onclick="activateBorrower('${borrower.id}')">
+                                <i class="fas fa-user-check"></i> Activate
+                            </button>`
+                        }
+                        <button class="btn btn-danger btn-sm" onclick="deleteBorrower('${borrower.id}')">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Modal Functions
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+
+        // Show custom notifications
+        function showSuccess(message) {
+            document.getElementById('successMessage').textContent = message;
+            openModal('successModal');
+        }
+
+        function showWarning(message) {
+            document.getElementById('warningMessage').textContent = message;
+            openModal('warningModal');
+        }
+
+        function showError(message) {
+            document.getElementById('errorMessage').textContent = message;
+            openModal('errorModal');
+        }
+
+        function showInfo(message) {
+            document.getElementById('infoMessage').textContent = message;
+            openModal('infoModal');
+        }
+
+        // View Loan Details
+        function viewLoanDetails(loanId) {
+            const loan = loans.find(l => l.id === loanId);
+            if (!loan) {
+                showError('Loan not found');
+                return;
+            }
+            
+            currentLoanId = loanId;
+            
+            // Populate loan details
+            const detailsContent = document.getElementById('loanDetailsContent');
+            detailsContent.innerHTML = `
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+                    <div>
+                        <h4>Borrower Information</h4>
+                        <p><strong>Name:</strong> ${loan.borrower}</p>
+                        <p><strong>Contact:</strong> ${loan.contact}</p>
+                        <p><strong>Address:</strong> ${loan.address}</p>
+                        <h4 style="margin-top: 1rem;">Co-Maker Information</h4>
+                        <p><strong>Name:</strong> ${loan.coMaker}</p>
+                        <p><strong>Contact:</strong> ${loan.coMakerContact}</p>
+                        <p><strong>Address:</strong> ${loan.coMakerAddress}</p>
+                    </div>
+                    <div>
+                        <h4>Loan Details</h4>
+                        <p><strong>Amount:</strong> ₱${loan.amount.toLocaleString()}</p>
+                        <p><strong>Interest Rate:</strong> ${loan.interestRate}%</p>
+                        <p><strong>Term:</strong> ${loan.term}</p>
+                        <p><strong>Start Date:</strong> ${formatDate(loan.startDate)}</p>
+                        <p><strong>Overdue Fee:</strong> ₱${loan.overdueFee}</p>
+                        <p><strong>Reminder Days:</strong> ${loan.reminderDays} days</p>
+                        <p><strong>Collateral:</strong> ${loan.collateral}</p>
+                        <p><strong>Status:</strong> <span class="status ${loan.status === 'Completed' ? 'status-paid' : loan.status === 'Active' ? 'status-pending' : loan.status === 'Due Soon' ? 'status-due-soon' : 'status-overdue'}">${loan.status}</span></p>
+                    </div>
+                </div>
+            `;
+            
+            // Populate repayment schedule
+            const scheduleBody = document.getElementById('repaymentSchedule');
+            scheduleBody.innerHTML = '';
+            
+            if (loan.installments && loan.installments.length > 0) {
+                loan.installments.forEach((installment, index) => {
+                    const dueDate = new Date(installment.date);
+                    const today = new Date();
+                    const timeDiff = dueDate.getTime() - today.getTime();
+                    const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+                    
+                    let displayStatus = installment.status;
+                    let statusClass = '';
+                    
+                    if (installment.status === 'Pending') {
+                        if (dueDate < today) {
+                            displayStatus = 'Overdue';
+                            statusClass = 'status-overdue';
+                        } else if (daysDiff >= 0 && daysDiff <= loan.reminderDays) {
+                            displayStatus = 'Due Soon';
+                            statusClass = 'status-due-soon';
+                        } else {
+                            statusClass = 'status-pending';
+                        }
+                    } else if (installment.status === 'Paid') {
+                        statusClass = 'status-paid';
+                    }
+                    
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${formatDate(installment.date)}</td>
+                        <td>₱${installment.amount.toLocaleString()}</td>
+                        <td><span class="status ${statusClass}">${displayStatus}${installment.feeAdded ? ` <span class="fee-badge">Fee: ₱${loan.overdueFee}</span>` : ''}</span></td>
+                        <td>
+                            ${installment.status === 'Pending' ? 
+                                `<button class="btn btn-success btn-sm" onclick="markAsPaid('${loanId}', ${index})">Mark Paid</button>` : 
+                                installment.status === 'Paid' ? 
+                                `<button class="btn btn-outline btn-sm" disabled>Paid</button>` : 
+                                `<button class="btn btn-warning btn-sm" onclick="markAsPaid('${loanId}', ${index})">Mark Paid</button>`
+                            }
+                        </td>
+                    `;
+                    scheduleBody.appendChild(row);
+                });
+            } else {
+                const row = document.createElement('tr');
+                row.innerHTML = `<td colspan="4" style="text-align: center;">No repayment schedule available</td>`;
+                scheduleBody.appendChild(row);
+            }
+            
+            openModal('loanDetailsModal');
+        }
+
+        // View Archived Loan
+        function viewArchivedLoan(loanId) {
+            const loan = archivedLoans.find(l => l.id === loanId);
+            if (!loan) {
+                showError('Archived loan not found');
+                return;
+            }
+            
+            // Show loan details in a modal
+            const detailsContent = document.getElementById('loanDetailsContent');
+            detailsContent.innerHTML = `
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+                    <div>
+                        <h4>Borrower Information</h4>
+                        <p><strong>Name:</strong> ${loan.borrower}</p>
+                        <p><strong>Contact:</strong> ${loan.contact}</p>
+                        <p><strong>Address:</strong> ${loan.address}</p>
+                        <h4 style="margin-top: 1rem;">Co-Maker Information</h4>
+                        <p><strong>Name:</strong> ${loan.coMaker}</p>
+                        <p><strong>Contact:</strong> ${loan.coMakerContact}</p>
+                        <p><strong>Address:</strong> ${loan.coMakerAddress}</p>
+                    </div>
+                    <div>
+                        <h4>Loan Details</h4>
+                        <p><strong>Amount:</strong> ₱${loan.amount.toLocaleString()}</p>
+                        <p><strong>Interest Rate:</strong> ${loan.interestRate}%</p>
+                        <p><strong>Term:</strong> ${loan.term}</p>
+                        <p><strong>Start Date:</strong> ${formatDate(loan.startDate)}</p>
+                        <p><strong>Collateral:</strong> ${loan.collateral}</p>
+                        <p><strong>Status:</strong> <span class="status status-paid">${loan.status}</span></p>
+                        <p><strong>Completed Date:</strong> ${loan.completedDate}</p>
+                    </div>
+                </div>
+            `;
+            
+            // Clear repayment schedule for archived loans
+            document.getElementById('repaymentSchedule').innerHTML = '<tr><td colspan="4" style="text-align: center;">This loan is archived and completed</td></tr>';
+            
+            openModal('loanDetailsModal');
+        }
+
+        // Archive Loan
+        function archiveLoan(loanId) {
+            const loan = loans.find(l => l.id === loanId);
+            if (!loan) {
+                showError('Loan not found');
+                return;
+            }
+            
+            currentLoanId = loanId;
+            
+            // Show archive confirmation modal
+            const archiveDetails = document.getElementById('archiveDetails');
+            archiveDetails.innerHTML = `
+                <p><strong>Borrower:</strong> ${loan.borrower}</p>
+                <p><strong>Loan Amount:</strong> ₱${loan.amount.toLocaleString()}</p>
+                <p><strong>Status:</strong> ${loan.status}</p>
+            `;
+            
+            openModal('archiveModal');
+        }
+
+        // Confirm Archive
+        function confirmArchive() {
+            const loanIndex = loans.findIndex(l => l.id === currentLoanId);
+            if (loanIndex === -1) {
+                showError('Loan not found');
+                return;
+            }
+            
+            // Move loan to archived loans
+            const loan = loans.splice(loanIndex, 1)[0];
+            loan.completedDate = new Date().toLocaleDateString();
+            archivedLoans.push(loan);
+            
+            // Close modal
+            closeModal('archiveModal');
+            
+            // Show success notification
+            showSuccess('Loan has been archived successfully!');
+            
+            // Refresh dashboard and archive sections
+            populateRecentLoansTable();
+            if (document.getElementById('archive').style.display !== 'none') {
+                populateArchiveTable();
+            }
+            if (document.getElementById('loans').style.display !== 'none') {
+                populateLoansTable();
+            }
+        }
+
+        // Move to Trash
+        function moveToTrash(itemId, type) {
+            currentTrashItem = { id: itemId, type: type };
+            
+            // Show move to trash confirmation modal
+            const trashDetails = document.getElementById('trashDetails');
+            let itemDetails = '';
+            
+            if (type === 'loan') {
+                const loan = loans.find(l => l.id === itemId);
+                if (loan) {
+                    itemDetails = `
+                        <p><strong>Borrower:</strong> ${loan.borrower}</p>
+                        <p><strong>Loan Amount:</strong> ₱${loan.amount.toLocaleString()}</p>
+                        <p><strong>Type:</strong> Active Loan</p>
+                    `;
+                }
+            } else if (type === 'archive') {
+                const loan = archivedLoans.find(l => l.id === itemId);
+                if (loan) {
+                    itemDetails = `
+                        <p><strong>Borrower:</strong> ${loan.borrower}</p>
+                        <p><strong>Loan Amount:</strong> ₱${loan.amount.toLocaleString()}</p>
+                        <p><strong>Type:</strong> Archived Loan</p>
+                    `;
+                }
+            }
+            
+            trashDetails.innerHTML = itemDetails;
+            openModal('moveToTrashModal');
+        }
+
+        // Confirm Move to Trash
+        function confirmMoveToTrash() {
+            const { id, type } = currentTrashItem;
+            
+            if (type === 'loan') {
+                const loanIndex = loans.findIndex(l => l.id === id);
+                if (loanIndex !== -1) {
+                    const loan = loans.splice(loanIndex, 1)[0];
+                    trashItems.push({
+                        id: 'trash' + (trashItems.length + 1),
+                        borrower: loan.borrower,
+                        amount: loan.amount,
+                        type: 'Loan',
+                        deletedDate: new Date().toLocaleDateString(),
+                        deleteDate: new Date(Date.now() + 15 * 24 * 60 * 60 * 1000) // 15 days from now
+                    });
+                }
+            } else if (type === 'archive') {
+                const loanIndex = archivedLoans.findIndex(l => l.id === id);
+                if (loanIndex !== -1) {
+                    const loan = archivedLoans.splice(loanIndex, 1)[0];
+                    trashItems.push({
+                        id: 'trash' + (trashItems.length + 1),
+                        borrower: loan.borrower,
+                        amount: loan.amount,
+                        type: 'Archived Loan',
+                        deletedDate: new Date().toLocaleDateString(),
+                        deleteDate: new Date(Date.now() + 15 * 24 * 60 * 60 * 1000) // 15 days from now
+                    });
+                }
+            }
+            
+            // Close modal
+            closeModal('moveToTrashModal');
+            
+            // Show success notification
+            showSuccess('Item has been moved to trash successfully!');
+            
+            // Refresh sections
+            if (document.getElementById('loans').style.display !== 'none') {
+                populateLoansTable();
+            }
+            if (document.getElementById('archive').style.display !== 'none') {
+                populateArchiveTable();
+            }
+            if (document.getElementById('trash').style.display !== 'none') {
+                populateTrashTable();
+            }
+        }
+
+        // Move All to Trash
+        function moveAllToTrash(section) {
+            if (section === 'loans' && loans.length > 0) {
+                // Move all loans to trash
+                loans.forEach(loan => {
+                    trashItems.push({
+                        id: 'trash' + (trashItems.length + 1),
+                        borrower: loan.borrower,
+                        amount: loan.amount,
+                        type: 'Loan',
+                        deletedDate: new Date().toLocaleDateString(),
+                        deleteDate: new Date(Date.now() + 15 * 24 * 60 * 60 * 1000) // 15 days from now
+                    });
+                });
+                loans = [];
+                showSuccess('All loans have been moved to trash successfully!');
+            } else if (section === 'archive' && archivedLoans.length > 0) {
+                // Move all archived loans to trash
+                archivedLoans.forEach(loan => {
+                    trashItems.push({
+                        id: 'trash' + (trashItems.length + 1),
+                        borrower: loan.borrower,
+                        amount: loan.amount,
+                        type: 'Archived Loan',
+                        deletedDate: new Date().toLocaleDateString(),
+                        deleteDate: new Date(Date.now() + 15 * 24 * 60 * 60 * 1000) // 15 days from now
+                    });
+                });
+                archivedLoans = [];
+                showSuccess('All archived loans have been moved to trash successfully!');
+            } else {
+                showWarning('No items to move to trash.');
+                return;
+            }
+            
+            // Refresh sections
+            if (document.getElementById('loans').style.display !== 'none') {
+                populateLoansTable();
+            }
+            if (document.getElementById('archive').style.display !== 'none') {
+                populateArchiveTable();
+            }
+            if (document.getElementById('trash').style.display !== 'none') {
+                populateTrashTable();
+            }
+        }
+
+        // Empty Trash
+        function emptyTrash() {
+            document.getElementById('trashItemCount').textContent = trashItems.length;
+            openModal('emptyTrashModal');
+        }
+
+        // Confirm Empty Trash
+        function confirmEmptyTrash() {
+            trashItems = [];
+            closeModal('emptyTrashModal');
+            showSuccess('Trash has been emptied successfully!');
+            
+            // Refresh trash section
+            if (document.getElementById('trash').style.display !== 'none') {
+                populateTrashTable();
+            }
+        }
+
+        // Delete Permanently
+        function deletePermanently(trashId) {
+            const index = trashItems.findIndex(item => item.id === trashId);
+            if (index !== -1) {
+                trashItems.splice(index, 1);
+                showSuccess('Item has been deleted permanently!');
+                
+                // Refresh trash section
+                if (document.getElementById('trash').style.display !== 'none') {
+                    populateTrashTable();
+                }
+            }
+        }
+
+        // Restore from Trash
+        function restoreFromTrash(trashId) {
+            const index = trashItems.findIndex(item => item.id === trashId);
+            if (index !== -1) {
+                const item = trashItems.splice(index, 1)[0];
+                showSuccess('Item has been restored successfully!');
+                
+                // Refresh trash section
+                if (document.getElementById('trash').style.display !== 'none') {
+                    populateTrashTable();
+                }
+            }
+        }
+
+        // Mark installment as paid
+        function markAsPaid(loanId, installmentIndex) {
+            currentLoanId = loanId;
+            currentInstallmentIndex = installmentIndex;
+            
+            const loan = loans.find(l => l.id === loanId);
+            const installment = loan.installments[currentInstallmentIndex];
+            const dueDate = new Date(installment.date);
+            const today = new Date();
+            const isOverdue = dueDate < today && installment.status === 'Pending';
+            
+            // Show payment confirmation modal
+            const paymentDetails = document.getElementById('paymentDetails');
+            paymentDetails.innerHTML = `
+                <p><strong>Borrower:</strong> ${loan.borrower}</p>
+                <p><strong>Due Date:</strong> ${formatDate(installment.date)}</p>
+                <p><strong>Amount:</strong> ₱${installment.amount.toLocaleString()}</p>
+            `;
+            
+            // Show overdue fee if applicable
+            const overdueFeeInfo = document.getElementById('overdueFeeInfo');
+            const overdueFeeAmount = document.getElementById('overdueFeeAmount');
+            if (isOverdue && installment.feeAdded) {
+                overdueFeeInfo.style.display = 'block';
+                overdueFeeAmount.textContent = `₱${loan.overdueFee}`;
+            } else {
+                overdueFeeInfo.style.display = 'none';
+            }
+            
+            openModal('paymentModal');
+        }
+
+        // Confirm payment - NO PENALTY FEE ADDED IF PAID BEFORE DUE DATE
+        function confirmPayment() {
+            const loan = loans.find(l => l.id === currentLoanId);
+            const installment = loan.installments[currentInstallmentIndex];
+            const dueDate = new Date(installment.date);
+            const today = new Date();
+            
+            // Mark as paid immediately
+            installment.status = 'Paid';
+            
+            // Do NOT add penalty fee if paid before or on due date
+            // Only add fee if it's already overdue and fee wasn't added yet
+            const isOverdue = dueDate < today;
+            if (isOverdue && !installment.feeAdded) {
+                installment.amount += loan.overdueFee;
+                installment.feeAdded = true;
+                installment.originalAmount = installment.amount - loan.overdueFee;
+            }
+            
+            // Update loan status if all payments are paid
+            const allPaid = loan.installments.every(inst => inst.status === 'Paid');
+            if (allPaid) {
+                loan.status = 'Completed';
+            }
+            
+            // Update dashboard counters
+            updateDashboardCounters();
+            checkPayments();
+            
+            // Refresh loan details view immediately
+            viewLoanDetails(currentLoanId);
+            
+            // Close payment modal
+            closeModal('paymentModal');
+            
+            // Show success notification
+            if (isOverdue && installment.feeAdded) {
+                showSuccess(`Payment marked as paid successfully! Overdue fee of ₱${loan.overdueFee} was added.`);
+            } else {
+                showSuccess('Payment marked as paid successfully!');
+            }
+        }
+
+        // Create new loan
+        function createLoan() {
+            const borrowerName = document.getElementById('borrowerName').value;
+            const loanAmount = document.getElementById('loanAmount').value || 1500;
+            const overdueFee = document.getElementById('overdueFee').value || 150;
+            const reminderDays = document.getElementById('reminderDays').value || 3;
+            const coMakerName = document.getElementById('coMakerName').value;
+            const coMakerContact = document.getElementById('coMakerContact').value;
+            const coMakerAddress = document.getElementById('coMakerAddress').value;
+            const startDate = document.getElementById('startDate').value;
+            const term = document.getElementById('loanTerm').value;
+            const interestRate = document.getElementById('interestRate').value || 12;
+            const contactNumber = document.getElementById('contactNumber').value;
+            const address = document.getElementById('address').value;
+            const collateral = document.getElementById('collateral').value;
+            
+            if (!borrowerName || !coMakerName || !coMakerContact || !coMakerAddress || !startDate || !contactNumber || !address) {
+                showWarning('Please fill in all required fields');
+                return;
+            }
+            
+            // Check if borrower already exists
+            let borrower = borrowers.find(b => b.name === borrowerName);
+            
+            // If borrower doesn't exist, create new borrower
+            if (!borrower) {
+                borrower = {
+                    id: 'borrower' + (borrowers.length + 1),
+                    name: borrowerName,
+                    contact: contactNumber,
+                    address: address,
+                    status: 'Active',
+                    totalLoans: 0
+                };
+                borrowers.push(borrower);
+                showSuccess('New borrower added successfully!');
+            }
+            
+            // Calculate term in months
+            const termMonths = parseInt(term);
+            
+            // Calculate installments
+            const installments = calculateInstallments(
+                parseFloat(loanAmount), 
+                termMonths, 
+                startDate, 
+                parseFloat(interestRate)
+            );
+            
+            // Add to loans array
+            const newLoan = {
+                id: 'loan' + (loans.length + 1),
+                borrower: borrowerName,
+                amount: parseFloat(loanAmount),
+                interestRate: parseFloat(interestRate),
+                term: term,
+                startDate: startDate,
+                status: 'Active',
+                nextDue: installments.length > 0 ? formatDate(installments[0].date) : 'N/A',
+                collateral: collateral,
+                contact: contactNumber,
+                address: address,
+                coMaker: coMakerName,
+                coMakerContact: coMakerContact,
+                coMakerAddress: coMakerAddress,
+                overdueFee: parseFloat(overdueFee),
+                reminderDays: parseInt(reminderDays),
+                installments: installments
+            };
+            
+            loans.push(newLoan);
+            
+            // Update borrower's total loans
+            borrower.totalLoans += parseFloat(loanAmount);
+            
+            // Close modal
+            closeModal('loanModal');
+            
+            // Reset form
+            document.getElementById('borrowerName').value = '';
+            document.getElementById('loanAmount').value = '1500';
+            document.getElementById('interestRate').value = '12';
+            document.getElementById('loanTerm').value = '12 months';
+            document.getElementById('overdueFee').value = '150';
+            document.getElementById('reminderDays').value = '3';
+            document.getElementById('collateral').value = '';
+            document.getElementById('contactNumber').value = '';
+            document.getElementById('address').value = '';
+            document.getElementById('coMakerName').value = '';
+            document.getElementById('coMakerContact').value = '';
+            document.getElementById('coMakerAddress').value = '';
+            
+            // Show success notification
+            showSuccess('Loan created successfully!');
+            
+            // Update dashboard
+            updateDashboardCounters();
+            checkPayments();
+            
+            // Refresh sections
+            if (document.getElementById('loans').style.display !== 'none') {
+                populateLoansTable();
+            }
+            if (document.getElementById('borrowers').style.display !== 'none') {
+                populateBorrowersTable();
+            }
+            if (document.getElementById('dashboard').style.display !== 'none') {
+                populateRecentLoansTable();
+            }
+        }
+
+        // View borrower details
+        function viewBorrowerDetails(borrowerId) {
+            const borrower = borrowers.find(b => b.id === borrowerId);
+            if (!borrower) {
+                showError('Borrower not found');
+                return;
+            }
+            
+            currentBorrowerId = borrowerId;
+            
+            // Populate borrower details
+            const detailsContent = document.getElementById('borrowerDetailsContent');
+            detailsContent.innerHTML = `
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+                    <div>
+                        <h4>Personal Information</h4>
+                        <p><strong>Name:</strong> ${borrower.name}</p>
+                        <p><strong>Contact:</strong> ${borrower.contact}</p>
+                        <p><strong>Address:</strong> ${borrower.address}</p>
+                    </div>
+                    <div>
+                        <h4>Account Status</h4>
+                        <p><strong>Status:</strong> <span class="status ${borrower.status === 'Active' ? 'status-active' : 'status-inactive'}">${borrower.status}</span></p>
+                        <p><strong>Total Loans:</strong> ₱${borrower.totalLoans.toLocaleString()}</p>
+                        <p><strong>Member Since:</strong> Jan 1, 2023</p>
+                    </div>
+                </div>
+            `;
+            
+            // Populate loan history
+            const loanHistoryBody = document.getElementById('borrowerLoanHistory');
+            loanHistoryBody.innerHTML = '';
+            
+            const borrowerLoans = loans.filter(loan => loan.borrower === borrower.name);
+            if (borrowerLoans.length > 0) {
+                borrowerLoans.forEach(loan => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${loan.id}</td>
+                        <td>₱${loan.amount.toLocaleString()}</td>
+                        <td><span class="status ${loan.status === 'Completed' ? 'status-paid' : loan.status === 'Active' ? 'status-pending' : loan.status === 'Due Soon' ? 'status-due-soon' : 'status-overdue'}">${loan.status}</span></td>
+                        <td>${formatDate(loan.startDate)}</td>
+                    `;
+                    loanHistoryBody.appendChild(row);
+                });
+            } else {
+                const row = document.createElement('tr');
+                row.innerHTML = `<td colspan="4" style="text-align: center;">No loan history</td>`;
+                loanHistoryBody.appendChild(row);
+            }
+            
+            openModal('borrowerDetailsModal');
+        }
+
+        // Deactivate borrower (immediate change)
+        function deactivateBorrower(borrowerId) {
+            const borrower = borrowers.find(b => b.id === borrowerId);
+            if (borrower) {
+                borrower.status = 'Inactive';
+                showSuccess(`${borrower.name} has been deactivated successfully!`);
+                
+                // Refresh borrowers section immediately
+                if (document.getElementById('borrowers').style.display !== 'none') {
+                    populateBorrowersTable();
+                }
+            }
+        }
+
+        // Activate borrower (immediate change)
+        function activateBorrower(borrowerId) {
+            const borrower = borrowers.find(b => b.id === borrowerId);
+            if (borrower) {
+                borrower.status = 'Active';
+                showSuccess(`${borrower.name} has been activated successfully!`);
+                
+                // Refresh borrowers section immediately
+                if (document.getElementById('borrowers').style.display !== 'none') {
+                    populateBorrowersTable();
+                }
+            }
+        }
+
+        // Delete borrower (immediate deletion)
+        function deleteBorrower(borrowerId) {
+            const borrowerIndex = borrowers.findIndex(b => b.id === borrowerId);
+            if (borrowerIndex > -1) {
+                const borrowerName = borrowers[borrowerIndex].name;
+                borrowers.splice(borrowerIndex, 1);
+                showSuccess(`${borrowerName} has been deleted successfully!`);
+                
+                // Refresh borrowers section immediately
+                if (document.getElementById('borrowers').style.display !== 'none') {
+                    populateBorrowersTable();
+                }
+            }
+        }
+
+        // Generate receipt
+        function generateReceipt() {
+            showSuccess('Receipt generated successfully!');
+            // In a real app, this would generate a PDF receipt
+        }
+
+        // Generate Loan Agreement
+        function generateLoanAgreement() {
+            const loan = loans.find(l => l.id === currentLoanId) || archivedLoans.find(l => l.id === currentLoanId);
+            if (!loan) {
+                showError('Loan not found');
+                return;
+            }
+            
+            // Populate agreement template
+            document.getElementById('agreementDate').textContent = new Date().toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            
+            document.getElementById('borrowerFullName').textContent = loan.borrower;
+            document.getElementById('borrowerPhone').textContent = loan.contact;
+            document.getElementById('borrowerAddress').textContent = loan.address;
+            document.getElementById('coMakerFullName').textContent = loan.coMaker;
+            document.getElementById('coMakerPhone').textContent = loan.coMakerContact;
+            document.getElementById('coMakerAddress').textContent = loan.coMakerAddress;
+            document.getElementById('loanAmountDisplay').textContent = loan.amount.toLocaleString();
+            document.getElementById('interestRateDisplay').textContent = loan.interestRate;
+            document.getElementById('loanTermDisplay').textContent = loan.term;
+            document.getElementById('startDateDisplay').textContent = formatDate(loan.startDate);
+            document.getElementById('collateralDisplay').textContent = loan.collateral || 'None';
+            document.getElementById('overdueFeeDisplay').textContent = loan.overdueFee;
+            
+            // Calculate monthly payment (simplified)
+            const monthlyPayment = loan.amount / 12;
+            document.getElementById('monthlyPaymentDisplay').textContent = monthlyPayment.toLocaleString(undefined, { maximumFractionDigits: 2 });
+            document.getElementById('numberOfPaymentsDisplay').textContent = '12';
+            document.getElementById('firstPaymentDateDisplay').textContent = formatDate(loan.startDate);
+            
+            document.getElementById('borrowerSignatureName').textContent = loan.borrower;
+            document.getElementById('coMakerSignatureName').textContent = loan.coMaker;
+            
+            // Generate PDF
+            setTimeout(() => {
+                const element = document.getElementById('agreementContent');
+                html2canvas(element).then(canvas => {
+                    const imgData = canvas.toDataURL('image/png');
+                    const pdf = new jsPDF('p', 'mm', 'a4');
+                    const imgWidth = 210; // A4 width in mm
+                    const pageHeight = 297; // A4 height in mm
+                    const imgHeight = canvas.height * imgWidth / canvas.width;
+                    let heightLeft = imgHeight;
+                    let position = 0;
+                    
+                    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                    heightLeft -= pageHeight;
+                    
+                    while (heightLeft >= 0) {
+                        position = heightLeft - imgHeight;
+                        pdf.addPage();
+                        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                        heightLeft -= pageHeight;
+                    }
+                    
+                    pdf.save(`Loan_Agreement_${loan.borrower.replace(/\s+/g, '_')}.pdf`);
+                    showSuccess('Loan agreement generated successfully!');
+                });
+            }, 100);
+        }
+
+        // Edit loan
+        function editLoan() {
+            showInfo('Edit loan functionality would open here');
+            // In a real app, this would open edit loan modal
+        }
+
+        // Show notifications
+        function showNotifications() {
+            const notificationsList = document.getElementById('notificationsList');
+            notificationsList.innerHTML = '';
+            
+            if (notifications.length === 0) {
+                notificationsList.innerHTML = '<p style="text-align: center; color: #636e72;">No notifications</p>';
+            } else {
+                notifications.forEach(notification => {
+                    const notificationElement = document.createElement('div');
+                    notificationElement.className = `notification-modal ${notification.type === 'overdue' ? 'notification-error' : 'notification-warning'}`;
+                    notificationElement.style = 'margin-bottom: 1rem; padding: 1rem;';
+                    
+                    if (notification.type === 'overdue') {
+                        notificationElement.innerHTML = `
+                            <div class="notification-icon">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <h4 style="margin: 0.5rem 0;">Overdue Payment</h4>
+                            <p style="margin: 0;">${notification.borrower} has an overdue payment of ₱${notification.amount.toLocaleString()} (Due: ${notification.dueDate}) including ₱${notification.fee} fee</p>
+                        `;
+                    } else {
+                        notificationElement.innerHTML = `
+                            <div class="notification-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <h4 style="margin: 0.5rem 0;">Payment Due Soon</h4>
+                            <p style="margin: 0;">${notification.borrower}'s payment of ₱${notification.amount.toLocaleString()} is due on ${notification.dueDate} (${notification.days} day(s) remaining)</p>
+                        `;
+                    }
+                    
+                    notificationsList.appendChild(notificationElement);
+                });
+            }
+            
+            openModal('notificationsModal');
+        }
+
+        // Mark all notifications as done
+        function markAllAsDone() {
+            notifications = [];
+            document.getElementById('notificationCount').textContent = '0';
+            closeModal('notificationsModal');
+            showSuccess('All notifications marked as done!');
+        }
+
+        // Update dashboard counters
+        function updateDashboardCounters() {
+            const activeLoans = loans.filter(loan => loan.status === 'Active').length;
+            const totalLent = loans.reduce((sum, loan) => sum + loan.amount, 0);
+            const amountRepaid = loans.reduce((sum, loan) => {
+                const paidInstallments = loan.installments.filter(inst => inst.status === 'Paid');
+                return sum + paidInstallments.reduce((subSum, inst) => subSum + inst.amount, 0);
+            }, 0);
+            const overdueLoans = loans.filter(loan => loan.status === 'Overdue').length;
+            
+            document.getElementById('activeLoansCount').textContent = activeLoans;
+            document.getElementById('totalLent').textContent = `₱${totalLent.toLocaleString()}`;
+            document.getElementById('amountRepaid').textContent = `₱${Math.round(amountRepaid).toLocaleString()}`;
+            document.getElementById('overdueLoans').textContent = overdueLoans;
+        }
+
+        // Initialize Charts
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set current date for new loan form
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('startDate').value = today;
+            
+            // Set default loan amount to 1500
+            document.getElementById('loanAmount').value = '1500';
+            
+            // Check for payments on page load
+            checkPayments();
+            
+            // Payment Chart
+            const paymentCtx = document.getElementById('paymentChart').getContext('2d');
+            new Chart(paymentCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    datasets: [{
+                        label: 'Payments Received',
+                        data: [8500, 9200, 7800, 10500, 11200, 9800, 12500, 13200, 11800, 14500, 15200, 12450],
+                        borderColor: '#2e86de',
+                        backgroundColor: 'rgba(46, 134, 222, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(0,0,0,0.05)'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Loan Chart
+            const loanCtx = document.getElementById('loanChart').getContext('2d');
+            new Chart(loanCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Paid', 'Pending', 'Overdue', 'Due Soon'],
+                    datasets: [{
+                        data: [64, 25, 11, 8],
+                        backgroundColor: [
+                            '#26de81',
+                            '#feca57',
+                            '#ff6b6b',
+                            '#e67e22'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+            
+            // Initialize dashboard counters
+            updateDashboardCounters();
+            
+            // Populate tables initially
+            populateBorrowersTable();
+            populateRecentLoansTable();
+            populateArchiveTable();
+            populateLoansTable();
+            populateTrashTable();
+        });
+
+        // Simulate loading
+        setTimeout(() => {
+            document.querySelector('.fade-in').style.opacity = '1';
+        }, 100);
+    </script>
+</body>
+</html>
